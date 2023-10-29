@@ -18,7 +18,7 @@ export class EnemySpanwner extends Component {
     start() {
         console.log("stlocalpos: ",this.localpos);
         this.localpos.x=360;
-        this.localpos.y=308.4466019417476;
+        this.localpos.y=308.4466019417476;//先将就着...后面会改的
         console.log("stlocalpos: ",this.localpos);
     }
 
