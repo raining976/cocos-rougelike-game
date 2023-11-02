@@ -1,18 +1,18 @@
-import { _decorator, Component, Node, Prefab, randomRange,Vec3, instantiate, macro,game, TiledUserNodeData, tween} from 'cc';
+import { _decorator, Component, Node, Prefab, randomRange,Vec3, instantiate, macro,game, TiledUserNodeData, tween, Tween, randomRangeInt} from 'cc';
 import { EnemySettings } from './EnemySettings';
 import { Enemy } from './Enemy';
 const { ccclass, property } = _decorator;
 
 @ccclass('EnemySpanwner')
 export class EnemySpanwner extends Component {
-    @property(Prefab) private enemies: Prefab;
-    private curDelay:number=0;
+    @property(Prefab) private enemies: Prefab[]=[];
+    private curDelay:number=0;//生成器计时
     @property(Node) private TargetNode:Node;
     // private TargetNode:Node;
-    private IdToSettings=new Map<string,EnemySettings>();
-    private SpanwnerDelay:number=1.0;//怪物生成延迟
-    private interval:number=5.0;//状态机AI思考间隔
-    private AIdelay:number=1.0;//状态机AI思考延迟
+    // private IdToSettings=new Map<string,EnemySettings>();
+    private SpanwnerDelay:number=1;//怪物生成延迟
+    private interval:number=0.1;//状态机AI思考间隔
+    private AIdelay:number=0;//状态机AI思考延迟
     private attackdelay:number=0.1;//伤害判定延迟
     private localpos:Vec3=new Vec3();
     start() {
@@ -24,14 +24,15 @@ export class EnemySpanwner extends Component {
         this.curDelay+=deltaTime;
         if(this.curDelay>this.SpanwnerDelay){
             this.curDelay=0;
-            const posX: number = randomRange(90, 180) * (Math.random() < 0.5 ? 1 : -1);
-            const posY: number = randomRange(300, 600) * (Math.random() < 0.5 ? 1 : -1);
+            const posX: number = randomRange(360, 1000) * (Math.random() < 0.5 ? 1 : -1);
+            const posY: number = randomRange(640, 1000) * (Math.random() < 0.5 ? 1 : -1);
             const spawnPosition = new Vec3();
             spawnPosition.x = this.TargetNode.worldPosition.x + posX-this.node.worldPosition.x;
             spawnPosition.y = this.TargetNode.worldPosition.y + posY-this.node.worldPosition.y;
-            const enemynode:Node=instantiate(this.enemies);
+            // console.log(this.enemies[0]);
+            const enemynode:Node=instantiate(this.enemies[randomRangeInt(0, this.enemies.length)]);
             enemynode.setWorldPosition(spawnPosition);
-            const one_enmey=enemynode.addComponent(Enemy)//敌人配置读取
+            // const one_enmey=enemynode.addComponent(Enemy)//敌人配置读取
             this.node.addChild(enemynode);
             this.schedule(this.StateAI.bind(enemynode,this.TargetNode,this.localpos),this.interval,macro.REPEAT_FOREVER,this.AIdelay);
         }
@@ -39,8 +40,8 @@ export class EnemySpanwner extends Component {
     }
 
     StateAI(targetnode:Node,localpos:Vec3){
-        // console.log(this.worldPosition);
         const enemytype=this.getComponent(Enemy);
+        console.log("this is: ",enemytype.getspeed());
         if(targetnode ==null){//目标节点不存在
             return;
         }
@@ -49,11 +50,16 @@ export class EnemySpanwner extends Component {
         //     return;
         // }
 
-        // const canAttack=//攻击间隔判定
         const distance=Vec3.distance(this.worldPosition,targetnode.worldPosition);//攻击间隔判定//不用管报错，VScode这里识别不出bind绑定
-        if(distance>enemytype.getattackrange()){
-            tween(this).to(5,{worldPosition:targetnode.worldPosition},{easing:"smooth"}).start();   
-        }
+        const time=distance/enemytype.getspeed();
+        let temp=new Vec3();
+            Vec3.subtract(temp, targetnode.worldPosition, this.worldPosition);
+            temp.normalize();//归一化方向向量
+            // console.log("temp1= ",temp);
+            Vec3.multiplyScalar(temp,temp,enemytype.getattackrange());
+            // console.log("temp2= ",temp);
+        Vec3.subtract(temp,targetnode.worldPosition,temp);
+            tween(this).to(time,{worldPosition:temp},{easing:"linear"}).start();
     }
     
 }
