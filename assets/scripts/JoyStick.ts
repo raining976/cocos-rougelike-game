@@ -13,7 +13,7 @@ export class JoyStick extends Component {
 
     joyStickBtn: Node = null // 中间按钮节点
     dir: Vec3 = new Vec3() // 移动的方向、单位向量
-
+    maxlen: number | null = null;//中心按钮最大偏移距离
     onEnable() {
         /*输入事件on*/
         input.on(Input.EventType.TOUCH_START, this.onTouchStart, this);
@@ -24,7 +24,10 @@ export class JoyStick extends Component {
 
     start() {
         /*获取中间按钮*/
-        this.joyStickBtn = this.node.children[0]
+        this.joyStickBtn = this.node.children[0];
+
+        /*获取节点中心按钮最大偏移距离*/
+        this.maxlen = this.getComponent(UITransform).width / 2;
     }
 
     update(deltaTime: number) {
@@ -56,12 +59,19 @@ export class JoyStick extends Component {
         let posw = V2toV3(event.getUILocation());
         let posl = new Vec3();
         this.node.inverseTransformPoint(posl, posw);
-        //改变位置
-        let posDelta = event.getUIDelta();
-        this.joyStickBtn.setPosition(this.joyStickBtn.position.add(V2toV3(posDelta)));
+        //获取触点本地坐标的方向
+        Vec3.normalize<Vec3>(this.dir, posl);
+        //获取触点本地坐标的长度
+        let len = posl.length();
+        //根据len的长度判断触点的位置
+        let ratio = len <= this.maxlen ? len : this.maxlen;
+        this.joyStickBtn.setPosition(new Vec3(this.dir.x * ratio, this.dir.y * ratio, this.dir.z * ratio));
+        // //改变位置
+        // let posDelta = event.getUIDelta();
+        // this.joyStickBtn.setPosition(this.joyStickBtn.position.add(V2toV3(posDelta)));
         
-        /*获取遥感移动方向*/
-        Vec3.normalize<Vec3>(this.dir, this.joyStickBtn.getPosition());
+        // /*获取遥感移动方向*/
+        // Vec3.normalize<Vec3>(this.dir, this.joyStickBtn.getPosition());
     }
 
     onTouchEnd() {
@@ -77,10 +87,8 @@ export class JoyStick extends Component {
         /*获取ratio，将按钮限制于一定范围内*/
         //获取按钮本地位置向量模长
         let len: number = this.joyStickBtn.getPosition().length();
-        //获取最大模长
-        let maxlen: number = this.getComponent(UITransform).width / 2;
         //计算得到ration
-        let ratio: number = len / maxlen;
+        let ratio: number = len / this.maxlen;
         //执行限制逻辑
         if (ratio > 1)
             this.joyStickBtn.setPosition(this.joyStickBtn.position.divide3f(ratio, ratio, ratio));
@@ -98,4 +106,3 @@ export class JoyStick extends Component {
         this.dir = new Vec3();
     }
 }
-
