@@ -1,31 +1,41 @@
-import { _decorator, Component, EventTouch, input, Input, math, Node, v3, Vec2, Vec3 } from 'cc';
+import { UITransform, CCInteger, _decorator, Component, EventTouch, input, Input, math, Node, v3, Vec2, Vec3 } from 'cc';
+import { V2toV3 } from './util';
 const { ccclass, property } = _decorator;
 
 @ccclass('JoyStick')
 export class JoyStick extends Component {
 
-    @property(Node) player
+    @property({ type: Node })
+    player: Node | null = null
 
-    @property(Number) maxSpeed = 120 // 角色速度
+    @property({ type: CCInteger })
+    maxSpeed: number = 0
 
     joyStickBtn: Node = null // 中间按钮节点
-    btnCurPos: Vec3 = new Vec3() // 按钮当前位置
-
     dir: Vec3 = new Vec3() // 移动的方向、单位向量
-    dis: Vec3 = new Vec3() // 移动的向量
-
-    start() {
-        this.joyStickBtn = this.node.children[0]
-    }
-
+    maxlen: number | null = null;//中心按钮最大偏移距离
     onEnable() {
+        /*输入事件on*/
         input.on(Input.EventType.TOUCH_START, this.onTouchStart, this);
         input.on(Input.EventType.TOUCH_MOVE, this.onTouchMove, this);
         input.on(Input.EventType.TOUCH_END, this.onTouchEnd, this);
         input.on(Input.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
     }
 
+    start() {
+        /*获取中间按钮*/
+        this.joyStickBtn = this.node.children[0];
+
+        /*获取节点中心按钮最大偏移距离*/
+        this.maxlen = this.getComponent(UITransform).width / 2;
+    }
+
+    update(deltaTime: number) {
+        this.movePlayer(deltaTime)
+    }
+
     onDisable() {
+        /*输入事件off*/
         input.off(Input.EventType.TOUCH_START, this.onTouchStart, this);
         input.off(Input.EventType.TOUCH_MOVE, this.onTouchMove, this);
         input.off(Input.EventType.TOUCH_END, this.onTouchEnd, this);
@@ -33,87 +43,66 @@ export class JoyStick extends Component {
     }
 
     onTouchStart(event: EventTouch) {
-        let pos = event.getUILocation() // 获取触摸位置
-        this.joyStickBtn.setWorldPosition(pos.x, pos.y, 0) // 设置panel的位置为触摸位置
-
+        /*触碰按钮时，根据触点设置节点位置*/
+        //获取触点返回的世界坐标.
+        let pos_world = V2toV3(event.getUILocation());
+        //转换为本地坐标
+        let pos_local = new Vec3();
+        this.node.inverseTransformPoint(pos_local, pos_world);
+        //设置结果
+        this.joyStickBtn.setPosition(pos_local);
     }
 
     onTouchMove(event: EventTouch) {
-        let posDelta = event.getDelta() // 获取移动距离
-        let posDeltaV3 = new Vec3(posDelta.x, posDelta.y, 0) // 声明v3
-        this.joyStickBtn.getWorldPosition(this.btnCurPos) // 获取当前btn的位置
-        this.joyStickBtn.setWorldPosition(this.btnCurPos.add(posDeltaV3)) // 改变btn位置
-        // 获取摇杆移动方向
-        this.dir = this.getUnitOfV(this.joyStickBtn.position)
-    }
-
-    // 获取btn当前位置占整个panel的比值
-    getRatio(btnPosition:Vec3,panelWidth:number){
-        let len = this.V3XYMag(btnPosition)
-        let maxLen = panelWidth / 2
-        return len/maxLen
-    }
-
-    // 移动角色
-    movePlayer(deltaTime:number) {
-        const btnPosition = this.joyStickBtn.position
-        const pWidth = this.node.getComponent('cc.UITransform').width/2
-        let ratio = this.getRatio(btnPosition,pWidth)
-        if (ratio > 1) {
-            this.joyStickBtn.setPosition(this.V3XYDiv(this.joyStickBtn.position, ratio))
-            ratio = this.getRatio(this.joyStickBtn.position,pWidth)
-        }
-        // multiplyScalar修改的是this 在当前变量做修改
-        let tmpDir = new Vec3(this.dir)
-        this.dis = tmpDir.multiplyScalar(this.maxSpeed * ratio * deltaTime)
-        this.player.setPosition(this.player.position.add(this.dis))
-
-    }
-    // 获取方向向量
-    getUnitOfV(v3: Vec3) {
-        let len = this.V3XYMag(v3)
-        return new Vec3(v3.x / len, v3.y / len, 0)
+        /*在移动时，不断改变按钮位置*/
+        //获取触点本地坐标
+        let posw = V2toV3(event.getUILocation());
+        let posl = new Vec3();
+        this.node.inverseTransformPoint(posl, posw);
+        //获取触点本地坐标的方向
+        Vec3.normalize<Vec3>(this.dir, posl);
+        //获取触点本地坐标的长度
+        let len = posl.length();
+        //根据len的长度判断触点的位置
+        let ratio = len <= this.maxlen ? len : this.maxlen;
+        this.joyStickBtn.setPosition(new Vec3(this.dir.x * ratio, this.dir.y * ratio, this.dir.z * ratio));
+        // //改变位置
+        // let posDelta = event.getUIDelta();
+        // this.joyStickBtn.setPosition(this.joyStickBtn.position.add(V2toV3(posDelta)));
+        
+        // /*获取遥感移动方向*/
+        // Vec3.normalize<Vec3>(this.dir, this.joyStickBtn.getPosition());
     }
 
     onTouchEnd() {
-        this.resetPosition()
+        this.resetPosition();
     }
 
     onTouchCancel() {
-        this.resetPosition()
+        this.resetPosition();
     }
 
+    // 角色移动
+    movePlayer(deltaTime:number) {
+        /*获取ratio，将按钮限制于一定范围内*/
+        //获取按钮本地位置向量模长
+        let len: number = this.joyStickBtn.getPosition().length();
+        //计算得到ration
+        let ratio: number = len / this.maxlen;
+        //执行限制逻辑
+        if (ratio > 1)
+            this.joyStickBtn.setPosition(this.joyStickBtn.position.divide3f(ratio, ratio, ratio));
+        
+        /*根据方向dir移动角色*/
+        let dirBackup = this.dir.clone();
+        let dis = dirBackup.multiplyScalar(this.maxSpeed * ratio);//zrn在这写了个this.maxSpeed * ratio * deltaTime
+        this.player.setPosition(this.player.position.add(dis));
+    }
+
+    //遥感按钮位置重置
     resetPosition() {
         // 重置位置
-        this.joyStickBtn.setPosition(new Vec3(0, 0, 0))
-        this.dir = new Vec3()
-        this.dis = new Vec3()
-
-
+        this.joyStickBtn.setPosition(new Vec3(0, 0, 0));
+        this.dir = new Vec3();
     }
-
-    // 求出 V3里仅xy两个方向向量和的长度
-    V3XYMag(pos: Vec3) {
-        let x = pos.x
-        let y = pos.y
-        return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))
-    }
-
-
-    // 向量除 只处理xy两个向量
-    V3XYDiv(pos: Vec3, ratio: number) {
-        let x = pos.x / ratio
-        let y = pos.y / ratio
-        return new Vec3(x, y, 0)
-
-
-    }
-
-    update(deltaTime: number) {
-
-        this.movePlayer(deltaTime)
-
-    }
-    
 }
-
