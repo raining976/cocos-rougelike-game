@@ -5,15 +5,11 @@ const { ccclass, property } = _decorator;
 @ccclass('JoyStick')
 export class JoyStick extends Component {
 
-    @property({ type: Node })
-    player: Node | null = null
-
-    @property({ type: CCInteger })
-    maxSpeed: number = 0
-
     joyStickBtn: Node = null // 中间按钮节点
-    dir: Vec3 = new Vec3() // 移动的方向、单位向量
+    dir: Vec3 = new Vec3() // 摇杆移动的方向、单位向量
     maxlen: number | null = null;//中心按钮最大偏移距离
+    ratio: number | null = null;//遥感中心按钮偏移比率
+
     onEnable() {
         /*输入事件on*/
         input.on(Input.EventType.TOUCH_START, this.onTouchStart, this);
@@ -31,7 +27,7 @@ export class JoyStick extends Component {
     }
 
     update(deltaTime: number) {
-        this.movePlayer(deltaTime)
+        
     }
 
     onDisable() {
@@ -64,14 +60,11 @@ export class JoyStick extends Component {
         //获取触点本地坐标的长度
         let len = posl.length();
         //根据len的长度判断触点的位置
-        let ratio = len <= this.maxlen ? len : this.maxlen;
-        this.joyStickBtn.setPosition(new Vec3(this.dir.x * ratio, this.dir.y * ratio, this.dir.z * ratio));
-        // //改变位置
-        // let posDelta = event.getUIDelta();
-        // this.joyStickBtn.setPosition(this.joyStickBtn.position.add(V2toV3(posDelta)));
-        
-        // /*获取遥感移动方向*/
-        // Vec3.normalize<Vec3>(this.dir, this.joyStickBtn.getPosition());
+        let rat = len <= this.maxlen ? len : this.maxlen;
+        //改变中心按钮的位置
+        this.joyStickBtn.setPosition(new Vec3(this.dir.x * rat, this.dir.y * rat, this.dir.z * rat));
+        //限制按钮
+        this.restrictBtn();
     }
 
     onTouchEnd() {
@@ -82,21 +75,16 @@ export class JoyStick extends Component {
         this.resetPosition();
     }
 
-    // 角色移动
-    movePlayer(deltaTime:number) {
+    // 将中心按钮限制于panel内
+    restrictBtn() {
         /*获取ratio，将按钮限制于一定范围内*/
         //获取按钮本地位置向量模长
         let len: number = this.joyStickBtn.getPosition().length();
         //计算得到ration
-        let ratio: number = len / this.maxlen;
+        this.ratio = len / this.maxlen;
         //执行限制逻辑
-        if (ratio > 1)
-            this.joyStickBtn.setPosition(this.joyStickBtn.position.divide3f(ratio, ratio, ratio));
-        
-        /*根据方向dir移动角色*/
-        let dirBackup = this.dir.clone();
-        let dis = dirBackup.multiplyScalar(this.maxSpeed * ratio);//zrn在这写了个this.maxSpeed * ratio * deltaTime
-        this.player.setPosition(this.player.position.add(dis));
+        if (this.ratio > 1)
+            this.joyStickBtn.setPosition(this.joyStickBtn.position.divide3f(this.ratio, this.ratio, this.ratio));
     }
 
     //遥感按钮位置重置
