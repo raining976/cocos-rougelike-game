@@ -1,4 +1,4 @@
-import { _decorator, Component, EventTouch, input, Input, math, Node, v3, Vec2, Vec3 } from 'cc';
+import { _decorator, Component, EventTouch, input, Input, math, Node, v3, Vec2, Vec3,Animation } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('JoyStick')
@@ -8,14 +8,27 @@ export class JoyStick extends Component {
 
     @property(Number) maxSpeed = 120 // 角色速度
 
+    
+
     joyStickBtn: Node = null // 中间按钮节点
     btnCurPos: Vec3 = new Vec3() // 按钮当前位置
 
     dir: Vec3 = new Vec3() // 移动的方向、单位向量
     dis: Vec3 = new Vec3() // 移动的向量
 
+    bodyAnim :Animation = null
+    animClips = null
+    runRightAnim = null
+    runLeftAnima = null
+    
     start() {
         this.joyStickBtn = this.node.children[0]
+        // 获取player的动画组件
+        this.bodyAnim = this.player.getComponent(Animation)
+        console.log('this.bodyAnim',this.bodyAnim)
+        this.animClips =  this.bodyAnim.clips
+        this.runRightAnim = this.animClips[0]
+        console.log('this.runRightAnim',this.animClips)
     }
 
     onEnable() {
@@ -67,7 +80,11 @@ export class JoyStick extends Component {
         let tmpDir = new Vec3(this.dir)
         this.dis = tmpDir.multiplyScalar(this.maxSpeed * ratio * deltaTime)
         this.player.setPosition(this.player.position.add(this.dis))
-
+        if(ratio!=0){
+            this.startRunAnim()
+        }else{
+            this.stopRunAnim()
+        }
     }
     // 获取方向向量
     getUnitOfV(v3: Vec3) {
@@ -84,14 +101,26 @@ export class JoyStick extends Component {
     }
 
     resetPosition() {
+        this.stopRunAnim()
         // 重置位置
         this.joyStickBtn.setPosition(new Vec3(0, 0, 0))
         this.dir = new Vec3()
         this.dis = new Vec3()
-
-
     }
 
+    startRunAnim(){
+        const state = this.bodyAnim.getState(this.runRightAnim.name)
+        if(!state.isPlaying){
+            state.play()
+        }
+    }
+    stopRunAnim(){
+        const state = this.bodyAnim.getState(this.runRightAnim.name)
+        if(state.isPlaying){
+            state.stop()
+        }
+    }
+    
     // 求出 V3里仅xy两个方向向量和的长度
     V3XYMag(pos: Vec3) {
         let x = pos.x
