@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Prefab, randomRange,Vec3, instantiate, macro,game, Sprite, Animation} from 'cc';
+import { _decorator, Component, Node, Prefab, randomRange,Vec3, instantiate, macro,game, Sprite, Animation, ProgressBar} from 'cc';
 import { EnemyAttr } from './EnemySettings';
 const { ccclass, property } = _decorator;
 @ccclass('Enemy')
@@ -6,11 +6,12 @@ const { ccclass, property } = _decorator;
 
 export class Enemy extends Component {
     
-    @property(Sprite) private sprite: Sprite;
-    @property(Animation)private MoveAnim:Animation;
-    private settings=EnemyAttr;
+    @property(Sprite) private sprite: Sprite;//敌人的绘图
+    @property(Animation)private MoveAnim:Animation;//敌人的动画
+    @property(ProgressBar)private bloodProgressBar:ProgressBar;//敌人的血条
+    private settings=EnemyAttr;//敌人属性组配置
     private id:string="1";
-    private health:number=100;
+    private health:number=100;//血条上限
     private damage:number=1;
     private speed:number=100;
     private xpReward:number=1;
@@ -22,10 +23,16 @@ export class Enemy extends Component {
         this.MoveAnim.play();
         // console.log(Enemyname);
         // console.log(this.settings[Enemyname]);
-        // console.log(this.node);
+        // console.log(this.node.getChildByName("ProgressBar"));
         // console.log(Enemyname);
     }
     update(deltaTime: number) {
+        let bloodProgress:number=this.bloodProgressBar.progress;
+        if(bloodProgress>0){
+            bloodProgress-=(deltaTime/10);
+            this.bloodProgressBar.progress=bloodProgress;
+        }
+        // console.log(bloodProgress);
         // this.MoveAnim.play();
     }
     public init(Enemyname:string):void{
@@ -41,6 +48,9 @@ export class Enemy extends Component {
     }
     public getattackrange(){
         return this.attackrange;
+    }
+    public getblood(){
+        return this.bloodProgressBar.progress;
     }
 }
 
