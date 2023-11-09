@@ -903,9 +903,6 @@
       },
       {
         "__id__": 29
-      },
-      {
-        "__id__": 34
       }
     ],
     "_prefab": null,
@@ -1118,10 +1115,6 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "player": {
-      "__id__": 30
-    },
-    "maxSpeed": 120,
     "_id": "dfrKvpi71Nh4l/Cpa8bsEO"
   },
   {
@@ -1143,6 +1136,9 @@
       },
       {
         "__id__": 33
+      },
+      {
+        "__id__": 34
       }
     ],
     "_prefab": null,
@@ -1268,27 +1264,21 @@
     "_id": "0eGievTWNDN6G8CQ8hY7sy"
   },
   {
-    "__type__": "cc.Animation",
+    "__type__": "1370avLNpxMwZ64SUm0y8ey",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {},
     "node": {
-      "__id__": 23
+      "__id__": 30
     },
     "_enabled": true,
     "__prefab": null,
-    "playOnLoad": false,
-    "_clips": [
-      {
-        "__uuid__": "6cdbf0a2-f98a-4122-a355-0547a6f070c7",
-        "__expectedType__": "cc.AnimationClip"
-      }
-    ],
-    "_defaultClip": {
-      "__uuid__": "6cdbf0a2-f98a-4122-a355-0547a6f070c7",
-      "__expectedType__": "cc.AnimationClip"
+    "joyStickPanel": {
+      "__id__": 23
     },
-    "_id": "ecebQ5J91CgbeEakHwDBJg"
+    "maxSpeed": 2,
+    "status": 0,
+    "_id": "0ea+0UKLBJlocJ3MxQWvMT"
   },
   {
     "__type__": "cc.UITransform",
