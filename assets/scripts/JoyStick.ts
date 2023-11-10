@@ -1,9 +1,12 @@
-import { UITransform, CCInteger, _decorator, Component, EventTouch, input, Input, math, Node, v3, Vec2, Vec3 } from 'cc';
+import { UITransform, CCInteger, _decorator, Component, EventTouch, input, Input, math, Node, v3, Vec2, Vec3, Camera } from 'cc';
 import { V2toV3 } from './util';
 const { ccclass, property } = _decorator;
 
 @ccclass('JoyStick')
 export class JoyStick extends Component {
+
+    @property({ type: Camera })
+    camera: Camera | null = null;
 
     joyStickBtn: Node = null // 中间按钮节点
     dir: Vec3 = new Vec3() // 摇杆移动的方向、单位向量
@@ -40,8 +43,10 @@ export class JoyStick extends Component {
 
     onTouchStart(event: EventTouch) {
         /*触碰按钮时，根据触点设置节点位置*/
-        //获取触点返回的世界坐标.
-        let pos_world = V2toV3(event.getUILocation());
+        //获取触点返回的OpenGL坐标.
+        let pos_screen = V2toV3(event.getUILocation());
+        //将OpenGL坐标转换为世界坐标
+        let pos_world = this.camera.screenToWorld(pos_screen);
         //转换为本地坐标
         let pos_local = new Vec3();
         this.node.inverseTransformPoint(pos_local, pos_world);
@@ -51,19 +56,22 @@ export class JoyStick extends Component {
 
     onTouchMove(event: EventTouch) {
         /*在移动时，不断改变按钮位置*/
-        //获取触点本地坐标
+        //获取触点本地坐标.
         let posw = V2toV3(event.getUILocation());
+        let pos = this.camera.screenToWorld(posw);
+        console.log(pos);
         let posl = new Vec3();
         this.node.inverseTransformPoint(posl, posw);
-        //获取触点本地坐标的方向
+        //获取触点本地坐标的方向.
         Vec3.normalize<Vec3>(this.dir, posl);
-        //获取触点本地坐标的长度
+        //获取触点本地坐标的长度.
+        posl.z = 0; 
         let len = posl.length();
-        //根据len的长度判断触点的位置
+        //根据len的长度判断触点的位置.
         let rat = len <= this.maxlen ? len : this.maxlen;
-        //改变中心按钮的位置
+        //改变中心按钮的位置.
         this.joyStickBtn.setPosition(new Vec3(this.dir.x * rat, this.dir.y * rat, this.dir.z * rat));
-        //限制按钮
+        //限制按钮.
         this.restrictBtn();
     }
 
