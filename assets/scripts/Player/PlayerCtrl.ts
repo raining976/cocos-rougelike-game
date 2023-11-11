@@ -18,9 +18,11 @@ export class PlayerCtrl extends Component {
 
     moveDir:string = null // l左 r右
 
+
     joyStick: JoyStick | null = null;//摇杆控制组件
     playerAttr: Player | null = null;//角色属性组件
     
+    runAnim = null
     start() {
         this.runAnim = this.node.getComponent(Animation)
         this.joyStick = this.joyStickPanel.getComponent(JoyStick);
@@ -31,7 +33,7 @@ export class PlayerCtrl extends Component {
         if(this.isNeedMove(this.joyStick.dir)){
             this.moveStatus = 1
             let dirBackup = this.joyStick.dir.clone();
-            let dis = dirBackup.multiplyScalar(this.maxSpeed * this.joyStick.ratio);
+            let dis = dirBackup.multiplyScalar(this.playerAttr.getSpeed() * this.joyStick.ratio);
             this.movePlayer(dis)
             // this.setPanelPos()
             this.playAnim()

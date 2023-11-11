@@ -18,7 +18,7 @@ export class Player extends Component {
     start() {
         const playerName: string = "Yellow";
         this.init(playerName);
-        this.moveAnim.play();
+
     }
 
     update(deltaTime: number) {
