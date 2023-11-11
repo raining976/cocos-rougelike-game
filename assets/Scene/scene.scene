@@ -1253,7 +1253,7 @@
         "__expectedType__": "cc.AnimationClip"
       },
       {
-        "__uuid__": "bf46f42f-dde1-46c4-8913-4a572b178da2",
+        "__uuid__": "19899783-afc4-4a28-a7c1-d322a5180f41",
         "__expectedType__": "cc.AnimationClip"
       },
       null
@@ -1275,7 +1275,7 @@
       "__id__": 24
     },
     "maxSpeed": 2,
-    "status": 0,
+    "moveStatus": 0,
     "_id": "0ea+0UKLBJlocJ3MxQWvMT"
   },
   {
