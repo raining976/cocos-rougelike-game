@@ -1,5 +1,5 @@
 import { UITransform, CCInteger, _decorator, Component, EventTouch, input, Input, math, Node, v3, Vec2, Vec3, Camera } from 'cc';
-import { V2toV3 } from './util';
+import { V2toV3 } from '../util';
 const { ccclass, property } = _decorator;
 
 @ccclass('JoyStick')
@@ -52,7 +52,7 @@ export class JoyStick extends Component {
 
     onTouchStart(event: EventTouch) {
         /*触碰按钮时，根据触点设置节点位置*/
-        //获取触点返回的世界坐标.
+        //获取触点返回的OpenGL坐标.
         let pos_world = V2toV3(event.getUILocation());
         //转换为当前节点的本地坐标
         let pos_local = new Vec3();
@@ -72,19 +72,20 @@ export class JoyStick extends Component {
 
     onTouchMove(event: EventTouch) {
         /*在移动时，不断改变按钮位置*/
-        //获取触点本地坐标
+        //获取触点本地坐标.
         let posw = V2toV3(event.getUILocation());
         let posl = new Vec3();
         this.node.inverseTransformPoint(posl, posw);
-        //获取触点本地坐标的方向
+        //获取触点本地坐标的方向.
         Vec3.normalize<Vec3>(this.dir, posl);
-        //获取触点本地坐标的长度
+        //获取触点本地坐标的长度.
+        posl.z = 0; 
         let len = posl.length();
-        //根据len的长度判断触点的位置
+        //根据len的长度判断触点的位置.
         let rat = len <= this.maxlen ? len : this.maxlen;
-        //改变中心按钮的位置
+        //改变中心按钮的位置.
         this.joyStickBtn.setPosition(new Vec3(this.dir.x * rat, this.dir.y * rat, this.dir.z * rat));
-        //限制按钮
+        //限制按钮.
         this.restrictBtn();
 
     }
