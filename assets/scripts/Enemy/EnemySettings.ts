@@ -16,7 +16,7 @@ EnemyAttr['Bat']={
     id:'001',
     health:100,
     damage:100,
-    speed:100,
+    speed:500,
     xpReward:100,
     attackrange:100
 }
@@ -24,7 +24,7 @@ EnemyAttr['FlyWorm']={
     id:'002',
     health:100,
     damage:100,
-    speed:1000,
+    speed:700,
     xpReward:100,
     attackrange:10
 }
