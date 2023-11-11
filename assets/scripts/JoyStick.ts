@@ -5,9 +5,6 @@ const { ccclass, property } = _decorator;
 @ccclass('JoyStick')
 export class JoyStick extends Component {
 
-    @property({ type: Camera })
-    camera: Camera | null = null;
-
     joyStickBtn: Node = null // 中间按钮节点
     dir: Vec3 = new Vec3() // 摇杆移动的方向、单位向量
     maxlen: number | null = null;//中心按钮最大偏移距离
@@ -44,9 +41,7 @@ export class JoyStick extends Component {
     onTouchStart(event: EventTouch) {
         /*触碰按钮时，根据触点设置节点位置*/
         //获取触点返回的OpenGL坐标.
-        let pos_screen = V2toV3(event.getUILocation());
-        //将OpenGL坐标转换为世界坐标
-        let pos_world = this.camera.screenToWorld(pos_screen);
+        let pos_world = V2toV3(event.getUILocation());
         //转换为本地坐标
         let pos_local = new Vec3();
         this.node.inverseTransformPoint(pos_local, pos_world);
@@ -58,8 +53,6 @@ export class JoyStick extends Component {
         /*在移动时，不断改变按钮位置*/
         //获取触点本地坐标.
         let posw = V2toV3(event.getUILocation());
-        let pos = this.camera.screenToWorld(posw);
-        console.log(pos);
         let posl = new Vec3();
         this.node.inverseTransformPoint(posl, posw);
         //获取触点本地坐标的方向.

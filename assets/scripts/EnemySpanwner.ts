@@ -78,7 +78,7 @@ export class EnemySpanwner extends Component {
 
         const distance=Vec3.distance(this.worldPosition,targetnode.worldPosition);//攻击间隔判定//不用管报错，VScode这里识别不出bind绑定
         const time=distance/enemytype.getspeed();
-        let temp=new Vec3();
+        let temp=new Vec3(); 
             Vec3.subtract(temp, targetnode.worldPosition, this.worldPosition);
             temp.normalize();//归一化方向向量
             // console.log("temp1= ",temp);
