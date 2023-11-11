@@ -5,10 +5,17 @@ const { ccclass, property } = _decorator;
 @ccclass('JoyStick')
 export class JoyStick extends Component {
 
+
+
     joyStickBtn: Node = null // 中间按钮节点
     dir: Vec3 = new Vec3() // 摇杆移动的方向、单位向量
     maxlen: number | null = null;//中心按钮最大偏移距离
     ratio: number | null = null;//遥感中心按钮偏移比率
+
+
+    deltaPos :Vec3 = new Vec3()
+
+    camera:Camera = null
 
     onEnable() {
         /*输入事件on*/
@@ -24,6 +31,11 @@ export class JoyStick extends Component {
 
         /*获取节点中心按钮最大偏移距离*/
         this.maxlen = this.getComponent(UITransform).width / 2;
+
+        this.deltaPos = this.node.parent.getWorldPosition().subtract(this.node.getWorldPosition())
+
+        this.camera = this.node.parent.children[0].getComponent(Camera)
+
     }
 
     update(deltaTime: number) {
@@ -42,11 +54,20 @@ export class JoyStick extends Component {
         /*触碰按钮时，根据触点设置节点位置*/
         //获取触点返回的OpenGL坐标.
         let pos_world = V2toV3(event.getUILocation());
-        //转换为本地坐标
+        //转换为当前节点的本地坐标
         let pos_local = new Vec3();
+
+       
+        
+        this.camera.screenToWorld(pos_world,pos_world)
+        console.log('pos_world2',pos_world)
+
         this.node.inverseTransformPoint(pos_local, pos_world);
+        console.log('pos_local',pos_local)
         //设置结果
+        // this.node.setPosition(this.node.parent.getWorldPosition().subtract(this.deltaPos))
         this.joyStickBtn.setPosition(pos_local);
+    
     }
 
     onTouchMove(event: EventTouch) {
@@ -66,6 +87,7 @@ export class JoyStick extends Component {
         this.joyStickBtn.setPosition(new Vec3(this.dir.x * rat, this.dir.y * rat, this.dir.z * rat));
         //限制按钮.
         this.restrictBtn();
+
     }
 
     onTouchEnd() {
@@ -94,4 +116,6 @@ export class JoyStick extends Component {
         this.joyStickBtn.setPosition(new Vec3(0, 0, 0));
         this.dir = new Vec3();
     }
+
+
 }
