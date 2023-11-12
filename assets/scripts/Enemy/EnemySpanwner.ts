@@ -60,6 +60,7 @@ export class EnemySpanwner extends Component {
         }
     }
 
+
     // //状态机AI，以一定间隔进行思考执行动作
     // StateAI(targetnode:Node){
     //     const enemytype=this.getComponent(Enemy);

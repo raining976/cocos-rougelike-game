@@ -9,11 +9,11 @@ export class Player extends Component {
     @property(ProgressBar) private bloodProgressBar: ProgressBar | null = null;//角色血量
 
     private settings = PlayerAttr;//角色属性组配置
-    private id: string = "1"
+    private id: string = "1" // 角色id
     private health: number = 100;//血条上限
-    private damage: number = 10;
-    private speed: number = 100;
-    private attackrange: number = 100;
+    private damage: number = 10; // 攻击伤害
+    private speed: number = 100; // 移动速度
+    private attackrange: number = 100; // 攻击范围
     
     start() {
         const playerName: string = "Yellow";

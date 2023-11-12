@@ -26,5 +26,5 @@ EnemyAttr['FlyWorm']={
     damage:100,
     speed:700,
     xpReward:100,
-    attackrange:10
+    attackrange:100
 }

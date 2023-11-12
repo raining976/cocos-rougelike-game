@@ -3,7 +3,25 @@
   "general": {
     "designResolution": {
       "height": 640,
-      "width": 360
+      "width": 360,
+      "fitHeight": false
+    }
+  },
+  "physics": {
+    "collisionGroups": [
+      {
+        "index": 1,
+        "name": "PLAYER"
+      },
+      {
+        "index": 2,
+        "name": "ENEMY"
+      }
+    ],
+    "collisionMatrix": {
+      "0": 0,
+      "1": 0,
+      "2": 0
     }
   }
 }
