@@ -29,13 +29,13 @@ export class PlayerCtrl extends Component {
         this.playerAttr = this.node.getComponent(Player);
     }
 
+    
     update(deltaTime: number) {
         if(this.isNeedMove(this.joyStick.dir)){
             this.moveStatus = 1
             let dirBackup = this.joyStick.dir.clone();
             let dis = dirBackup.multiplyScalar(this.playerAttr.getSpeed() * this.joyStick.ratio);
             this.movePlayer(dis)
-            // this.setPanelPos()
             this.playAnim()
         }else this.moveStatus = 0
     }
@@ -74,11 +74,7 @@ export class PlayerCtrl extends Component {
         
     }
 
-    setPanelPos(){
-        let deltaPos = this.joyStickPanel.worldPosition.subtract(this.node.worldPosition)
-        this.joyStickPanel.setPosition(deltaPos)
-       
-    }
+  
 
 
 }
