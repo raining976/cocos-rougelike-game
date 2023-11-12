@@ -28,6 +28,8 @@ export class JoyStick extends Component {
     }
 
     start() {
+        this.node.active = false // 隐藏操作杆节点
+        
         /*获取中间按钮*/
         this.joyStickBtn = this.node.children[0];
         this.initWorldPos = this.node.getWorldPosition()

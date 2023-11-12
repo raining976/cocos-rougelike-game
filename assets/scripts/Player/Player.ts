@@ -12,7 +12,7 @@ export class Player extends Component {
     private id: string = "1" // 角色id
     private health: number = 100;//血条上限
     private damage: number = 10; // 攻击伤害
-    private speed: number = 5; // 移动速度
+    private speed: number = 100; // 移动速度
     private attackrange: number = 100; // 攻击范围
     
     start() {
