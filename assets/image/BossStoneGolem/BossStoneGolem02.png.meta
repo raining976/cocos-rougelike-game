@@ -1,0 +1,134 @@
+{
+  "ver": "1.0.26",
+  "importer": "image",
+  "imported": true,
+  "uuid": "e0bf6215-5521-4602-bf29-48f196f3f9ab",
+  "files": [
+    ".json",
+    ".png"
+  ],
+  "subMetas": {
+    "6c48a": {
+      "importer": "texture",
+      "uuid": "e0bf6215-5521-4602-bf29-48f196f3f9ab@6c48a",
+      "displayName": "BossStoneGolem02",
+      "id": "6c48a",
+      "name": "texture",
+      "userData": {
+        "wrapModeS": "clamp-to-edge",
+        "wrapModeT": "clamp-to-edge",
+        "imageUuidOrDatabaseUri": "e0bf6215-5521-4602-bf29-48f196f3f9ab",
+        "isUuid": true,
+        "visible": false,
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f9941": {
+      "importer": "sprite-frame",
+      "uuid": "e0bf6215-5521-4602-bf29-48f196f3f9ab@f9941",
+      "displayName": "BossStoneGolem02",
+      "id": "f9941",
+      "name": "spriteFrame",
+      "userData": {
+        "trimType": "auto",
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 0,
+        "offsetY": -2.5,
+        "trimX": 4,
+        "trimY": 6,
+        "width": 56,
+        "height": 57,
+        "rawWidth": 64,
+        "rawHeight": 64,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "pixelsToUnit": 100,
+        "pivotX": 0.5,
+        "pivotY": 0.5,
+        "meshType": 0,
+        "vertices": {
+          "rawPosition": [
+            -28,
+            -28.5,
+            0,
+            28,
+            -28.5,
+            0,
+            -28,
+            28.5,
+            0,
+            28,
+            28.5,
+            0
+          ],
+          "indexes": [
+            0,
+            1,
+            2,
+            2,
+            1,
+            3
+          ],
+          "uv": [
+            4,
+            58,
+            60,
+            58,
+            4,
+            1,
+            60,
+            1
+          ],
+          "nuv": [
+            0.0625,
+            0.015625,
+            0.9375,
+            0.015625,
+            0.0625,
+            0.90625,
+            0.9375,
+            0.90625
+          ],
+          "minPos": [
+            -28,
+            -28.5,
+            0
+          ],
+          "maxPos": [
+            28,
+            28.5,
+            0
+          ]
+        },
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "e0bf6215-5521-4602-bf29-48f196f3f9ab@6c48a",
+        "atlasUuid": ""
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "type": "sprite-frame",
+    "fixAlphaTransparencyArtifacts": true,
+    "hasAlpha": true,
+    "redirect": "e0bf6215-5521-4602-bf29-48f196f3f9ab@f9941"
+  }
+}
