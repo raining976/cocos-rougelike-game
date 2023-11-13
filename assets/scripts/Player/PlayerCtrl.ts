@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Vec3, CCInteger, Animation, input, Input, EventTouch, KeyCode, EventKeyboard, Collider, ICollisionEvent } from 'cc';
+import { _decorator, Component, Node, Vec3, CCInteger, Animation, input, Input, EventTouch, KeyCode, EventKeyboard, Collider, ICollisionEvent, Contact2DType, Collider2D, IPhysics2DContact } from 'cc';
 import { JoyStick } from './JoyStick';
 import { Player } from './Player';
 const { ccclass, property } = _decorator;
@@ -24,6 +24,7 @@ export class PlayerCtrl extends Component {
         this.runAnim = this.node.getComponent(Animation)
         this.joyStick = this.joyStickPanel.getComponent(JoyStick);
         this.playerAttr = this.node.getComponent(Player);
+        this.initCollid();
     }
 
     onLoad() {
@@ -151,12 +152,17 @@ export class PlayerCtrl extends Component {
     }
 
     initCollid() {
-        let colliderCmp = this.node.getComponent(Collider);
-        colliderCmp.on("onCollisionEnter", this.onColliding, this);
+        let colliderCmp = this.node.getComponent(Collider2D);
+        colliderCmp.on(Contact2DType.BEGIN_CONTACT, this.onColliding, this);
     }
 
-    onColliding() {
-        console.log("碰撞成功！");
+    onColliding(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact) {
+        if (otherCollider.tag == 1) {
+            let addExp = 10;
+            this.playerAttr.addExp(addExp);
+        } else if (otherCollider.tag == 0) {
+            this.playerAttr.subHealth();
+        }
     }
 }
 
