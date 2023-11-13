@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Vec3, CCInteger, Animation, input, Input, EventTouch, KeyCode, EventKeyboard } from 'cc';
+import { _decorator, Component, Node, Vec3, CCInteger, Animation, input, Input, EventTouch, KeyCode, EventKeyboard, Collider, ICollisionEvent } from 'cc';
 import { JoyStick } from './JoyStick';
 import { Player } from './Player';
 const { ccclass, property } = _decorator;
@@ -150,9 +150,14 @@ export class PlayerCtrl extends Component {
 
     }
 
+    initCollid() {
+        let colliderCmp = this.node.getComponent(Collider);
+        colliderCmp.on("onCollisionEnter", this.onColliding, this);
+    }
 
-
-
+    onColliding() {
+        console.log("碰撞成功！");
+    }
 }
 
 
