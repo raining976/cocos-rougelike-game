@@ -28,3 +28,12 @@ EnemyAttr['FlyWorm']={
     xpReward:100,
     attackrange:100
 }
+EnemyAttr['BossStoneGolem']={
+    id:'003',
+    health:1000,
+    damage:1000,
+    speed:1000,
+    xpReward:1000,
+    attackrange:300
+}
+
