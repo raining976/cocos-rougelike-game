@@ -2,6 +2,7 @@ import { _decorator, Component, Node, Vec3, CCInteger, Animation, input, Input, 
 import { JoyStick } from './JoyStick';
 import { Player } from './Player';
 import { Enemy } from '../Enemy/Enemy'
+import { throttle } from '../utils/util'
 const { ccclass, property } = _decorator;
 
 @ccclass('PlayerCtrl')
@@ -9,7 +10,7 @@ export class PlayerCtrl extends Component {
 
     @property({ type: Node })
     joyStickPanel: Node | null = null;
-
+    testnumber: number = 0;
     moveStatus: number = 0; // 移动状态 0 静止 1移动
     moveDir: string = null // l左 r右
 
@@ -99,14 +100,21 @@ export class PlayerCtrl extends Component {
      */
     onPreSolve(selfCollier: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null){
         //tag=1 代表与小怪碰撞 tag=2 代表与经验球碰撞
-        if (otherCollider.tag == 1) {
-            this.reduceHealth(otherCollider.node.getComponent(Enemy).getdamage());
-        } else if (otherCollider.tag == 2) {
-            //TODO:等经验球做完后，调整这里传递的参数
-            this.increaseExp(1);
-        }
+        // if (otherCollider.tag == 1) {
+        //     this.reduceHealth(otherCollider.node.getComponent(Enemy).getdamage());
+        // } else if (otherCollider.tag == 2) {
+        //     //TODO:等经验球做完后，调整这里传递的参数
+        //     this.increaseExp(1);
+        // }
+       
+        console.log('test')
+       
+        throttle(this.test)
     }
 
+     test(t:number = 1) {
+        console.log('this.testnumber')
+    }
     /**
      * 在与小怪碰撞后，降低角色血量
      * @param delt 血量降低值
@@ -185,6 +193,7 @@ export class PlayerCtrl extends Component {
 
 
     update(deltaTime: number) {
+
         let curDir = this.curDir
         // 先判断需不需要移动
         if (this.isNeedMove(curDir)) {
