@@ -1,5 +1,5 @@
 import { UITransform, CCInteger, _decorator, Component, EventTouch, input, Input, math, Node, v3, Vec2, Vec3, Camera, Canvas } from 'cc';
-import { V2toV3 } from '../util';
+import { V2toV3 } from '../utils/util';
 const { ccclass, property } = _decorator;
 
 @ccclass('JoyStick')
