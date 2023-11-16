@@ -26,13 +26,14 @@ export class Boss extends Enemy {
     reclaim(){
         this.unschedule(this.StateAI);
         this.node.destroy();
+        this.node.parent.emit('Bossdied');
         return;
     }
     /**
      * 动画状态切换
      */
     Statecheck(){
-        let temp=(Vec3.distance(this.node.worldPosition,this.node.parent.getComponent("EnemySpanwner").TargetNode.worldPosition)-this.attackrange<=1);
+        let temp=(Vec3.distance(this.node.worldPosition,this.node.parent.getComponent("EnemySpanwner").TargetNode.worldPosition)-this.attackrange<=20);
         if(temp&&!this.inrange){
             this.MoveAnim.stop();
             this.MoveAnim.play("attack");
