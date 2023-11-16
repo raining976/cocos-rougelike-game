@@ -1383,6 +1383,7 @@
         "__expectedType__": "cc.Prefab"
       }
     ],
+    "Boss": [],
     "TargetNode": {
       "__id__": 21
     },
