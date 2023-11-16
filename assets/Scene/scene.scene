@@ -1383,7 +1383,12 @@
         "__expectedType__": "cc.Prefab"
       }
     ],
-    "Boss": [],
+    "Boss": [
+      {
+        "__uuid__": "2857d154-d51d-46f8-b724-269660cd9866",
+        "__expectedType__": "cc.Prefab"
+      }
+    ],
     "TargetNode": {
       "__id__": 21
     },
