@@ -645,8 +645,8 @@
     "__prefab": {
       "__id__": 31
     },
-    "tag": 0,
-    "_group": 1,
+    "tag": 1,
+    "_group": 4,
     "_density": 1,
     "_sensor": false,
     "_friction": 0.2,
@@ -665,7 +665,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "9cwieTMshLb71TINxNU5Jj"
+    "fileId": "d7W3HoP9xMwYOctwzfm9MQ"
   },
   {
     "__type__": "cc.PrefabInfo",

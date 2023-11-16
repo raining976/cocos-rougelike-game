@@ -28,7 +28,6 @@ export class Enemy extends Component {
         this.init(this.Enemyname);//初始化
         this.MoveAnim.play();
         this.schedule(this.StateAI,this.interval,macro.REPEAT_FOREVER,this.AIdelay);
-        
     }
     update(deltaTime: number) {
         let bloodProgress:number=this.bloodProgressBar.progress;

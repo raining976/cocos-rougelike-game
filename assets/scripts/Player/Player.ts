@@ -2,7 +2,6 @@ import { _decorator, Component, Node, Sprite, ProgressBar } from 'cc';
 import { PlayerAttr } from './PlayerSettings';
 const { ccclass, property } = _decorator;
 
-
 @ccclass('Player')
 export class Player extends Component {
     @property(Sprite) private sprite: Sprite | null = null;//角色绘图
@@ -11,17 +10,14 @@ export class Player extends Component {
 
     private settings = PlayerAttr;//角色属性组配置
     private id: string = "1" // 角色id
-
-    private healthLimit = 100;//血条上限
-    private healthCur: number | null = null;//当前血量
-
+    private level: number = 0;
+    private curHealth: number = 100;//当前血量
+    private maxHealth: number = 100;//血量上限
+    private curExp: number = 100;//当前经验值
+    private maxExp: number = 100;//经验值上限
     private damage: number = 10; // 攻击伤害
     private speed: number = 100; // 移动速度
     private attackrange: number = 100; // 攻击范围
-    private level: number = 0;//人物等级
-
-    private expLimit: number = 10;//下一次升级所需经验
-    private expCur: number = 0;//上次升级后，已获取经验值
     
     start() {
         const playerName: string = "Yellow";
@@ -29,51 +25,54 @@ export class Player extends Component {
     }
 
     update(deltaTime: number) {
-
+        //更新血量
     }
+
     public init(playerName: string): void {
         this.id = this.settings[playerName].id;
-        this.healthLimit = this.settings[playerName].healthLimit;
-        this.healthCur = this.healthLimit;
+        this.level = 0;
+        this.maxHealth = this.settings[playerName].health;
+        this.curHealth = this.maxHealth;
+        this.maxExp = 100;
+        this.curExp = this.maxExp;
         this.damage = this.settings[playerName].damage;
         this.speed = this.settings[playerName].speed;
         this.attackrange = this.settings[playerName].attackrange;
     }
+
+
+    /**
+     * 经验值满后，提升等级
+     * @param overflowExp 溢出经验值
+     */
+    public improveLevel(overflowExp: number) {
+        //经验、等级
+        this.level ++;
+        this.maxExp *= 2;
+        this.curExp = overflowExp;
+        //属性提升
+        //TODO:
+    }
+
     public getSpeed() {
         return this.speed;
     }
 
-    /**
-     * 增加人物经验，如果经验满，则提升等级，提升属性
-     * @param deltExp: 所增加的经验值
-     */
-    public addExp(deltExp: number) {
-        this.expCur = deltExp + this.expCur;
-        if (this.expCur >= this.expLimit) {
-            this.level ++;
-            this.expCur = this.expCur - this.expLimit;
-            this.expLimit *= 2;
-            this.improveAttr();
-        } 
-        //console.log(this.expCur);
+    public setCurHealth(newHealth: number) {
+        this.curHealth = newHealth;
+    }
+    public getCurHealth() {
+        return this.curHealth;
     }
 
-    /**
-     * 提升人物属性，在人物升级时调用
-     */
-    private improveAttr() {
-        // TODO:  提升人物属性
+    public setCurExp(newExp: number) {
+        this.curExp = newExp;
     }
-
-    /**
-     * 降低生命值
-     */
-    public subHealth(deltHealth: number = 10) {
-        this.healthCur -= deltHealth;
-        if (this.healthCur <= 0) {
-            console.log("Gameover!");
-            // TODO:  调用游戏结束的函数
-        }
+    public getCurExp() {
+        return this.curExp;
+    }
+    public getMaxExp() {
+        return this.maxExp;
     }
 }
 
