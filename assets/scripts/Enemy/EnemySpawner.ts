@@ -12,7 +12,7 @@ export class EnemySpanwner extends Component {
     
     //敌人生成相关参数
     private SpawnerDelay:number=0.5;//杂鱼生成延迟
-    private BossSpawnerDelay:number=10;//BOSS生成延迟
+    private BossSpawnerDelay:number=30;//BOSS生成延迟
     
     // private eventTargetlisten=new EventTarget();
     //对象池相关参数
@@ -32,9 +32,12 @@ export class EnemySpanwner extends Component {
     }
 
     update(deltaTime: number) {
-        // this.node.on('Boss',(event) => {
-        //     console.log("捕获");
-        // })
+        this.node.on('Bossdied',(event) => {
+            this.schedule(this.TrashfishSpawner,this.SpawnerDelay,macro.REPEAT_FOREVER);
+        })
+        this.node.on('Boss',(event) => {
+            console.log("捕获2");
+        })
     }
     /**
      * 杂鱼生成函数
