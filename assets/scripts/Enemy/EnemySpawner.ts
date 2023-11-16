@@ -27,7 +27,6 @@ export class EnemySpanwner extends Component {
         }
         this.schedule(this.TrashfishSpawner,this.SpawnerDelay,macro.REPEAT_FOREVER);
         this.schedule(this.BossSpawner,this.BossSpawnerDelay,macro.REPEAT_FOREVER);
-        // this.unscheduleAllCallbacks()
     }
 
     update(deltaTime: number) {
@@ -66,7 +65,6 @@ export class EnemySpanwner extends Component {
     BossSpawner(){
         this.node.emit('Boss');
         this.unschedule(this.TrashfishSpawner);
-        // this.eventTargetspeak.dispatchEvent(new Myevent('Boss',true));
         const posX=0;
         const posY=400;
         const spawnPosition = new Vec3();
