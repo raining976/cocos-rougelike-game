@@ -106,6 +106,9 @@ export class PlayerCtrl extends Component {
         //     //TODO:等经验球做完后，调整这里传递的参数
         //     this.increaseExp(1);
         // }
+
+
+        
        
         console.log('test')
        
