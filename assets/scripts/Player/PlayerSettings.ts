@@ -9,16 +9,16 @@ export class PlayerSettings{
         healthLimit: number,
         damage: number,
         speed: number,
-        attackrange: number
+        attackRange: number
     }
 };
 export const PlayerAttr = new PlayerSettings();
 PlayerAttr['Yellow'] = {
     id: '001',
-    healthLimit: 100,
+    healthLimit: 1000,
     damage: 100,
     speed: 5,
-    attackrange: 100
+    attackRange: 100
 }
 
 

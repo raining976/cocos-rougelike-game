@@ -17,8 +17,8 @@ export class Player extends Component {
     private maxExp: number = 100;//经验值上限
     private damage: number = 10; // 攻击伤害
     private speed: number = 100; // 移动速度
-    private attackrange: number = 100; // 攻击范围
-    
+    private attackRange: number = 100; // 攻击范围
+
     start() {
         const playerName: string = "Yellow";
         this.init(playerName);
@@ -31,28 +31,17 @@ export class Player extends Component {
     public init(playerName: string): void {
         this.id = this.settings[playerName].id;
         this.level = 0;
-        this.maxHealth = this.settings[playerName].health;
+        this.maxHealth = this.settings[playerName].healthLimit;
         this.curHealth = this.maxHealth;
         this.maxExp = 100;
         this.curExp = this.maxExp;
         this.damage = this.settings[playerName].damage;
         this.speed = this.settings[playerName].speed;
-        this.attackrange = this.settings[playerName].attackrange;
+        this.attackRange = this.settings[playerName].attackRange;
     }
 
 
-    /**
-     * 经验值满后，提升等级
-     * @param overflowExp 溢出经验值
-     */
-    public improveLevel(overflowExp: number) {
-        //经验、等级
-        this.level ++;
-        this.maxExp *= 2;
-        this.curExp = overflowExp;
-        //属性提升
-        //TODO:
-    }
+   
 
     public getSpeed() {
         return this.speed;
@@ -74,6 +63,36 @@ export class Player extends Component {
     public getMaxExp() {
         return this.maxExp;
     }
+
+    public setMaxExp(newExp :number){
+        this.maxExp = newExp
+    }
+    public getLevel() {
+        return this.level
+    }
+
+    public getDamage() {
+        return this.damage
+    }
+
+    public getAttackRange() {
+        return this.attackRange
+    }
+
+    public getId(){
+        return this.id
+    }
+
+    public setLevel(newLevel:number){
+        this.level = newLevel
+    }
+
+    public setDamage(newDamage:number){
+        this.damage = newDamage
+    }
+
+
+
 }
 
 
