@@ -43,22 +43,19 @@ export class PlayerCtrl extends Component {
     onKeyDown(e: EventKeyboard) {
         switch (e.keyCode) {
             case KeyCode.KEY_W:
-            case KeyCode.ARROW_UP:
                 this.curDir.y++
                 break
             case KeyCode.KEY_S:
-            case KeyCode.ARROW_DOWN:
                 this.curDir.y--
                 break
             case KeyCode.KEY_D:
-            case KeyCode.ARROW_RIGHT:
                 this.curDir.x++
                 break
             case KeyCode.KEY_A:
-            case KeyCode.ARROW_LEFT:
                 this.curDir.x--
                 break
-
+            default:
+                break
         }
     }
 
@@ -69,26 +66,21 @@ export class PlayerCtrl extends Component {
     onKeyUp(e: EventKeyboard) {
         switch (e.keyCode) {
             case KeyCode.KEY_W:
-            case KeyCode.ARROW_UP:
                 this.curDir.y--
                 break
             case KeyCode.KEY_S:
-            case KeyCode.ARROW_DOWN:
-
                 this.curDir.y++
                 break
             case KeyCode.KEY_D:
-            case KeyCode.ARROW_RIGHT:
                 this.curDir.x--
                 break
             case KeyCode.KEY_A:
-            case KeyCode.ARROW_LEFT:
                 this.curDir.x++
                 break
-
+            default:
+                break
         }
     }
-
 
     update(deltaTime: number) {
         let curDir = this.curDir
