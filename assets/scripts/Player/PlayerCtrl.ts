@@ -21,14 +21,12 @@ export class PlayerCtrl extends Component {
 
     runAnim: Animation = null // 人物动画
 
-    damageDelay: number = 1;
+    damageDelay: number = 1000; // 碰撞延迟(受到伤害的延迟)
+
     start() {
         this.runAnim = this.node.getComponent(Animation);
         this.joyStick = this.joyStickPanel.getComponent(JoyStick);
         this.playerAttr = this.node.getComponent(Player);
-
-        //自定义定时器
-        this.schedule(this.reduceHealth, this.damageDelay, )
     }
 
     onLoad() {
@@ -41,20 +39,14 @@ export class PlayerCtrl extends Component {
         this.destroyCollider();
     }
 
-    /**
-     * 注册碰撞事件
-     */
     initCollider() {
         let collider = this.getComponent(Collider2D);
         if (collider) {
             collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
-            collider.on(Contact2DType.PRE_SOLVE, this.onPreSolve, this);
+            collider.on(Contact2DType.PRE_SOLVE, throttle(this.onPreSolve, this.damageDelay), this);
         }
     }
 
-    /**
-     * 销毁碰撞事件
-     */
     destroyCollider() {
         let collider = this.getComponent(Collider2D);
         if (collider) {
@@ -63,129 +55,128 @@ export class PlayerCtrl extends Component {
         }
     }
 
-    /**
-     * 注册输入事件
-     */
     initInputEvent() {
         input.on(Input.EventType.KEY_DOWN, this.onKeyDown, this);
         input.on(Input.EventType.KEY_UP, this.onKeyUp, this);
     }
 
-    /**
-     * 销毁输入事件
-     */
     destoryInputEvent() {
         input.off(Input.EventType.KEY_DOWN, this.onKeyDown, this);
         input.on(Input.EventType.KEY_UP, this.onKeyUp, this);
     }
 
-    /**
-     * 初次碰撞回调
-     */
     onBeginContact(selfCollier: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
-        // //tag=1 代表与小怪碰撞 tag=2 代表与经验球碰撞
-        // if (otherCollider.tag == 1) {
-        //     this.reduceHealth(otherCollider.node.getComponent(Enemy).getdamage());
-        // } else if (otherCollider.tag == 2) {
-        //     //TODO:等经验球做完后，调整这里传递的参数
-        //     this.increaseExp(1);
-        // }
+        // 经验球捡完就没了 所以碰撞一次就
+        if (otherCollider.tag == 2) {
+            //TODO: 先默认传 1 后面传经验球表示的经验大小
+            this.increaseExp(1);
+        }
     }
 
     /**
      * 碰撞持续回调
-     * @param selfCollier
-     * @param otherCollider 
-     * @param contact 
      */
-    onPreSolve(selfCollier: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null){
-        //tag=1 代表与小怪碰撞 tag=2 代表与经验球碰撞
-        // if (otherCollider.tag == 1) {
-        //     this.reduceHealth(otherCollider.node.getComponent(Enemy).getdamage());
-        // } else if (otherCollider.tag == 2) {
-        //     //TODO:等经验球做完后，调整这里传递的参数
-        //     this.increaseExp(1);
-        // }
-       
-        console.log('test')
-       
-        throttle(this.test)
+    onPreSolve(selfCollier: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
+        // tag=1 代表与小怪碰撞
+        if (otherCollider.tag == 1) {
+            this.reduceHealth(otherCollider.node.getComponent(Enemy).getdamage());
+        }
+
     }
 
-     test(t:number = 1) {
-        console.log('this.testnumber')
-    }
     /**
      * 在与小怪碰撞后，降低角色血量
-     * @param delt 血量降低值
+     * @param delta 血量降低值
      */
-    reduceHealth(delt: number) {
-        let newHealth = this.playerAttr.getCurHealth() - delt;
+    reduceHealth(delta: number) {
+        let newHealth = this.playerAttr.getCurHealth() - delta;
         if (newHealth < 0) {
-            console.log("Game over");
+            alert("game over!!!")
+            // TODO: 游戏结束的逻辑
         }
         this.playerAttr.setCurHealth(newHealth);
     }
 
     /**
-     * 与经验值碰撞后，增加经验值
-     * @param delt 经验增加值
+     * 与经验球碰撞后，增加经验值
+     * @param delta 经验增加值
      */
-    increaseExp(delt: number) {
-        let newExp = this.playerAttr.getCurExp();
+    increaseExp(delta: number) {
+        let newExp = this.playerAttr.getCurExp() + delta;
         if (newExp > this.playerAttr.getMaxExp()) {
-            this.playerAttr.improveLevel(newExp - this.playerAttr.getMaxExp());
-        }
-        this.playerAttr.setCurExp(newExp);
-    }
-    /**
-     * 键盘按下监听
-     * @param e 
-     */
-    onKeyDown(e: EventKeyboard) {
-        switch (e.keyCode) {
-            case KeyCode.KEY_W:
-                this.curDir.y++
-                break
-            case KeyCode.KEY_S:
-                this.curDir.y--
-                break
-            case KeyCode.KEY_D:
-                this.curDir.x++
-                break
-            case KeyCode.KEY_A:
-                this.curDir.x--
-                break
-            default:
-                break
-        }
+            this.improveLevel(newExp - this.playerAttr.getMaxExp());
+        } else this.playerAttr.setCurExp(newExp);
     }
 
     /**
-     * 键盘抬起监听
-     * @param e 
-     */
+    * 经验值满后，提升等级
+    * @param overflowExp 溢出经验值
+    */
+    improveLevel(overflowExp: number) {
+        //经验、等级
+        const playerAttr = this.playerAttr
+        this.playerAttr.setLevel(playerAttr.getLevel() + 1)
+        this.playerAttr.setMaxExp(playerAttr.getMaxExp() * 2)
+        this.playerAttr.setCurExp(overflowExp)
+        //属性提升
+        //TODO:
+    }
+
+    onKeyDown(e: EventKeyboard) {
+        this.changeDir('keyDown', e.keyCode)
+    }
+
     onKeyUp(e: EventKeyboard) {
-        switch (e.keyCode) {
-            case KeyCode.KEY_W:
-                this.curDir.y--
-                break
-            case KeyCode.KEY_S:
-                this.curDir.y++
-                break
-            case KeyCode.KEY_D:
-                this.curDir.x--
-                break
-            case KeyCode.KEY_A:
-                this.curDir.x++
-                break
-            default:
-                break
+        this.changeDir('keyUp',e.keyCode)
+    }
+
+
+    /**
+     * 更改人物移动方向
+     * @param type  keyDown keyUp 表示键盘按下和抬起的两种操作
+     * @param code keyCode 按键的code
+     */
+    changeDir(type: string, code: KeyCode) {
+        if (type == 'keyDown') {
+            switch (code) {
+                case KeyCode.KEY_W:
+                    this.curDir.y++
+                    break
+                case KeyCode.KEY_S:
+                    this.curDir.y--
+                    break
+                case KeyCode.KEY_D:
+                    this.curDir.x++
+                    break
+                case KeyCode.KEY_A:
+                    this.curDir.x--
+                    break
+                default:
+                    break
+            }
         }
+        else if (type == 'keyUp') {
+            switch (code) {
+                case KeyCode.KEY_W:
+                    this.curDir.y--
+                    break
+                case KeyCode.KEY_S:
+                    this.curDir.y++
+                    break
+                case KeyCode.KEY_D:
+                    this.curDir.x--
+                    break
+                case KeyCode.KEY_A:
+                    this.curDir.x++
+                    break
+                default:
+                    break
+            }
+        }
+
     }
 
     update(deltaTime: number) {
-
         let curDir = this.curDir
         // 先判断需不需要移动
         if (this.isNeedMove(curDir)) {
