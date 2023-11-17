@@ -6,7 +6,7 @@ const { ccclass, property } = _decorator;
 export class PlayerSettings{
     [index: string]: {
         id: string, 
-        health: number,
+        healthLimit: number,
         damage: number,
         speed: number,
         attackrange: number
@@ -15,7 +15,7 @@ export class PlayerSettings{
 export const PlayerAttr = new PlayerSettings();
 PlayerAttr['Yellow'] = {
     id: '001',
-    health: 100,
+    healthLimit: 100,
     damage: 100,
     speed: 5,
     attackrange: 100
