@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Sprite, ProgressBar } from 'cc';
+import { _decorator, Component, Node, Sprite, ProgressBar,Label, Script } from 'cc';
 import { PlayerAttr } from './PlayerSettings';
 const { ccclass, property } = _decorator;
 
@@ -65,7 +65,7 @@ export class Player extends Component {
     }
 
     public setMaxExp(newExp :number){
-        this.maxExp = newExp
+        this.maxExp = newExp;
     }
     public getLevel() {
         return this.level
@@ -84,7 +84,7 @@ export class Player extends Component {
     }
 
     public setLevel(newLevel:number){
-        this.level = newLevel
+        this.level = newLevel;
     }
 
     public setDamage(newDamage:number){
