@@ -7,25 +7,28 @@ const { ccclass, property } = _decorator;
 
 @ccclass('PlayerCtrl')
 export class PlayerCtrl extends Component {
-    //static state=new State();
-    @property({type:Node})stateNode: State | null = null;
-    @property({ type: Node })
-    testnumber: number = 0;
+    @property({ type: Node }) stateNode = null // 人物状态节点
+
     moveStatus: number = 0; // 移动状态 0 静止 1移动
     moveDir: string = null // l左 r右
-    
     curDir: Vec3 = new Vec3() // 当前移动方向向量 
-
     playerAttr: Player | null = null;//角色属性组件
-
     playerAnim: Animation = null // 人物动画
-
     damageDelay: number = 1000; // 碰撞延迟(受到伤害的延迟)
+    stateEntity:State = null // 人物状态实体类
 
     start() {
         this.playerAnim = this.node.getComponent(Animation);
         this.playerAttr = this.node.getComponent(Player);
-        this.stateNode.getComponent(State).newExp(this.playerAttr.getCurExp(),this.playerAttr.getMaxExp(),this.playerAttr.getLevel());//更新经验
+        this.stateEntity = this.stateNode.getComponent(State)
+        this.updateStateLabel()   
+    }
+
+    /**
+     * 更新人物状态label
+     */
+    updateStateLabel(){
+        this.stateEntity.setAll(this.playerAttr.getLevel(),this.playerAttr.getCurExp(),this.playerAttr.getMaxExp())
     }
 
     onLoad() {
@@ -105,8 +108,11 @@ export class PlayerCtrl extends Component {
         let newExp = this.playerAttr.getCurExp() + delta;
         if (newExp > this.playerAttr.getMaxExp()) {
             this.improveLevel(newExp - this.playerAttr.getMaxExp());
-        } else this.playerAttr.setCurExp(newExp);
-        this.stateNode.getComponent(State).newExp(this.playerAttr.getCurExp(),this.playerAttr.getMaxExp(),this.playerAttr.getLevel());
+        } else {     
+            this.playerAttr.setCurExp(newExp);
+            this.stateEntity.setCurExpLabel(newExp)
+         }
+
     }
 
     /**
@@ -119,9 +125,9 @@ export class PlayerCtrl extends Component {
         this.playerAttr.setLevel(playerAttr.getLevel() + 1)
         this.playerAttr.setMaxExp(playerAttr.getMaxExp() * 2)
         this.playerAttr.setCurExp(overflowExp)
+        this.updateStateLabel()
         //属性提升
         //TODO:
-        this.stateNode.getComponent(State).newExp(this.playerAttr.getCurExp(),this.playerAttr.getMaxExp(),this.playerAttr.getLevel());
     }
 
     onKeyDown(e: EventKeyboard) {
@@ -129,7 +135,7 @@ export class PlayerCtrl extends Component {
     }
 
     onKeyUp(e: EventKeyboard) {
-        this.changeDir('keyUp',e.keyCode)
+        this.changeDir('keyUp', e.keyCode)
     }
 
 
@@ -192,7 +198,6 @@ export class PlayerCtrl extends Component {
             this.moveStatus = 0
             this.playAnim('idle')
         }
-        this.stateNode.getComponent(State).newExp(this.playerAttr.getCurExp(),this.playerAttr.getMaxExp(),this.playerAttr.getLevel());
     }
 
     /**
@@ -227,8 +232,7 @@ export class PlayerCtrl extends Component {
 
 
     /**
-     * 播放动画
-     * 只有移动方向和上次不一样时才会播放新方向的动画
+     * 修改人物朝向
      */
     changePlayerTowards() {
         let curMoveDir = this.getMoveDir()
@@ -245,9 +249,13 @@ export class PlayerCtrl extends Component {
 
     }
 
-    playAnim(name){
-        if(!this.playerAnim.getState(name).isPlaying)
-        this.playerAnim.play(name)
+    /**
+     * 播放动画
+     * @param name 动画clip名称
+     */
+    playAnim(name) {
+        if (!this.playerAnim.getState(name).isPlaying)
+            this.playerAnim.play(name)
     }
 }
 
