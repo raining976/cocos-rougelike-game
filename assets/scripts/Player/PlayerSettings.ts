@@ -17,7 +17,7 @@ PlayerAttr['Yellow'] = {
     id: '001',
     healthLimit: 1000,
     damage: 100,
-    speed: 5,
+    speed: 3,
     attackRange: 100
 }
 

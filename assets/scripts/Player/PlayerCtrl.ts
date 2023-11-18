@@ -1,5 +1,4 @@
 import { _decorator, Component, Node, Vec3, CCInteger, Animation, input, Input, EventTouch, KeyCode, EventKeyboard, Collider2D, Contact2DType, Collider, IPhysics2DContact } from 'cc';
-import { JoyStick } from './JoyStick';
 import { Player } from './Player';
 import { Enemy } from '../Enemy/Enemy'
 import { throttle } from '../utils/util'
@@ -11,23 +10,20 @@ export class PlayerCtrl extends Component {
     //static state=new State();
     @property({type:Node})stateNode: State | null = null;
     @property({ type: Node })
-    joyStickPanel: Node | null = null;
     testnumber: number = 0;
     moveStatus: number = 0; // 移动状态 0 静止 1移动
     moveDir: string = null // l左 r右
     
     curDir: Vec3 = new Vec3() // 当前移动方向向量 
 
-    joyStick: JoyStick | null = null;//摇杆控制组件
     playerAttr: Player | null = null;//角色属性组件
 
-    runAnim: Animation = null // 人物动画
+    playerAnim: Animation = null // 人物动画
 
     damageDelay: number = 1000; // 碰撞延迟(受到伤害的延迟)
 
     start() {
-        this.runAnim = this.node.getComponent(Animation);
-        this.joyStick = this.joyStickPanel.getComponent(JoyStick);
+        this.playerAnim = this.node.getComponent(Animation);
         this.playerAttr = this.node.getComponent(Player);
         this.stateNode.getComponent(State).newExp(this.playerAttr.getCurExp(),this.playerAttr.getMaxExp(),this.playerAttr.getLevel());//更新经验
     }
@@ -74,16 +70,17 @@ export class PlayerCtrl extends Component {
             //TODO: 先默认传 1 后面传经验球表示的经验大小
             this.increaseExp(1);
         }
+        // if (otherCollider.tag == 1) {
+        //     this.reduceHealth(otherCollider.node.getComponent(Enemy).getdamage());
+        // }
     }
 
-    /**
-     * 碰撞持续回调
-     */
+
     onPreSolve(selfCollier: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
         // tag=1 代表与小怪碰撞
-        if (otherCollider.tag == 1) {
-            this.reduceHealth(otherCollider.node.getComponent(Enemy).getdamage());
-        }
+        // if (otherCollider.tag == 1) {
+        //     this.reduceHealth(otherCollider.node.getComponent(Enemy).getdamage());
+        // }
 
     }
 
@@ -189,8 +186,12 @@ export class PlayerCtrl extends Component {
             let dirBackup = curDir.clone();
             let dis = dirBackup.multiplyScalar(this.playerAttr.getSpeed());
             this.movePlayer(dis)
-            this.playAnim()
-        } else this.moveStatus = 0
+            this.changePlayerTowards()
+            this.playAnim('run')
+        } else {
+            this.moveStatus = 0
+            this.playAnim('idle')
+        }
         this.stateNode.getComponent(State).newExp(this.playerAttr.getCurExp(),this.playerAttr.getMaxExp(),this.playerAttr.getLevel());
     }
 
@@ -229,17 +230,24 @@ export class PlayerCtrl extends Component {
      * 播放动画
      * 只有移动方向和上次不一样时才会播放新方向的动画
      */
-    playAnim() {
+    changePlayerTowards() {
         let curMoveDir = this.getMoveDir()
         if (this.moveDir != curMoveDir) {
             if (curMoveDir == 'r') {
-                this.runAnim.play('runRightAnim')
+                // this.runAnim.play('runRightAnim')
+                this.node.scale.x = 1
             } else if (curMoveDir == 'l') {
-                this.runAnim.play('runLeftAnim')
+                // this.runAnim.play('runLeftAnim')
+                this.node.scale.x = -1
             }
             this.moveDir = curMoveDir
         }
 
+    }
+
+    playAnim(name){
+        if(!this.playerAnim.getState(name).isPlaying)
+        this.playerAnim.play(name)
     }
 }
 
