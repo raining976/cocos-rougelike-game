@@ -2,12 +2,12 @@
   "ver": "2.0.3",
   "importer": "animation-clip",
   "imported": true,
-  "uuid": "19899783-afc4-4a28-a7c1-d322a5180f41",
+  "uuid": "26113400-5383-4a97-bb6b-0f4b74282d60",
   "files": [
     ".cconb"
   ],
   "subMetas": {},
   "userData": {
-    "name": "runLeftAnim"
+    "name": "hurt"
   }
 }
