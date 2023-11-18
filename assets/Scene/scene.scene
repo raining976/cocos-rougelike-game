@@ -1932,7 +1932,7 @@
     "_id": "f7b85VQcBIt6dVJMzmHryg"
   },
   {
-    "__type__": "68845G9EO5NeotDtXzo7LBg",
+    "__type__": "8d108Psk0NLXpIE6zJiQrrL",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {},
@@ -1941,19 +1941,16 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "sprite": null,
-    "moveAnim": null,
-    "bloodProgressBar": null,
     "expLabel": {
       "__id__": 46
     },
     "stateLabel": {
       "__id__": 40
     },
-    "ceilLabel": {
+    "maxLabel": {
       "__id__": 49
     },
-    "_id": "3fBG5XFglPcbb3ELa7KEh+"
+    "_id": "21P+Q+qlNIjoLg3V1vTrU2"
   },
   {
     "__type__": "cc.UITransform",
@@ -2051,6 +2048,9 @@
     },
     "_enabled": true,
     "__prefab": null,
+    "stateNode": {
+      "__id__": 31
+    },
     "joyStickPanel": {
       "__id__": 24
     },
@@ -2069,9 +2069,6 @@
     "sprite": null,
     "moveAnim": null,
     "bloodProgressBar": null,
-    "expLabel": null,
-    "stateLabel": null,
-    "ceilLabel": null,
     "_id": "37obJHOmdM6q6Yq2IGc53B"
   },
   {

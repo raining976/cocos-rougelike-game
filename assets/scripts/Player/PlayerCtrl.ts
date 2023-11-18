@@ -3,17 +3,19 @@ import { JoyStick } from './JoyStick';
 import { Player } from './Player';
 import { Enemy } from '../Enemy/Enemy'
 import { throttle } from '../utils/util'
+import { State } from './State';
 const { ccclass, property } = _decorator;
 
 @ccclass('PlayerCtrl')
 export class PlayerCtrl extends Component {
-
+    //static state=new State();
+    @property({type:Node})stateNode: State | null = null;
     @property({ type: Node })
     joyStickPanel: Node | null = null;
     testnumber: number = 0;
     moveStatus: number = 0; // 移动状态 0 静止 1移动
     moveDir: string = null // l左 r右
-
+    
     curDir: Vec3 = new Vec3() // 当前移动方向向量 
 
     joyStick: JoyStick | null = null;//摇杆控制组件
@@ -27,6 +29,7 @@ export class PlayerCtrl extends Component {
         this.runAnim = this.node.getComponent(Animation);
         this.joyStick = this.joyStickPanel.getComponent(JoyStick);
         this.playerAttr = this.node.getComponent(Player);
+        this.stateNode.getComponent(State).newExp(this.playerAttr.getCurExp(),this.playerAttr.getMaxExp(),this.playerAttr.getLevel());//更新经验
     }
 
     onLoad() {
@@ -106,6 +109,7 @@ export class PlayerCtrl extends Component {
         if (newExp > this.playerAttr.getMaxExp()) {
             this.improveLevel(newExp - this.playerAttr.getMaxExp());
         } else this.playerAttr.setCurExp(newExp);
+        this.stateNode.getComponent(State).newExp(this.playerAttr.getCurExp(),this.playerAttr.getMaxExp(),this.playerAttr.getLevel());
     }
 
     /**
@@ -120,6 +124,7 @@ export class PlayerCtrl extends Component {
         this.playerAttr.setCurExp(overflowExp)
         //属性提升
         //TODO:
+        this.stateNode.getComponent(State).newExp(this.playerAttr.getCurExp(),this.playerAttr.getMaxExp(),this.playerAttr.getLevel());
     }
 
     onKeyDown(e: EventKeyboard) {
@@ -186,6 +191,7 @@ export class PlayerCtrl extends Component {
             this.movePlayer(dis)
             this.playAnim()
         } else this.moveStatus = 0
+        this.stateNode.getComponent(State).newExp(this.playerAttr.getCurExp(),this.playerAttr.getMaxExp(),this.playerAttr.getLevel());
     }
 
     /**
