@@ -2,12 +2,12 @@
   "ver": "2.0.3",
   "importer": "animation-clip",
   "imported": true,
-  "uuid": "6cdbf0a2-f98a-4122-a355-0547a6f070c7",
+  "uuid": "7e61d427-b61b-4b8c-ba5c-bb4060e7c255",
   "files": [
     ".cconb"
   ],
   "subMetas": {},
   "userData": {
-    "name": "runRightAnim"
+    "name": "idle"
   }
 }
