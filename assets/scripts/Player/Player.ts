@@ -19,6 +19,13 @@ export class Player extends Component {
     private speed: number = 100; // 移动速度
     private attackRange: number = 100; // 攻击范围
 
+    @property({type: Label}) 
+    public expLabel: Label|null = null;//当前经验标签
+    @property({type: Label}) 
+    public stateLabel: Label|null = null;//当前等级标签
+    @property({type: Label}) 
+    public ceilLabel: Label|null = null;//当前经验上限标签
+
     start() {
         const playerName: string = "Yellow";
         this.init(playerName);
@@ -38,6 +45,10 @@ export class Player extends Component {
         this.damage = this.settings[playerName].damage;
         this.speed = this.settings[playerName].speed;
         this.attackRange = this.settings[playerName].attackRange;
+
+        this.expLabel.string=this.curExp.toString();
+        this.stateLabel.string=this.level.toString();
+        this.ceilLabel.string=this.maxExp.toString();
     }
 
 
@@ -56,6 +67,7 @@ export class Player extends Component {
 
     public setCurExp(newExp: number) {
         this.curExp = newExp;
+        this.expLabel.string=this.curExp.toString();
     }
     public getCurExp() {
         return this.curExp;
