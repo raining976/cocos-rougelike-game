@@ -128,6 +128,7 @@ export class PlayerCtrl extends Component {
         this.updateStateLabel()
         //属性提升
         //TODO:
+        this.stateNode.getComponent(State).newExp(this.playerAttr.getCurExp(),this.playerAttr.getMaxExp(),this.playerAttr.getLevel());
     }
 
     onKeyDown(e: EventKeyboard) {
