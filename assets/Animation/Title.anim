@@ -11,7 +11,7 @@
     "speed": 1,
     "wrapMode": 2,
     "enableTrsBlending": false,
-    "_duration": 4,
+    "_duration": 4.2,
     "_hash": 500763545,
     "_tracks": [
       {
@@ -67,17 +67,17 @@
     "__type__": "cc.RealCurve",
     "_times": [
       0,
-      1,
-      2,
-      3,
-      4
+      0.6,
+      2.2,
+      3.6,
+      4.2
     ],
     "_values": [
       {
         "__type__": "cc.RealKeyframeValue",
         "interpolationMode": 0,
         "tangentWeightMode": 0,
-        "value": -4.372000217437744,
+        "value": 0,
         "rightTangent": 0,
         "rightTangentWeight": 1,
         "leftTangent": 0,
@@ -89,7 +89,19 @@
         "__type__": "cc.RealKeyframeValue",
         "interpolationMode": 0,
         "tangentWeightMode": 0,
-        "value": -4.372000217437744,
+        "value": 2.05,
+        "rightTangent": -0.24848484848484848,
+        "rightTangentWeight": 1,
+        "leftTangent": 0.7454545454545454,
+        "leftTangentWeight": 1,
+        "easingMethod": 0,
+        "__editorExtras__": null
+      },
+      {
+        "__type__": "cc.RealKeyframeValue",
+        "interpolationMode": 0,
+        "tangentWeightMode": 0,
+        "value": 0,
         "rightTangent": 0,
         "rightTangentWeight": 1,
         "leftTangent": 0,
@@ -101,10 +113,10 @@
         "__type__": "cc.RealKeyframeValue",
         "interpolationMode": 0,
         "tangentWeightMode": 0,
-        "value": -4.372000217437744,
-        "rightTangent": 0,
+        "value": 2.25,
+        "rightTangent": -0.8490566037735854,
         "rightTangentWeight": 1,
-        "leftTangent": 0,
+        "leftTangent": 0.3061224489795918,
         "leftTangentWeight": 1,
         "easingMethod": 0,
         "__editorExtras__": null
@@ -113,19 +125,7 @@
         "__type__": "cc.RealKeyframeValue",
         "interpolationMode": 0,
         "tangentWeightMode": 0,
-        "value": -4.372000217437744,
-        "rightTangent": 0,
-        "rightTangentWeight": 1,
-        "leftTangent": 0,
-        "leftTangentWeight": 1,
-        "easingMethod": 0,
-        "__editorExtras__": null
-      },
-      {
-        "__type__": "cc.RealKeyframeValue",
-        "interpolationMode": 0,
-        "tangentWeightMode": 0,
-        "value": -4.372000217437744,
+        "value": 0,
         "rightTangent": 0,
         "rightTangentWeight": 1,
         "leftTangent": 0,
@@ -147,17 +147,17 @@
     "__type__": "cc.RealCurve",
     "_times": [
       0,
-      1,
-      2,
-      3,
-      4
+      1.2,
+      2.2,
+      3.2,
+      4.2
     ],
     "_values": [
       {
         "__type__": "cc.RealKeyframeValue",
         "interpolationMode": 0,
         "tangentWeightMode": 0,
-        "value": 191.6060028076172,
+        "value": 60,
         "rightTangent": 0,
         "rightTangentWeight": 1,
         "leftTangent": 0,
@@ -169,7 +169,7 @@
         "__type__": "cc.RealKeyframeValue",
         "interpolationMode": 0,
         "tangentWeightMode": 0,
-        "value": 221.2030029296875,
+        "value": 120,
         "rightTangent": 0,
         "rightTangentWeight": 1,
         "leftTangent": 0,
@@ -181,7 +181,7 @@
         "__type__": "cc.RealKeyframeValue",
         "interpolationMode": 0,
         "tangentWeightMode": 0,
-        "value": 185.26400756835938,
+        "value": 60,
         "rightTangent": 0,
         "rightTangentWeight": 1,
         "leftTangent": 0,
@@ -193,7 +193,7 @@
         "__type__": "cc.RealKeyframeValue",
         "interpolationMode": 0,
         "tangentWeightMode": 0,
-        "value": 138.7550048828125,
+        "value": 120,
         "rightTangent": 0,
         "rightTangentWeight": 1,
         "leftTangent": 0,
@@ -205,7 +205,7 @@
         "__type__": "cc.RealKeyframeValue",
         "interpolationMode": 0,
         "tangentWeightMode": 0,
-        "value": 187.3780059814453,
+        "value": 60,
         "rightTangent": 0,
         "rightTangentWeight": 1,
         "leftTangent": 0,
@@ -227,10 +227,10 @@
     "__type__": "cc.RealCurve",
     "_times": [
       0,
-      1,
-      2,
-      3,
-      4
+      1.2,
+      2.2,
+      3.2,
+      4.2
     ],
     "_values": [
       {
