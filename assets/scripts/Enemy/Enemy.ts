@@ -1,14 +1,15 @@
-import { _decorator, Component, Node, Prefab, randomRange,Vec3, instantiate, macro,game, Sprite, Animation, ProgressBar, tween, AnimationState} from 'cc';
+import { _decorator, Component, Node, Prefab, randomRange,instantiate, macro,game, Sprite, Animation, ProgressBar, tween, AnimationState, Vec3, director} from 'cc';
 import { EnemyAttr } from './EnemySettings';
+import { ExpSpawner } from '../Exp/EnemyDeath/ExpSpawner';
 const { ccclass, property } = _decorator;
+
 @ccclass('Enemy')
-
-
 export class Enemy extends Component {
     
     @property(Sprite) protected sprite: Sprite;//敌人的绘图
     @property(Animation)protected MoveAnim:Animation;//敌人的动画
     @property(ProgressBar)protected bloodProgressBar:ProgressBar;//敌人的血条
+
     protected settings=EnemyAttr;//敌人属性组配置
     protected id:string="1";
     protected health:number=100;//血条上限
@@ -18,10 +19,12 @@ export class Enemy extends Component {
     protected attackrange:number=100;//伤害判定范围
     protected Enemyname:string;//敌人名称，用以从配置中提取属性
 
+    EnemyDeathWorldPosition:Vec3 = null // 怪物死亡世界坐标
     //状态机AI相关参数
     public interval:number=0.1;//状态机AI思考间隔
     public AIdelay:number=0;//状态机AI思考延迟
     public attackdelay:number=0.1;//伤害判定延迟
+
 
     start() {
         this.Enemyname=this.node.name;
@@ -103,6 +106,7 @@ export class Enemy extends Component {
         const enemytype=this.getComponent(Enemy);
         const blood=enemytype.getblood();
         if(blood<=0){
+            this.onMonsterDeath()//调用
             this.reclaim();
             return;
         }
@@ -120,7 +124,7 @@ export class Enemy extends Component {
             Vec3.subtract(temp, targetnode.worldPosition, this.node.worldPosition);
             temp.normalize();//归一化方向向量
             Vec3.multiplyScalar(temp,temp,enemytype.getattackrange());
-        Vec3.subtract(temp,targetnode.worldPosition,temp);
+            Vec3.subtract(temp,targetnode.worldPosition,temp);
             tween(this.node).to(time,{worldPosition:temp},{easing:"linear"}).start();
     }
     /**
@@ -132,6 +136,20 @@ export class Enemy extends Component {
         this.node.parent.getComponent("EnemySpanwner").enemyPool.put(this.node);
         return;
     }
+    
+    //怪物死亡前调用
+    onMonsterDeath() {
+        // 将怪物位置信息传递给经验球脚本
+        this.node.getWorldPosition(this.EnemyDeathWorldPosition)
+        // 获取经验球生成脚本的问题 
+        // 1. 获取canvas 节点 
+        const canvas = director.getScene().getChildByName('Canvas');
+        
+        const expSpawner = canvas.getComponent(ExpSpawner)
+        // console.log('expSpawner',expSpawner)
+        expSpawner.handleMonsterDeath(this.EnemyDeathWorldPosition);
+    }
 }
+
 
 
