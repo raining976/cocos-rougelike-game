@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Prefab, instantiate, Vec3, find } from 'cc';
+import { _decorator, Component, Node, Prefab, instantiate, Vec3, find, randomRange } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('ExpBall')
@@ -16,15 +16,20 @@ export class ExpBall extends Component {
         //const randomY = Math.random() * canvasSize.y - canvasSize.y / 2;
         //const position = new Vec3(randomX, randomY, 0);
 
-        // 实例化经验球预制体，并设置位置等信息
-        let expBallNode = instantiate(this.expBallPrefab);
-        // 将经验球添加到画布
-        expBallNode.parent = this.node;
-        //获得位置
-        let new_position = new Vec3(this.node.position);
-        expBallNode.setWorldPosition(new_position);
 
-        // 在3秒后销毁经验球，回调函数，延迟执行，消除节点
+        const posX: number = randomRange(640, 1000) * (Math.random() < 0.5 ? 1 : -1);
+        const posY: number = randomRange(640, 1000) * (Math.random() < 0.5 ? 1 : -1);
+        const spawnPosition = new Vec3();
+        spawnPosition.x = this.TargetNode.worldPosition.x + posX-this.node.worldPosition.x;
+        spawnPosition.y = this.TargetNode.worldPosition.y + posY-this.node.worldPosition.y;
+        
+        // 实例化经验球预制体，并设置位置等信息
+        const expBallNode = instantiate(this.expBallPrefab);
+        // 将经验球添加到画布
+        expBallNode.setWorldPosition(spawnPosition);
+        this.node.addChild(expBallNode);
+
+        // 在10秒后销毁经验球，回调函数，延迟执行，消除节点
         this.scheduleOnce(() => {
             expBallNode.destroy();
         }, 10);
@@ -32,7 +37,7 @@ export class ExpBall extends Component {
 
     start() {
         // 调用生成经验球的方法示例
-        //this.generateExpBall();
+        this.generateExpBall();
     }
 
     update(deltaTime: number) {

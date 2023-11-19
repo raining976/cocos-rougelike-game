@@ -799,10 +799,10 @@
         "__id__": 22
       },
       {
-        "__id__": 46
+        "__id__": 54
       },
       {
-        "__id__": 54
+        "__id__": 46
       }
     ],
     "_active": true,
@@ -1967,7 +1967,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 689.368,
+      "x": 227.368,
       "y": 339.986,
       "z": -1000
     },
@@ -2029,6 +2029,9 @@
     "expBallPrefab": {
       "__uuid__": "d3db4a1a-b640-4077-be3b-a5ce0d39b91e",
       "__expectedType__": "cc.Prefab"
+    },
+    "TargetNode": {
+      "__id__": 46
     },
     "_id": "97isE35uRCP6hwNnJjCP3q"
   },
