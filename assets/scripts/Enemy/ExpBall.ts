@@ -24,7 +24,7 @@ export class ExpBall extends Component {
         // 在3秒后销毁经验球，回调函数，延迟执行，消除节点
         this.scheduleOnce(() => {
             expBallNode.destroy();
-        }, 3);
+        }, 10);
     }
 
     start() {
