@@ -17,7 +17,6 @@ export class PlayerCtrl extends Component {
     damageDelay: number = 1000; // 碰撞延迟(受到伤害的延迟)
     stateEntity:State = null // 人物状态实体类
 
-    damageDelay: number = 1;
     start() {
         this.playerAnim = this.node.getComponent(Animation);
         this.playerAttr = this.node.getComponent(Player);
@@ -46,7 +45,6 @@ export class PlayerCtrl extends Component {
         let collider = this.getComponent(Collider2D);
         if (collider) {
             collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
-            collider.on(Contact2DType.PRE_SOLVE, throttle(this.onPreSolve, this.damageDelay), this);
         }
     }
 
@@ -54,7 +52,6 @@ export class PlayerCtrl extends Component {
         let collider = this.getComponent(Collider2D);
         if (collider) {
             collider.off(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
-            collider.off(Contact2DType.PRE_SOLVE, this.onPreSolve, this);
         }
     }
 
@@ -69,7 +66,7 @@ export class PlayerCtrl extends Component {
     }
 
     onBeginContact(selfCollier: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
-        // 经验球捡完就没了 所以碰撞一次就
+        // 经验球捡完就没了 所以仅碰撞一次
         if (otherCollider.tag == 2) {
             //TODO: 先默认传 1 后面传经验球表示的经验大小
             this.increaseExp(1);
@@ -80,20 +77,6 @@ export class PlayerCtrl extends Component {
     }
 
 
-    onPreSolve(selfCollier: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
-        // tag=1 代表与小怪碰撞
-        // if (otherCollider.tag == 1) {
-        //     this.reduceHealth(otherCollider.node.getComponent(Enemy).getdamage());
-        // }
-
-    onDestroy() {
-        this.destoryInputEvent();
-        this.destroyCollider();
-    }
-
-     test(t:number = 1) {
-        console.log('this.testnumber')
-    }
     /**
      * 在与小怪碰撞后，降低角色血量
      * @param delta 血量降低值
@@ -188,7 +171,7 @@ export class PlayerCtrl extends Component {
                     break
             }
         }
-
+        this.restrictDir(this.curDir);
     }
 
     update(deltaTime: number) {
@@ -206,6 +189,7 @@ export class PlayerCtrl extends Component {
             this.moveStatus = 0
             this.playAnim('idle')
         }
+        console.log('curDir',curDir)
     }
 
     /**
@@ -247,10 +231,10 @@ export class PlayerCtrl extends Component {
         if (this.moveDir != curMoveDir) {
             if (curMoveDir == 'r') {
                 // this.runAnim.play('runRightAnim')
-                this.node.scale.x = 1
+                this.node.scale = new Vec3(1,1,0)
             } else if (curMoveDir == 'l') {
                 // this.runAnim.play('runLeftAnim')
-                this.node.scale.x = -1
+                this.node.scale = new Vec3(-1,1,0)
             }
             this.moveDir = curMoveDir
         }
@@ -264,6 +248,24 @@ export class PlayerCtrl extends Component {
     playAnim(name) {
         if (!this.playerAnim.getState(name).isPlaying)
             this.playerAnim.play(name)
+    }
+
+    /**
+     * 限制curDir
+     * @param dir 角色移动方向
+     */
+    restrictDir(dir: Vec3) {
+        if (dir.x > 1) {
+            dir.x --;
+        } else if (dir.x < -1) {
+            dir.x ++;
+        }
+
+        if (dir.y > 1) {
+            dir.y --;
+        } else if (dir.y < -1) {
+            dir.y ++;
+        }
     }
 }
 
