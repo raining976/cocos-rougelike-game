@@ -9,28 +9,24 @@ import { Vec2, Vec3 } from 'cc';
 export const V2toV3 = (p: Vec2, z:number = 0) => new Vec3(p.x, p.y, z)
 
 /**
- * 函数节流
- * @param fn 要节流的函数
- * @param delay 间隔执行的时间 毫秒
+ * 节流函数
+ * @param func 要节流的函数 比如持续碰撞 注意此时传入的是回调函数 
+ * @param delay 间隔执行时间 默认 1000 单位毫秒
  * @returns 
  */
-export const throttled = (fn, delay) => {
-    let timer = null
-    let starttime = Date.now()
-    return function () {
-        let curTime = Date.now() // 当前时间
-        let remaining = delay - (curTime - starttime)  // 从上一次到现在，还剩下多少多余时间
-        let context = this
-        let args = arguments
-        clearTimeout(timer)
-        if (remaining <= 0) {
-            fn.apply(context, args)
-            starttime = Date.now()
-        } else {
-            timer = setTimeout(fn, remaining);
-        }
-    }
-}
+export const throttle = (func: any, delay: number = 1000) => {
+    let startTime = Date.now();
+    return (...args: any[]) => {
+      let curTime = Date.now();
+      // 间隔时间 = 延迟的时间 - （再次触发时间戳 - 第一次触发时间戳）
+      let interval = delay - (curTime - startTime);
+      if (interval <= 0) {
+        // 重新计算开始时间
+        startTime = Date.now();
+        return func(...args);
+      }
+    };
+  };
 
 /**
  * 函数防抖

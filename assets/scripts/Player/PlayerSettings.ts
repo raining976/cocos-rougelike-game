@@ -6,19 +6,19 @@ const { ccclass, property } = _decorator;
 export class PlayerSettings{
     [index: string]: {
         id: string, 
-        health: number,
+        healthLimit: number,
         damage: number,
         speed: number,
-        attackrange: number
+        attackRange: number
     }
 };
 export const PlayerAttr = new PlayerSettings();
 PlayerAttr['Yellow'] = {
     id: '001',
-    health: 100,
+    healthLimit: 1000,
     damage: 100,
-    speed: 5,
-    attackrange: 100
+    speed: 3,
+    attackRange: 100
 }
 
 
