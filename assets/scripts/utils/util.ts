@@ -8,14 +8,15 @@ import { Vec2, Vec3 } from 'cc';
  */
 export const V2toV3 = (p: Vec2, z:number = 0) => new Vec3(p.x, p.y, z)
 
-// 节流 定时器 + 时间戳
-export const throttle = (func: any, delay: number = 200) => {
-    // 第一次触发时间戳
+/**
+ * 节流函数
+ * @param func 要节流的函数 比如持续碰撞 注意此时传入的是回调函数 
+ * @param delay 间隔执行时间 默认 1000 单位毫秒
+ * @returns 
+ */
+export const throttle = (func: any, delay: number = 1000) => {
     let startTime = Date.now();
     return (...args: any[]) => {
-      // 如果不是剪头函数可以使用arguments获取参数，这样就不用写形参了考虑形参个数了
-      // let args = arguments;
-      // 再次触发时间
       let curTime = Date.now();
       // 间隔时间 = 延迟的时间 - （再次触发时间戳 - 第一次触发时间戳）
       let interval = delay - (curTime - startTime);
