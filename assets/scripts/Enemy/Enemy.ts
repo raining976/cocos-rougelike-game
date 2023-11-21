@@ -8,7 +8,7 @@ export class Enemy extends Component {
     
     @property(Sprite) protected sprite: Sprite;//敌人的绘图
     @property(Animation)protected MoveAnim:Animation;//敌人的动画
-    @property(ProgressBar)protected bloodProgressBar:ProgressBar;//敌人的血条
+    @property(ProgressBar) bloodProgressBar:ProgressBar;//敌人的血条
 
     protected settings=EnemyAttr;//敌人属性组配置
     protected id:string="1";
@@ -19,11 +19,11 @@ export class Enemy extends Component {
     protected attackrange:number=100;//伤害判定范围
     protected Enemyname:string;//敌人名称，用以从配置中提取属性
 
-    EnemyDeathWorldPosition:Vec3 = null // 怪物死亡世界坐标
+    EnemyDeathWorldPosition:Vec3 = new Vec3() // 怪物死亡世界坐标
     //状态机AI相关参数
-    public interval:number=0.1;//状态机AI思考间隔
-    public AIdelay:number=0;//状态机AI思考延迟
-    public attackdelay:number=0.1;//伤害判定延迟
+    public interval:number=0.1;     //状态机AI思考间隔
+    public AIdelay:number=0;        //状态机AI思考延迟
+    public attackdelay:number=0.1;  //伤害判定延迟
 
 
     start() {
@@ -37,10 +37,11 @@ export class Enemy extends Component {
         this.node.parent.on('Boss',(event) => {
             this.bloodProgressBar.progress=0;
         })
-        if(bloodProgress>0){
-            bloodProgress-=(deltaTime/10);
-            this.bloodProgressBar.progress=bloodProgress;
-        }
+        // 下面是自动扣血
+        // if(bloodProgress>0){
+        //     bloodProgress-=(deltaTime/10);
+        //     this.bloodProgressBar.progress=bloodProgress;
+        // }
         
     }
     /**
@@ -106,7 +107,7 @@ export class Enemy extends Component {
         const enemytype=this.getComponent(Enemy);
         const blood=enemytype.getblood();
         if(blood<=0){
-            this.onMonsterDeath()//调用
+            this.onMonsterDeath()
             this.reclaim();
             return;
         }
@@ -140,8 +141,8 @@ export class Enemy extends Component {
     //怪物死亡前调用
     onMonsterDeath() {
         // 将怪物位置信息传递给经验球脚本
-        this.node.getWorldPosition(this.EnemyDeathWorldPosition)
-        // 获取经验球生成脚本的问题 
+        this.EnemyDeathWorldPosition = this.node.getPosition()
+        // 获取经验球生成脚本的问题 ，需要让预制体能够获取经验球生成脚本
         // 1. 获取canvas 节点 
         const canvas = director.getScene().getChildByName('Canvas');
         

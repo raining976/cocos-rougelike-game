@@ -1,35 +1,48 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Collider2D, Component, Contact2DType, Director, director, IPhysics2DContact, log, Node, RigidBody, } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('ExpBallCollision')
 export class ExpBallCollision extends Component {
 
-    private shouldDestroy: boolean = false;//设置是否需要销毁标值位
     start() {
-
+        this.initCollision();
     }
 
     update(deltaTime: number) {
-        if (this.shouldDestroy) {
-            this.destroyExpBall(this.node);
+
+
+    }
+    
+
+    /**
+     * on方法注册碰撞事件，或者说是开始监听，以this.onBeginContact作为回调函数
+     * @param 
+     */
+    initCollision(){
+        let collider = this.node.getComponent(Collider2D);
+        if(collider){
+            // 仅注册后开始碰撞
+            collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
+            collider.on(Contact2DType.END_CONTACT, this.onEndContact, this);
         }
     }
-    onCollisionEnter(event) {
-        const otherCollider = event.otherCollider;
 
-        if (otherCollider.node.name === 'Player') {
-            // 处理碰撞逻辑，例如增加经验值
-            //  这里添加Player的回调函数
-            // 销毁经验球预制体
-            this.destroyExpBall(this.node);
-            this.shouldDestroy = true;
+    /**
+     * 开始碰撞以后发生的事情
+     * @param selfCollider: 碰撞主体
+     * @param otherCollider: 碰撞体
+     * @param contact: 碰撞相关信息，速度等
+     */
+    onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
+        if (otherCollider.node.name === 'Player'|| otherCollider.tag == 0 ) {
+            //箭头函数
+            director.once(Director.EVENT_AFTER_PHYSICS, () =>{
+                selfCollider.node.destroy();
+            },this)
         }
-
     }
-
-    destroyExpBall(expBallNode: Node) {
-        // 实际项目中，你可能需要播放一些特效或其他操作
-        expBallNode.destroy();
+    onEndContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null){
     }
+    
 }
 

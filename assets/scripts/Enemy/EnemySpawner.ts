@@ -35,7 +35,7 @@ export class EnemySpanwner extends Component {
             this.schedule(this.TrashfishSpawner,this.SpawnerDelay,macro.REPEAT_FOREVER);
         })
         this.node.on('Boss',(event) => {
-            console.log("捕获2");
+            //console.log("捕获2");
         })
     }
     /**
