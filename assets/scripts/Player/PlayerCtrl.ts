@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Vec3, CCInteger, Animation, input, Input, EventTouch, KeyCode, EventKeyboard, Collider2D, Contact2DType, Collider, IPhysics2DContact } from 'cc';
+import { _decorator, Component, Node, Color,Vec3, CCInteger, Animation, input, Input, EventTouch, KeyCode, EventKeyboard, Collider2D, Contact2DType, Collider, IPhysics2DContact, Sprite, Label } from 'cc';
 import { Player } from './Player';
 import { Enemy } from '../Enemy/Enemy'
 import { throttle } from '../utils/util'
@@ -8,6 +8,8 @@ const { ccclass, property } = _decorator;
 @ccclass('PlayerCtrl')
 export class PlayerCtrl extends Component {
     @property({ type: Node }) stateNode = null // 人物状态节点
+    @property({ type: Sprite })bloodBar = null//人物血条
+
 
     moveStatus: number = 0; // 移动状态 0 静止 1移动
     moveDir: string = null // l左 r右
@@ -16,8 +18,15 @@ export class PlayerCtrl extends Component {
     playerAnim: Animation = null // 人物动画
     damageDelay: number = 1000; // 碰撞延迟(受到伤害的延迟)
     stateEntity:State = null // 人物状态实体类
+    hurt:Label | null=null//受到伤害标签
+    
 
+    
     start() {
+        this.bloodBar=this.node.getChildByName("bloodBar");
+        this.hurt=this.bloodBar.getChildByName("hurt").getComponent(Label);
+        this.updateHurt(100);//用于调试
+        
         this.playerAnim = this.node.getComponent(Animation);
         this.playerAttr = this.node.getComponent(Player);
         this.stateEntity = this.stateNode.getComponent(State)
@@ -30,6 +39,18 @@ export class PlayerCtrl extends Component {
     updateStateLabel(){
         this.stateEntity.setAll(this.playerAttr.getLevel(),this.playerAttr.getCurExp(),this.playerAttr.getMaxExp())
     }
+   
+    /**
+     * 显示掉血量
+     */
+    updateHurt(delta:number){
+        this.hurt.string="-"+delta.toString();
+        this.hurt.color=new Color(255,0,0,255);
+        setTimeout(()=>{//显示两秒后消失
+            this.hurt.color=new Color(255,0,0,0);
+        },2000)
+    }
+   
 
     onLoad() {
         this.initInputEvent();
@@ -98,6 +119,7 @@ export class PlayerCtrl extends Component {
             // TODO: 游戏结束的逻辑
         }
         this.playerAttr.setCurHealth(newHealth);
+        this.updateHurt(delta);
     }
 
     /**
@@ -186,7 +208,7 @@ export class PlayerCtrl extends Component {
     }
 
     update(deltaTime: number) {
-        let curDir = this.curDir
+        let curDir = this.curDir;
         // 先判断需不需要移动
         if (this.isNeedMove(curDir)) {
             this.moveStatus = 1 // 设置移动状态
@@ -234,16 +256,19 @@ export class PlayerCtrl extends Component {
 
     /**
      * 修改人物朝向
+     * 保证人物血条不翻转
      */
     changePlayerTowards() {
         let curMoveDir = this.getMoveDir()
         if (this.moveDir != curMoveDir) {
             if (curMoveDir == 'r') {
                 // this.runAnim.play('runRightAnim')
-                this.node.scale.x = 1
+                this.node.scale.x = 1;
+                this.bloodBar.scale.x=1;
             } else if (curMoveDir == 'l') {
                 // this.runAnim.play('runLeftAnim')
-                this.node.scale.x = -1
+                this.node.scale.x = -1;
+                this.bloodBar.scale.x=-1;
             }
             this.moveDir = curMoveDir
         }
