@@ -41,8 +41,6 @@ export class Player extends Component {
     }
 
 
-   
-
     public getSpeed() {
         return this.speed;
     }
@@ -50,8 +48,13 @@ export class Player extends Component {
     public setCurHealth(newHealth: number) {
         this.curHealth = newHealth;
     }
+    
     public getCurHealth() {
         return this.curHealth;
+    }
+
+    public getMaxHealth() {
+        return this.maxHealth;
     }
 
     public setCurExp(newExp: number) {

@@ -19,14 +19,14 @@ export class PlayerCtrl extends Component {
     damageDelay: number = 1000; // 碰撞延迟(受到伤害的延迟)
     stateEntity:State = null // 人物状态实体类
     hurt:Label | null=null//受到伤害标签
-    
+    bar : Sprite |null=null;
 
     
     start() {
         this.bloodBar=this.node.getChildByName("bloodBar");
+        this.bar=this.bloodBar.getChildByName("bar").getComponent(Sprite);
         this.hurt=this.bloodBar.getChildByName("hurt").getComponent(Label);
-        this.updateHurt(100);//用于调试
-        
+
         this.playerAnim = this.node.getComponent(Animation);
         this.playerAttr = this.node.getComponent(Player);
         this.stateEntity = this.stateNode.getComponent(State)
@@ -44,9 +44,11 @@ export class PlayerCtrl extends Component {
      * 显示掉血量
      */
     updateHurt(delta:number){
+        this.bar.fillRange=this.playerAttr.getCurHealth()/this.playerAttr.getMaxHealth();
+        //显示血量
         this.hurt.string="-"+delta.toString();
         this.hurt.color=new Color(255,0,0,255);
-        setTimeout(()=>{//显示两秒后消失
+        setTimeout(()=>{//字幕显示两秒后消失
             this.hurt.color=new Color(255,0,0,0);
         },2000)
     }
@@ -208,6 +210,7 @@ export class PlayerCtrl extends Component {
     }
 
     update(deltaTime: number) {
+        //this.updateHurt(0.1);//用于调试
         let curDir = this.curDir;
         // 先判断需不需要移动
         if (this.isNeedMove(curDir)) {
