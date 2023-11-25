@@ -16,25 +16,16 @@ export class ExpBall extends Component {
 
     
     start() {
-        //开始计时
-        this.timerStarted = false;      //设置为true开始计时，不设置则不计时
+        //1000s后自动删除经验球
+        setTimeout(() => {
+            this.node.destroy();
+        }, 10000);
 
     }
     update(deltaTime: number) {
-        //自动销毁部分,计时器只执行一次，因此只需要控制标记timeStated即可
-        if (this.timerStarted) {
-            this.elapsedTime += deltaTime;
-
-            // 检查是否经过了10秒
-            if (this.elapsedTime >= 5) {
-                this.timerStarted = false; // 停止计时
-                this.node.destroy();    //销毁节点
-            }
-        }
-        //这里是其他的行为部分
-
-        
     }
-
 }
+
+
+    
 
