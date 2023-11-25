@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Prefab, randomRange,instantiate, macro,game, Sprite, Animation, ProgressBar, tween, AnimationState, Vec3, director} from 'cc';
+import { _decorator, Component, Node, Prefab, randomRange,instantiate, macro,game, Sprite, Animation, ProgressBar, tween, AnimationState, Vec3, director, Collider2D, Contact2DType, IPhysics2DContact} from 'cc';
 import { EnemyAttr } from './EnemySettings';
 import { ExpSpawner } from '../Exp/EnemyDeath/ExpSpawner';
 const { ccclass, property } = _decorator;
@@ -27,6 +27,7 @@ export class Enemy extends Component {
 
 
     start() {
+        this.initCollision()//碰撞监听
         this.Enemyname=this.node.name;
         this.init(this.Enemyname);//初始化
         this.MoveAnim.play();
@@ -142,14 +143,46 @@ export class Enemy extends Component {
     onMonsterDeath() {
         // 将怪物位置信息传递给经验球脚本
         this.EnemyDeathWorldPosition = this.node.getPosition()
-        // 获取经验球生成脚本的问题 ，需要让预制体能够获取经验球生成脚本
-        // 1. 获取canvas 节点 
         const canvas = director.getScene().getChildByName('Canvas');
-        
         const expSpawner = canvas.getComponent(ExpSpawner)
-        // console.log('expSpawner',expSpawner)
         expSpawner.handleMonsterDeath(this.EnemyDeathWorldPosition);
     }
+
+    
+    /**
+     * 怪物碰撞的监听函数注册
+     */
+    initCollision(){
+        let collider = this.getComponent(Collider2D);
+        if(collider){
+            // 仅注册后开始碰撞
+            collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
+            collider.on(Contact2DType.END_CONTACT, this.onEndContact, this);
+        }
+    }
+    
+    onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
+
+        //将武器的Tag设置成3
+        console.log("敌人碰撞开始");
+
+        if (otherCollider.tag === 3 ){
+
+            //这两句不能放在外面，要不然如果碰到的是经验球就会报错
+            let bloodProgress:number = this.bloodProgressBar.progress;
+            if(bloodProgress > 0){
+                bloodProgress -= 0.1;   //每次掉0.1血
+                this.bloodProgressBar.progress=bloodProgress;
+             }
+        }
+    }
+
+
+    onEndContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null){
+
+    }
+
+
 }
 
 
