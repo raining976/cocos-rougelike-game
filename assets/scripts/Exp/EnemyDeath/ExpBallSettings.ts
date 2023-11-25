@@ -9,5 +9,18 @@ export class ExpBallSettings{
         size:number,
     }
 };
-export const ExpBallAttr=new ExpBallSettings();
+export const ExpBallAttr = new ExpBallSettings();
+
+ExpBallAttr['Big']={
+    value:100,
+    color:1,
+    size:2
+}
+ExpBallAttr['Small']={
+    value:10,
+    color:2,
+    size:1
+}
+
+
 
