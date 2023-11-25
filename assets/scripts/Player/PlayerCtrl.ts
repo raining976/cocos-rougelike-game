@@ -182,7 +182,7 @@ export class PlayerCtrl extends Component {
                     break
             }
         }
-
+        this.restrictCurDir(this.curDir);
     }
 
     update(deltaTime: number) {
@@ -277,6 +277,21 @@ export class PlayerCtrl extends Component {
     playAnim(name) {
         if (!this.playerAnim.getState(name).isPlaying)
             this.playerAnim.play(name)
+    }
+
+
+    /**
+     * 限制移动方向，防止过移动现象发生
+     */
+    restrictCurDir(curDir: Vec3) {
+        if (curDir.x < -1)
+            curDir.x ++;
+        else if (curDir.x > 1)
+            curDir.x --;
+        if (curDir.y < -1)
+            curDir.y ++;
+        else if (curDir.y > 1)
+            curDir.y --;
     }
 }
 
