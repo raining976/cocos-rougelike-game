@@ -153,7 +153,6 @@ export class Enemy extends Component {
      * 怪物碰撞的监听函数注册
      */
     initCollision(){
-        console.log("敌人监听注册");
         let collider = this.getComponent(Collider2D);
         if(collider){
             // 仅注册后开始碰撞
@@ -167,8 +166,8 @@ export class Enemy extends Component {
         //将武器的Tag设置成3
         console.log("敌人碰撞开始");
 
-        if (otherCollider.tag === 3 ){
-
+        if (otherCollider.tag == 5 ){
+            console.log("敌人碰撞内容开始");
             //这两句不能放在外面，要不然如果碰到的是经验球就会报错
             let bloodProgress:number = this.bloodProgressBar.progress;
             if(bloodProgress > 0){
