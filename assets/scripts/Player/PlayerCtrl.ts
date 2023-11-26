@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Vec3, CCInteger, Animation, input, Input, EventTouch, KeyCode, EventKeyboard, Collider2D, Contact2DType, Collider, IPhysics2DContact, RigidBody } from 'cc';
+import { _decorator, Component, Node, Vec3, Label ,CCInteger, Animation, input, Input, EventTouch, KeyCode, EventKeyboard, Collider2D, Contact2DType, Collider, IPhysics2DContact, RigidBody, ProgressBar } from 'cc';
 import { Player } from './Player';
 import { Enemy } from '../Enemy/Enemy'
 import { throttle } from '../utils/util'
@@ -18,10 +18,12 @@ export class PlayerCtrl extends Component {
     playerAnim: Animation = null // 人物动画
     damageDelay: number = 1000; // 碰撞延迟(受到伤害的延迟)
     stateEntity: State = null // 人物状态实体类
+    bloodBar: ProgressBar | null;
+    
 
     start() {
         //连续性CCD
-
+        this.bloodBar = this.node.children[0].getComponent(ProgressBar);
         this.playerAnim = this.node.getComponent(Animation);
         this.playerAttr = this.node.getComponent(Player);
         this.stateEntity = this.stateNode.getComponent(State)
@@ -87,9 +89,6 @@ export class PlayerCtrl extends Component {
             // 1. 将这个武器名称更新到人物
             // 2. 调用WeaponSpawnner.changeWeapon()
         }
-
-
-        
     }
 
     /**
@@ -103,6 +102,7 @@ export class PlayerCtrl extends Component {
             // TODO: 游戏结束的逻辑
         }
         this.playerAttr.setCurHealth(newHealth);
+        this.bloodBar.progress=this.playerAttr.getPerSentHealth();
     }
 
     /**
