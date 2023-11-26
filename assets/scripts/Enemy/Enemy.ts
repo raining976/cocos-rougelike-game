@@ -153,6 +153,7 @@ export class Enemy extends Component {
      * 怪物碰撞的监听函数注册
      */
     initCollision(){
+        console.log("敌人监听注册");
         let collider = this.getComponent(Collider2D);
         if(collider){
             // 仅注册后开始碰撞
