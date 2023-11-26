@@ -1800,9 +1800,18 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "ExpBallPrefab": {
-      "__uuid__": "38d595f0-88b6-45d2-a111-4ddc69f05fc7",
-      "__expectedType__": "cc.Prefab"
+    "expBallPrefabs": [
+      {
+        "__uuid__": "38d595f0-88b6-45d2-a111-4ddc69f05fc7",
+        "__expectedType__": "cc.Prefab"
+      },
+      {
+        "__uuid__": "d233d32d-13a0-4ae6-8607-d816a009b243",
+        "__expectedType__": "cc.Prefab"
+      }
+    ],
+    "TargetNode": {
+      "__id__": 38
     },
     "_id": "4blXuf4IlJMpPqf5lkwkLT"
   },
