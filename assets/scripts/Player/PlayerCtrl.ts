@@ -3,6 +3,7 @@ import { Player } from './Player';
 import { Enemy } from '../Enemy/Enemy'
 import { throttle } from '../utils/util'
 import { State } from './State';
+import { WeaponSpawnner } from '../Weapon/WeaponSpawnner';
 const { ccclass, property } = _decorator;
 
 @ccclass('PlayerCtrl')
@@ -10,12 +11,12 @@ export class PlayerCtrl extends Component {
     @property({ type: Node }) stateNode = null // 人物状态节点
 
     moveStatus: number = 0; // 移动状态 0 静止 1移动
-    moveDir: string = null // l左 r右
+    moveDir: string = 'r' // l左 r右
     curDir: Vec3 = new Vec3() // 当前移动方向向量 
     playerAttr: Player | null = null;//角色属性组件
     playerAnim: Animation = null // 人物动画
     damageDelay: number = 1000; // 碰撞延迟(受到伤害的延迟)
-    stateEntity:State = null // 人物状态实体类
+    stateEntity: State = null // 人物状态实体类
 
     start() {
         //连续性CCD
@@ -23,14 +24,14 @@ export class PlayerCtrl extends Component {
         this.playerAnim = this.node.getComponent(Animation);
         this.playerAttr = this.node.getComponent(Player);
         this.stateEntity = this.stateNode.getComponent(State)
-        this.updateStateLabel()   
+        this.updateStateLabel()
     }
 
     /**
      * 更新人物状态label
      */
-    updateStateLabel(){
-        this.stateEntity.setAll(this.playerAttr.getLevel(),this.playerAttr.getCurExp(),this.playerAttr.getMaxExp())
+    updateStateLabel() {
+        this.stateEntity.setAll(this.playerAttr.getLevel(), this.playerAttr.getCurExp(), this.playerAttr.getMaxExp())
     }
 
     onLoad() {
@@ -47,7 +48,6 @@ export class PlayerCtrl extends Component {
         let collider = this.getComponent(Collider2D);
         if (collider) {
             collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
-            collider.on(Contact2DType.PRE_SOLVE, throttle(this.onPreSolve, this.damageDelay), this);
         }
     }
 
@@ -55,7 +55,6 @@ export class PlayerCtrl extends Component {
         let collider = this.getComponent(Collider2D);
         if (collider) {
             collider.off(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
-            collider.off(Contact2DType.PRE_SOLVE, this.onPreSolve, this);
         }
     }
 
@@ -70,23 +69,25 @@ export class PlayerCtrl extends Component {
     }
 
     onBeginContact(selfCollier: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
-        // 经验球捡完就没了 所以碰撞一次就
+        // 小怪
+        // if (otherCollider.tag == 1) {
+        //     this.reduceHealth(otherCollider.node.getComponent(Enemy).getdamage());
+        // }
+
+        // 经验球
         if (otherCollider.tag == 2) {
             //TODO: 先默认传 1 后面传经验球表示的经验大小
             this.increaseExp(1);
         }
-        // if (otherCollider.tag == 1) {
-        //     this.reduceHealth(otherCollider.node.getComponent(Enemy).getdamage());
-        // }
-    }
+        // tag == 3 更改武器
+        if (otherCollider.tag == 3) {
+            // TODO: 
+            // 1. 将这个武器名称更新到人物
+            // 2. 调用WeaponSpawnner.changeWeapon()
+        }
 
 
-    onPreSolve(selfCollier: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
-        // tag=1 代表与小怪碰撞
-        // if (otherCollider.tag == 1) {
-        //     this.reduceHealth(otherCollider.node.getComponent(Enemy).getdamage());
-        // }
-
+        
     }
 
     /**
@@ -110,10 +111,10 @@ export class PlayerCtrl extends Component {
         let newExp = this.playerAttr.getCurExp() + delta;
         if (newExp > this.playerAttr.getMaxExp()) {
             this.improveLevel(newExp - this.playerAttr.getMaxExp());
-        } else {     
+        } else {
             this.playerAttr.setCurExp(newExp);
             this.stateEntity.setCurExpLabel(newExp)
-         }
+        }
 
     }
 
@@ -239,14 +240,34 @@ export class PlayerCtrl extends Component {
     changePlayerTowards() {
         let curMoveDir = this.getMoveDir()
         if (this.moveDir != curMoveDir) {
-            if (curMoveDir == 'r') {
-                // this.runAnim.play('runRightAnim')
-                this.node.scale.x = 1
-            } else if (curMoveDir == 'l') {
-                // this.runAnim.play('runLeftAnim')
-                this.node.scale.x = -1
-            }
+            // if (curMoveDir == 'l') {
+            //     this.node.scale.x = -1
+            //     this.node.children[0].scale.x = -1
+            // }
+            // else if (curMoveDir == 'r') {
+            //     this.node.scale.x = 1
+            //     this.node.children[0].scale.x = 1
+
+            //     // this.node.children[0].scale.x = 1
+            // }
+            this.flipNodes(curMoveDir)
             this.moveDir = curMoveDir
+        }
+
+    }
+
+    /**
+     * 将player节点以及其下下的子节点翻转
+     * @param dirTxt r l 左右方向
+     */
+    flipNodes(dirTxt: string) {
+        if (dirTxt === 'l') this.node.setScale(-1, 1)
+        else if (dirTxt === 'r') this.node.setScale(1, 1)
+        let playerScaleX = this.node.scale.x
+        let children = this.node.children
+        for (let i = 0; i < children.length; i++) {
+            children[i].setScale(playerScaleX, 1)
+
         }
 
     }
