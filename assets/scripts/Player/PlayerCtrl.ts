@@ -1,9 +1,10 @@
-import { _decorator, Component, Node, Vec3, CCInteger, Animation, input, Input, EventTouch, KeyCode, EventKeyboard, Collider2D, Contact2DType, Collider, IPhysics2DContact } from 'cc';
+import { _decorator, Component, Node, Vec3, CCInteger, Animation, input, Input, EventTouch, KeyCode, EventKeyboard, Collider2D, Contact2DType, Collider, IPhysics2DContact, RigidBody } from 'cc';
 import { Player } from './Player';
 import { Enemy } from '../Enemy/Enemy'
 import { throttle } from '../utils/util'
 import { State } from './State';
 import { WeaponSpawnner } from '../Weapon/WeaponSpawnner';
+import { ExpBall } from '../Exp/EnemyDeath/ExpBall';
 const { ccclass, property } = _decorator;
 
 @ccclass('PlayerCtrl')
@@ -19,6 +20,8 @@ export class PlayerCtrl extends Component {
     stateEntity: State = null // 人物状态实体类
 
     start() {
+        //连续性CCD
+
         this.playerAnim = this.node.getComponent(Animation);
         this.playerAttr = this.node.getComponent(Player);
         this.stateEntity = this.stateNode.getComponent(State)
@@ -75,7 +78,8 @@ export class PlayerCtrl extends Component {
         // 经验球
         if (otherCollider.tag == 2) {
             //TODO: 先默认传 1 后面传经验球表示的经验大小
-            this.increaseExp(1);
+            let delta = otherCollider.node.getComponent(ExpBall).getValue()
+            this.increaseExp(delta);
         }
         // tag == 3 更改武器
         if (otherCollider.tag == 3) {
