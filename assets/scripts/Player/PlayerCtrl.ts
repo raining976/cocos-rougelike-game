@@ -186,6 +186,7 @@ export class PlayerCtrl extends Component {
     }
 
     update(deltaTime: number) {
+
         let curDir = this.curDir
         // 先判断需不需要移动
         if (this.isNeedMove(curDir)) {
@@ -199,6 +200,7 @@ export class PlayerCtrl extends Component {
             this.moveStatus = 0
             this.playAnim('idle')
         }
+        console.log('curDir',curDir)
     }
 
     /**
