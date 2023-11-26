@@ -1,58 +1,39 @@
-import { _decorator, Component, Node, Color,Vec3, CCInteger, Animation, input, Input, EventTouch, KeyCode, EventKeyboard, Collider2D, Contact2DType, Collider, IPhysics2DContact, Sprite, Label } from 'cc';
+import { _decorator, Component, Node, Vec3, CCInteger, Animation, input, Input, EventTouch, KeyCode, EventKeyboard, Collider2D, Contact2DType, Collider, IPhysics2DContact, RigidBody } from 'cc';
 import { Player } from './Player';
 import { Enemy } from '../Enemy/Enemy'
 import { throttle } from '../utils/util'
 import { State } from './State';
+import { WeaponSpawnner } from '../Weapon/WeaponSpawnner';
+import { ExpBall } from '../Exp/EnemyDeath/ExpBall';
 const { ccclass, property } = _decorator;
 
 @ccclass('PlayerCtrl')
 export class PlayerCtrl extends Component {
     @property({ type: Node }) stateNode = null // 人物状态节点
-    @property({ type: Sprite })bloodBar = null//人物血条
-
 
     moveStatus: number = 0; // 移动状态 0 静止 1移动
-    moveDir: string = null // l左 r右
+    moveDir: string = 'r' // l左 r右
     curDir: Vec3 = new Vec3() // 当前移动方向向量 
     playerAttr: Player | null = null;//角色属性组件
     playerAnim: Animation = null // 人物动画
     damageDelay: number = 1000; // 碰撞延迟(受到伤害的延迟)
-    stateEntity:State = null // 人物状态实体类
-    hurt:Label | null=null//受到伤害标签
-    bar : Sprite |null=null;
+    stateEntity: State = null // 人物状态实体类
 
-    
     start() {
-        this.bloodBar=this.node.getChildByName("bloodBar");
-        this.bar=this.bloodBar.getChildByName("bar").getComponent(Sprite);
-        this.hurt=this.bloodBar.getChildByName("hurt").getComponent(Label);
+        //连续性CCD
 
         this.playerAnim = this.node.getComponent(Animation);
         this.playerAttr = this.node.getComponent(Player);
         this.stateEntity = this.stateNode.getComponent(State)
-        this.updateStateLabel()   
+        this.updateStateLabel()
     }
 
     /**
      * 更新人物状态label
      */
-    updateStateLabel(){
-        this.stateEntity.setAll(this.playerAttr.getLevel(),this.playerAttr.getCurExp(),this.playerAttr.getMaxExp())
+    updateStateLabel() {
+        this.stateEntity.setAll(this.playerAttr.getLevel(), this.playerAttr.getCurExp(), this.playerAttr.getMaxExp())
     }
-   
-    /**
-     * 显示掉血量
-     */
-    updateHurt(delta:number){
-        this.bar.fillRange=this.playerAttr.getCurHealth()/this.playerAttr.getMaxHealth();
-        //显示血量
-        this.hurt.string="-"+delta.toString();
-        this.hurt.color=new Color(255,0,0,255);
-        setTimeout(()=>{//字幕显示两秒后消失
-            this.hurt.color=new Color(255,0,0,0);
-        },2000)
-    }
-   
 
     onLoad() {
         this.initInputEvent();
@@ -68,7 +49,6 @@ export class PlayerCtrl extends Component {
         let collider = this.getComponent(Collider2D);
         if (collider) {
             collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
-            collider.on(Contact2DType.PRE_SOLVE, throttle(this.onPreSolve, this.damageDelay), this);
         }
     }
 
@@ -76,7 +56,6 @@ export class PlayerCtrl extends Component {
         let collider = this.getComponent(Collider2D);
         if (collider) {
             collider.off(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
-            collider.off(Contact2DType.PRE_SOLVE, this.onPreSolve, this);
         }
     }
 
@@ -91,23 +70,26 @@ export class PlayerCtrl extends Component {
     }
 
     onBeginContact(selfCollier: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
-        // 经验球捡完就没了 所以碰撞一次就
+        // 小怪
+        // if (otherCollider.tag == 1) {
+        //     this.reduceHealth(otherCollider.node.getComponent(Enemy).getdamage());
+        // }
+
+        // 经验球
         if (otherCollider.tag == 2) {
             //TODO: 先默认传 1 后面传经验球表示的经验大小
-            this.increaseExp(1);
+            let delta = otherCollider.node.getComponent(ExpBall).getValue()
+            this.increaseExp(delta);
         }
-        // if (otherCollider.tag == 1) {
-        //     this.reduceHealth(otherCollider.node.getComponent(Enemy).getdamage());
-        // }
-    }
+        // tag == 3 更改武器
+        if (otherCollider.tag == 3) {
+            // TODO: 
+            // 1. 将这个武器名称更新到人物
+            // 2. 调用WeaponSpawnner.changeWeapon()
+        }
 
 
-    onPreSolve(selfCollier: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
-        // tag=1 代表与小怪碰撞
-        // if (otherCollider.tag == 1) {
-        //     this.reduceHealth(otherCollider.node.getComponent(Enemy).getdamage());
-        // }
-
+        
     }
 
     /**
@@ -121,7 +103,6 @@ export class PlayerCtrl extends Component {
             // TODO: 游戏结束的逻辑
         }
         this.playerAttr.setCurHealth(newHealth);
-        this.updateHurt(delta);
     }
 
     /**
@@ -132,10 +113,10 @@ export class PlayerCtrl extends Component {
         let newExp = this.playerAttr.getCurExp() + delta;
         if (newExp > this.playerAttr.getMaxExp()) {
             this.improveLevel(newExp - this.playerAttr.getMaxExp());
-        } else {     
+        } else {
             this.playerAttr.setCurExp(newExp);
             this.stateEntity.setCurExpLabel(newExp)
-         }
+        }
 
     }
 
@@ -152,7 +133,6 @@ export class PlayerCtrl extends Component {
         this.updateStateLabel()
         //属性提升
         //TODO:
-        this.stateNode.getComponent(State).newExp(this.playerAttr.getCurExp(),this.playerAttr.getMaxExp(),this.playerAttr.getLevel());
     }
 
     onKeyDown(e: EventKeyboard) {
@@ -210,8 +190,7 @@ export class PlayerCtrl extends Component {
     }
 
     update(deltaTime: number) {
-        //this.updateHurt(0.1);//用于调试
-        let curDir = this.curDir;
+        let curDir = this.curDir
         // 先判断需不需要移动
         if (this.isNeedMove(curDir)) {
             this.moveStatus = 1 // 设置移动状态
@@ -259,21 +238,38 @@ export class PlayerCtrl extends Component {
 
     /**
      * 修改人物朝向
-     * 保证人物血条不翻转
      */
     changePlayerTowards() {
         let curMoveDir = this.getMoveDir()
         if (this.moveDir != curMoveDir) {
-            if (curMoveDir == 'r') {
-                // this.runAnim.play('runRightAnim')
-                this.node.scale.x = 1;
-                this.bloodBar.scale.x=1;
-            } else if (curMoveDir == 'l') {
-                // this.runAnim.play('runLeftAnim')
-                this.node.scale.x = -1;
-                this.bloodBar.scale.x=-1;
-            }
+            // if (curMoveDir == 'l') {
+            //     this.node.scale.x = -1
+            //     this.node.children[0].scale.x = -1
+            // }
+            // else if (curMoveDir == 'r') {
+            //     this.node.scale.x = 1
+            //     this.node.children[0].scale.x = 1
+
+            //     // this.node.children[0].scale.x = 1
+            // }
+            this.flipNodes(curMoveDir)
             this.moveDir = curMoveDir
+        }
+
+    }
+
+    /**
+     * 将player节点以及其下下的子节点翻转
+     * @param dirTxt r l 左右方向
+     */
+    flipNodes(dirTxt: string) {
+        if (dirTxt === 'l') this.node.setScale(-1, 1)
+        else if (dirTxt === 'r') this.node.setScale(1, 1)
+        let playerScaleX = this.node.scale.x
+        let children = this.node.children
+        for (let i = 0; i < children.length; i++) {
+            children[i].setScale(playerScaleX, 1)
+
         }
 
     }
