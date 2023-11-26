@@ -1560,9 +1560,14 @@
     },
     "_enabled": true,
     "__prefab": null,
+    "particleImproLevel": {
+      "__uuid__": "8d02d7d1-c7e4-491d-9a83-3a4da7f8b807",
+      "__expectedType__": "cc.Prefab"
+    },
     "stateNode": {
       "__id__": 11
     },
+    "moveStatus": 0,
     "_id": "0ea+0UKLBJlocJ3MxQWvMT"
   },
   {
