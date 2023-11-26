@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "ExpBall",
+    "_name": "Big",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_native": "",
@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "ExpBall",
+    "_name": "Big",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -117,8 +117,8 @@
     "_color": {
       "__type__": "cc.Color",
       "r": 27,
-      "g": 206,
-      "b": 19,
+      "g": 118,
+      "b": 235,
       "a": 255
     },
     "_spriteFrame": {
@@ -127,7 +127,7 @@
     },
     "_type": 0,
     "_fillType": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
       "x": 0,
@@ -179,40 +179,6 @@
     "fileId": "95Lcijc0JO/I49GjnekMm1"
   },
   {
-    "__type__": "cc.BoxCollider2D",
-    "_name": "",
-    "_objFlags": 0,
-    "__editorExtras__": {},
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "__prefab": {
-      "__id__": 9
-    },
-    "tag": 2,
-    "_group": 4,
-    "_density": 1,
-    "_sensor": true,
-    "_friction": 0.2,
-    "_restitution": 0,
-    "_offset": {
-      "__type__": "cc.Vec2",
-      "x": -0.1,
-      "y": 0.6
-    },
-    "_size": {
-      "__type__": "cc.Size",
-      "width": 23.6,
-      "height": 24
-    },
-    "_id": ""
-  },
-  {
-    "__type__": "cc.CompPrefabInfo",
-    "fileId": "47WpGJMCdLYog+ru8ioiWh"
-  },
-  {
     "__type__": "a09ecvchrtMMKnyDVdle9w6",
     "_name": "",
     "_objFlags": 0,
@@ -222,7 +188,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 11
+      "__id__": 9
     },
     "_id": ""
   },
@@ -240,13 +206,43 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 13
+      "__id__": 11
     },
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
     "fileId": "46fC9xemVGLof+tfm9rf9n"
+  },
+  {
+    "__type__": "cc.CircleCollider2D",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 13
+    },
+    "tag": 2,
+    "_group": 1,
+    "_density": 1,
+    "_sensor": false,
+    "_friction": 0.2,
+    "_restitution": 0,
+    "_offset": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_radius": 7.9,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "6avnRTB9JHN7LsqXbSt7L5"
   },
   {
     "__type__": "cc.PrefabInfo",
