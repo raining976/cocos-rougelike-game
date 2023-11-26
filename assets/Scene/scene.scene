@@ -52,7 +52,7 @@
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 54
+      "__id__": 55
     },
     "_id": "d7c3cd50-4217-44ab-9e7e-3b42ecce3974"
   },
@@ -78,9 +78,6 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 49
-      },
-      {
         "__id__": 50
       },
       {
@@ -91,6 +88,9 @@
       },
       {
         "__id__": 53
+      },
+      {
+        "__id__": 54
       }
     ],
     "_prefab": null,
@@ -360,13 +360,13 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 46
-      },
-      {
         "__id__": 47
       },
       {
         "__id__": 48
+      },
+      {
+        "__id__": 49
       }
     ],
     "_prefab": null,
@@ -1433,6 +1433,9 @@
       },
       {
         "__id__": 45
+      },
+      {
+        "__id__": 46
       }
     ],
     "_prefab": null,
@@ -1560,9 +1563,14 @@
     },
     "_enabled": true,
     "__prefab": null,
+    "particleImproLevel": {
+      "__uuid__": "8d02d7d1-c7e4-491d-9a83-3a4da7f8b807",
+      "__expectedType__": "cc.Prefab"
+    },
     "stateNode": {
       "__id__": 11
     },
+    "moveStatus": 0,
     "_id": "0ea+0UKLBJlocJ3MxQWvMT"
   },
   {
@@ -1635,6 +1643,25 @@
     "_angularVelocity": 0,
     "_fixedRotation": false,
     "_id": "cf0yNWuQBLK6FV4r05F4VW"
+  },
+  {
+    "__type__": "cc.AudioSource",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 38
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "_clip": {
+      "__uuid__": "5ba576d6-1d87-4eeb-9baf-f2e820a0795e",
+      "__expectedType__": "cc.AudioClip"
+    },
+    "_loop": false,
+    "_playOnAwake": false,
+    "_volume": 1,
+    "_id": "ffHg8JwZVP26OtNkyUP8Zj"
   },
   {
     "__type__": "cc.UITransform",
@@ -1822,25 +1849,25 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 55
-    },
-    "shadows": {
       "__id__": 56
     },
-    "_skybox": {
+    "shadows": {
       "__id__": 57
     },
-    "fog": {
+    "_skybox": {
       "__id__": 58
     },
-    "octree": {
+    "fog": {
       "__id__": 59
     },
-    "skin": {
+    "octree": {
       "__id__": 60
     },
-    "lightProbeInfo": {
+    "skin": {
       "__id__": 61
+    },
+    "lightProbeInfo": {
+      "__id__": 62
     },
     "bakedWithStationaryMainLight": false,
     "bakedWithHighpLightmap": false
