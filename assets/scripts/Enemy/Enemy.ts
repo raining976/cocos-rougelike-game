@@ -1,14 +1,15 @@
-import { _decorator, Component, Node, Prefab, randomRange,Vec3, instantiate, macro,game, Sprite, Animation, ProgressBar, tween, AnimationState} from 'cc';
+import { _decorator, Component, Node, Prefab, randomRange,instantiate, macro,game, Sprite, Animation, ProgressBar, tween, AnimationState, Vec3, director, Collider2D, Contact2DType, IPhysics2DContact} from 'cc';
 import { EnemyAttr } from './EnemySettings';
+import { ExpSpawner } from '../Exp/EnemyDeath/ExpSpawner';
 const { ccclass, property } = _decorator;
+
 @ccclass('Enemy')
-
-
 export class Enemy extends Component {
     
     @property(Sprite) protected sprite: Sprite;//敌人的绘图
     @property(Animation)protected MoveAnim:Animation;//敌人的动画
-    @property(ProgressBar)protected bloodProgressBar:ProgressBar;//敌人的血条
+    @property(ProgressBar) bloodProgressBar:ProgressBar;//敌人的血条
+
     protected settings=EnemyAttr;//敌人属性组配置
     protected id:string="1";
     protected health:number=100;//血条上限
@@ -18,12 +19,15 @@ export class Enemy extends Component {
     protected attackrange:number=100;//伤害判定范围
     protected Enemyname:string;//敌人名称，用以从配置中提取属性
 
+    EnemyDeathWorldPosition:Vec3 = new Vec3() // 怪物死亡世界坐标
     //状态机AI相关参数
-    public interval:number=0.1;//状态机AI思考间隔
-    public AIdelay:number=0;//状态机AI思考延迟
-    public attackdelay:number=0.1;//伤害判定延迟
+    public interval:number=0.1;     //状态机AI思考间隔
+    public AIdelay:number=0;        //状态机AI思考延迟
+    public attackdelay:number=0.1;  //伤害判定延迟
+
 
     start() {
+        this.initCollision()//碰撞监听
         this.Enemyname=this.node.name;
         this.init(this.Enemyname);//初始化
         this.MoveAnim.play();
@@ -34,10 +38,11 @@ export class Enemy extends Component {
         this.node.parent.on('Boss',(event) => {
             this.bloodProgressBar.progress=0;
         })
-        if(bloodProgress>0){
-            bloodProgress-=(deltaTime/10);
-            this.bloodProgressBar.progress=bloodProgress;
-        }
+        // 下面是自动扣血
+        // if(bloodProgress>0){
+        //     bloodProgress-=(deltaTime/10);
+        //     this.bloodProgressBar.progress=bloodProgress;
+        // }
         
     }
     /**
@@ -103,6 +108,7 @@ export class Enemy extends Component {
         const enemytype=this.getComponent(Enemy);
         const blood=enemytype.getblood();
         if(blood<=0){
+            this.onMonsterDeath()
             this.reclaim();
             return;
         }
@@ -120,7 +126,7 @@ export class Enemy extends Component {
             Vec3.subtract(temp, targetnode.worldPosition, this.node.worldPosition);
             temp.normalize();//归一化方向向量
             Vec3.multiplyScalar(temp,temp,enemytype.getattackrange());
-        Vec3.subtract(temp,targetnode.worldPosition,temp);
+            Vec3.subtract(temp,targetnode.worldPosition,temp);
             tween(this.node).to(time,{worldPosition:temp},{easing:"linear"}).start();
     }
     /**
@@ -132,6 +138,55 @@ export class Enemy extends Component {
         this.node.parent.getComponent("EnemySpanwner").enemyPool.put(this.node);
         return;
     }
+    
+    //怪物死亡前调用
+    onMonsterDeath() {
+        // 将怪物位置信息传递给经验球脚本
+        this.EnemyDeathWorldPosition = this.node.getPosition()
+        const canvas = director.getScene().getChildByName('Canvas');
+        const expSpawner = canvas.getComponent(ExpSpawner)
+        expSpawner.handleMonsterDeath(this.EnemyDeathWorldPosition);
+    }
+
+    
+    /**
+     * 怪物碰撞的监听函数注册
+     */
+    initCollision(){
+        let collider = this.getComponent(Collider2D);
+        if(collider){
+            // 仅注册后开始碰撞
+            collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
+            collider.on(Contact2DType.END_CONTACT, this.onEndContact, this);
+        }
+    }
+    
+    onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
+
+        
+        //碰撞体注意事项:
+        // 1: 两者至少一个kinematic
+        // 2: 两者不能是同一个分组，也不能是同一个Default
+        
+        //这里将武器的Tag设置成5就会撞击了
+        if (otherCollider.tag == 5 ){
+
+            //这两句不能放在外面，要不然如果碰到的是经验球就会报错
+            let bloodProgress:number = this.bloodProgressBar.progress;
+            if(bloodProgress > 0){
+                bloodProgress -= 0.1;   //每次掉0.1血
+                this.bloodProgressBar.progress=bloodProgress;
+             }
+        }
+    }
+
+
+    onEndContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null){
+
+    }
+
+
 }
+
 
 

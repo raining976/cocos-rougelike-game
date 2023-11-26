@@ -651,18 +651,18 @@
     "tag": 1,
     "_group": 4,
     "_density": 1,
-    "_sensor": false,
+    "_sensor": true,
     "_friction": 0.2,
     "_restitution": 0,
     "_offset": {
       "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
+      "x": -1.4,
+      "y": -0.2
     },
     "_size": {
       "__type__": "cc.Size",
-      "width": 26,
-      "height": 22
+      "width": 30.9,
+      "height": 22.4
     },
     "_id": ""
   },
@@ -686,7 +686,7 @@
     "bullet": false,
     "awakeOnLoad": true,
     "_group": 4,
-    "_type": 1,
+    "_type": 3,
     "_allowSleep": true,
     "_gravityScale": 1,
     "_linearDamping": 0,
