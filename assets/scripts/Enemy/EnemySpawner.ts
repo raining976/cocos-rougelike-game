@@ -1,14 +1,13 @@
 import { _decorator, Component, Node, Prefab, randomRange,Vec3, instantiate, macro,game, TiledUserNodeData, tween, Tween, randomRangeInt, NodePool, Event} from 'cc';
 import { EnemySettings } from './EnemySettings';
 import { Enemy } from './Enemy';
-import { Myevent } from '../Myevent';
 const { ccclass, property } = _decorator;
 
 @ccclass('EnemySpanwner')
 export class EnemySpanwner extends Component {
     @property(Prefab) private enemies: Prefab[]=[];//引擎内预先注入敌人预制体数组
     @property(Prefab) private Boss: Prefab[]=[];//引擎内预先注入Boss预制体数组
-    @property(Node) private TargetNode:Node;//引擎内预先注入目标（玩家）节点
+    @property(Node) private TargetNode: Node;//引擎内预先注入目标（玩家）节点
     
     //敌人生成相关参数
     private SpawnerDelay:number=0.5;//杂鱼生成延迟
@@ -36,7 +35,7 @@ export class EnemySpanwner extends Component {
             this.schedule(this.TrashfishSpawner,this.SpawnerDelay,macro.REPEAT_FOREVER);
         })
         this.node.on('Boss',(event) => {
-            console.log("捕获2");
+            //console.log("捕获2");
         })
     }
     /**

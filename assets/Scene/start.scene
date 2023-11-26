@@ -288,7 +288,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 380.01829826166517,
+    "_orthoHeight": 540.8588957055215,
     "_near": 0,
     "_far": 1000,
     "_color": {
@@ -471,7 +471,7 @@
     "_string": "Play",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 38.42578125,
+    "_actualFontSize": 30.5625,
     "_fontSize": 30,
     "_fontFamily": "Algerian",
     "_lineHeight": 40,
