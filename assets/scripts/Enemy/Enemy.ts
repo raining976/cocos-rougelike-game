@@ -20,6 +20,8 @@ export class Enemy extends Component {
     protected attackrange:number=100;//伤害判定范围
     protected Enemyname:string;//敌人名称，用以从配置中提取属性
 
+    protected isBoss:boolean = false
+
     EnemyDeathWorldPosition:Vec3 = new Vec3() // 怪物死亡世界坐标
     //状态机AI相关参数
     public interval:number=0.1;     //状态机AI思考间隔
@@ -145,8 +147,9 @@ export class Enemy extends Component {
         // 将怪物位置信息传递给经验球脚本
         this.EnemyDeathWorldPosition = this.node.getPosition()
         const canvas = director.getScene().getChildByName('Canvas');
-        const expSpawner = canvas.getComponent(ExpSpawner)
-        expSpawner.handleMonsterDeath(this.EnemyDeathWorldPosition);
+        const expSpawner = canvas.getComponent(ExpSpawner);
+        let prefabName = this.Enemyname.includes('Boss') ? 'Big' : 'Small';
+        expSpawner.GenerateOneExpBall(this.EnemyDeathWorldPosition,prefabName);
     }
 
     
