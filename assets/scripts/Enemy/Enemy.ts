@@ -1,6 +1,7 @@
 import { _decorator, Component, Node, Prefab, randomRange,instantiate, macro,game, Sprite, Animation, ProgressBar, tween, AnimationState, Vec3, director, Collider2D, Contact2DType, IPhysics2DContact} from 'cc';
 import { EnemyAttr } from './EnemySettings';
 import { ExpSpawner } from '../Exp/EnemyDeath/ExpSpawner';
+import { Weapon } from '../Weapon/Weapon';
 const { ccclass, property } = _decorator;
 
 @ccclass('Enemy')
@@ -170,13 +171,12 @@ export class Enemy extends Component {
         
         //这里将武器的Tag设置成5就会撞击了
         if (otherCollider.tag == 5 ){
-
             //这两句不能放在外面，要不然如果碰到的是经验球就会报错
-            let bloodProgress:number = this.bloodProgressBar.progress;
-            if(bloodProgress > 0){
-                bloodProgress -= 0.1;   //每次掉0.1血
-                this.bloodProgressBar.progress=bloodProgress;
-             }
+            let reduceBloodValue = otherCollider.node.getComponent(Weapon).getDamage()
+            let maxHealth = this.gethealth()
+            let percent = (reduceBloodValue/maxHealth)
+            let curProgress = this.bloodProgressBar.progress
+            curProgress >0 && (this.bloodProgressBar.progress -= percent)
         }
     }
 

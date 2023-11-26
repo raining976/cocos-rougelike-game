@@ -32,11 +32,11 @@ export class Player extends Component {
 
     public init(playerName: string): void {
         this.id = this.settings[playerName].id;
-        this.level = 0;
+        this.level = 1;
         this.maxHealth = this.settings[playerName].healthLimit;
         this.curHealth = this.maxHealth;
         this.maxExp = 100;
-        this.curExp = this.maxExp;
+        this.curExp = 0;
         this.damage = this.settings[playerName].damage;
         this.speed = this.settings[playerName].speed;
         this.attackRange = this.settings[playerName].attackRange;

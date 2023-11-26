@@ -4,6 +4,7 @@ import { Enemy } from '../Enemy/Enemy'
 import { throttle } from '../utils/util'
 import { State } from './State';
 import { WeaponSpawnner } from '../Weapon/WeaponSpawnner';
+import { ExpBall } from '../Exp/EnemyDeath/ExpBall';
 const { ccclass, property } = _decorator;
 
 @ccclass('PlayerCtrl')
@@ -77,7 +78,8 @@ export class PlayerCtrl extends Component {
         // 经验球
         if (otherCollider.tag == 2) {
             //TODO: 先默认传 1 后面传经验球表示的经验大小
-            this.increaseExp(1);
+            let delta = otherCollider.node.getComponent(ExpBall).getValue()
+            this.increaseExp(delta);
         }
         // tag == 3 更改武器
         if (otherCollider.tag == 3) {

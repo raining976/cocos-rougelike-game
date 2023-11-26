@@ -52,7 +52,7 @@
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 53
+      "__id__": 54
     },
     "_id": "d7c3cd50-4217-44ab-9e7e-3b42ecce3974"
   },
@@ -78,9 +78,6 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 48
-      },
-      {
         "__id__": 49
       },
       {
@@ -91,6 +88,9 @@
       },
       {
         "__id__": 52
+      },
+      {
+        "__id__": 53
       }
     ],
     "_prefab": null,
@@ -364,6 +364,9 @@
       },
       {
         "__id__": 47
+      },
+      {
+        "__id__": 48
       }
     ],
     "_prefab": null,
@@ -819,8 +822,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 25.19000787385471,
-      "height": 50.4
+      "width": 25.18771293468045,
+      "height": 50.400000000000006
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -852,7 +855,7 @@
     "_string": "Lv.",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 23.875,
+    "_actualFontSize": 24.9375,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -928,8 +931,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 11.120707726603403,
-      "height": 50.4
+      "width": 11.119693765664161,
+      "height": 50.400000000000006
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -961,7 +964,7 @@
     "_string": "0",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 23.875,
+    "_actualFontSize": 24.9375,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -1037,8 +1040,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 5.555464659685864,
-      "height": 50.4
+      "width": 5.554964070332081,
+      "height": 50.400000000000006
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1070,7 +1073,7 @@
     "_string": "/",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 23.875,
+    "_actualFontSize": 24.9375,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -1146,8 +1149,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 11.120707726603403,
-      "height": 50.4
+      "width": 11.119693765664161,
+      "height": 50.400000000000006
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1179,7 +1182,7 @@
     "_string": "0",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 23.875,
+    "_actualFontSize": 24.9375,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -1255,8 +1258,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 33.362123179810204,
-      "height": 50.4
+      "width": 33.359081296992485,
+      "height": 50.400000000000006
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1288,7 +1291,7 @@
     "_string": "100",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 23.875,
+    "_actualFontSize": 24.9375,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -1595,13 +1598,13 @@
     "_restitution": 0,
     "_offset": {
       "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
+      "x": 1,
+      "y": -13.3
     },
     "_size": {
       "__type__": "cc.Size",
-      "width": 32,
-      "height": 40
+      "width": 27.2,
+      "height": 37.1
     },
     "_id": "c3epr59BFIEr7lrWTIzoMD"
   },
@@ -1675,6 +1678,18 @@
       "__id__": 38
     },
     "_id": "b3cxvkPQFH1aJ9DUcP5n3d"
+  },
+  {
+    "__type__": "dca21E0NOxIUJ6hkx31rzYz",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 9
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "_id": "21pmG1nWhKxJzPNwOdGA16"
   },
   {
     "__type__": "cc.UITransform",
@@ -1794,25 +1809,25 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 54
-    },
-    "shadows": {
       "__id__": 55
     },
-    "_skybox": {
+    "shadows": {
       "__id__": 56
     },
-    "fog": {
+    "_skybox": {
       "__id__": 57
     },
-    "octree": {
+    "fog": {
       "__id__": 58
     },
-    "skin": {
+    "octree": {
       "__id__": 59
     },
-    "lightProbeInfo": {
+    "skin": {
       "__id__": 60
+    },
+    "lightProbeInfo": {
+      "__id__": 61
     },
     "bakedWithStationaryMainLight": false,
     "bakedWithHighpLightmap": false
