@@ -163,11 +163,14 @@ export class Enemy extends Component {
     
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
 
-        //将武器的Tag设置成3
-        console.log("敌人碰撞开始");
-
+        
+        //碰撞体注意事项:
+        // 1: 两者至少一个kinematic
+        // 2: 两者不能是同一个分组，也不能是同一个Default
+        
+        //这里将武器的Tag设置成5就会撞击了
         if (otherCollider.tag == 5 ){
-            console.log("敌人碰撞内容开始");
+
             //这两句不能放在外面，要不然如果碰到的是经验球就会报错
             let bloodProgress:number = this.bloodProgressBar.progress;
             if(bloodProgress > 0){
