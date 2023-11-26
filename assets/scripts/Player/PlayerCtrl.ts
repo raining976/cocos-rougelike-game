@@ -1,4 +1,4 @@
-import { Prefab, ParticleUtils, ParticleSystem2D, _decorator, Component, Node, Vec3, CCInteger, Animation, input, Input, EventTouch, KeyCode, EventKeyboard, Collider2D, Contact2DType, Collider, IPhysics2DContact, RigidBody, instantiate, UITransform } from 'cc';
+import { AudioSource, Prefab, ParticleUtils, ParticleSystem2D, _decorator, Component, Node, Vec3, CCInteger, Animation, input, Input, EventTouch, KeyCode, EventKeyboard, Collider2D, Contact2DType, Collider, IPhysics2DContact, RigidBody, instantiate, UITransform } from 'cc';
 import { Player } from './Player';
 import { Enemy } from '../Enemy/Enemy'
 import { throttle } from '../utils/util'
@@ -137,11 +137,16 @@ export class PlayerCtrl extends Component {
         //TODO:
     }
 
+    /**
+     * 升级特效
+     */
     displayImproveLevel(){
         //经验、等级
         let newNode = instantiate(this.particleImproLevel);
         newNode.setPosition(3,-30,1);
         this.node.addChild(newNode);
+        let audioSourseImproLevel = this.node.getComponent(AudioSource);
+        audioSourseImproLevel.playOneShot(audioSourseImproLevel.clip, 1)
     }
 
 
