@@ -8,7 +8,6 @@ export class Boss extends Enemy {
     //动画相关参数
     protected inrange=false;//是否进入攻击范围
     start() {
-        this.node.dispatchEvent(new Event('Boss'));
         this.Enemyname=this.node.name;
         this.init(this.Enemyname);//初始化
         this.MoveAnim.play("run");
