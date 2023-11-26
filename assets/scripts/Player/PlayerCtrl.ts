@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Vec3, CCInteger, Animation, input, Input, EventTouch, KeyCode, EventKeyboard, Collider2D, Contact2DType, Collider, IPhysics2DContact, RigidBody } from 'cc';
+import { Prefab, ParticleUtils, ParticleSystem2D, _decorator, Component, Node, Vec3, CCInteger, Animation, input, Input, EventTouch, KeyCode, EventKeyboard, Collider2D, Contact2DType, Collider, IPhysics2DContact, RigidBody, instantiate, UITransform } from 'cc';
 import { Player } from './Player';
 import { Enemy } from '../Enemy/Enemy'
 import { throttle } from '../utils/util'
@@ -9,8 +9,9 @@ const { ccclass, property } = _decorator;
 
 @ccclass('PlayerCtrl')
 export class PlayerCtrl extends Component {
+    @property(Prefab) private particleImproLevel: Prefab | null = null;//升级特效粒子系统
     @property({ type: Node }) stateNode = null // 人物状态节点
-
+    @property()
     moveStatus: number = 0; // 移动状态 0 静止 1移动
     moveDir: string = 'r' // l左 r右
     curDir: Vec3 = new Vec3() // 当前移动方向向量 
@@ -113,6 +114,7 @@ export class PlayerCtrl extends Component {
         let newExp = this.playerAttr.getCurExp() + delta;
         if (newExp > this.playerAttr.getMaxExp()) {
             this.improveLevel(newExp - this.playerAttr.getMaxExp());
+            this.displayImproveLevel()
         } else {
             this.playerAttr.setCurExp(newExp);
             this.stateEntity.setCurExpLabel(newExp)
@@ -134,6 +136,14 @@ export class PlayerCtrl extends Component {
         //属性提升
         //TODO:
     }
+
+    displayImproveLevel(){
+        //经验、等级
+        let newNode = instantiate(this.particleImproLevel);
+        newNode.setPosition(3,-30,1);
+        this.node.addChild(newNode);
+    }
+
 
     onKeyDown(e: EventKeyboard) {
         this.changeDir('keyDown', e.keyCode)
@@ -204,7 +214,6 @@ export class PlayerCtrl extends Component {
             this.moveStatus = 0
             this.playAnim('idle')
         }
-        console.log('curDir',curDir)
     }
 
     /**
