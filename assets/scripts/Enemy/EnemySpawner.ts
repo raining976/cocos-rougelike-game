@@ -10,16 +10,18 @@ export class EnemySpanwner extends Component {
     @property(Node) private TargetNode: Node;//引擎内预先注入目标（玩家）节点
     
     //敌人生成相关参数
-    private SpawnerDelay:number=0.5;//杂鱼生成延迟
+    private SpawnerDelay:number=0.3;//杂鱼生成延迟
     private BossSpawnerDelay:number=30;//BOSS生成延迟
     
     // private eventTargetlisten=new EventTarget();
     //对象池相关参数
     private enemyPool: NodePool;//敌人对象池，用于存储和复用敌人节点对象，节省性能开销
-    private InitCount:number=50;//对象池容量
+    private InitCount:number=5000;//对象池容量
 
     start() {
-        
+        this.node.on('Bossdied',(event) => {//注册Boss死亡监听
+            this.schedule(this.TrashfishSpawner,this.SpawnerDelay,macro.REPEAT_FOREVER);
+        })
         this.enemyPool=new NodePool();
         for(let i=0;i<this.InitCount;i++){
             let enemynode=instantiate(this.enemies[randomRangeInt(0, this.enemies.length)]);
@@ -27,16 +29,9 @@ export class EnemySpanwner extends Component {
         }
         this.schedule(this.TrashfishSpawner,this.SpawnerDelay,macro.REPEAT_FOREVER);
         this.schedule(this.BossSpawner,this.BossSpawnerDelay,macro.REPEAT_FOREVER);
-        // this.unscheduleAllCallbacks()
     }
 
     update(deltaTime: number) {
-        this.node.on('Bossdied',(event) => {
-            this.schedule(this.TrashfishSpawner,this.SpawnerDelay,macro.REPEAT_FOREVER);
-        })
-        this.node.on('Boss',(event) => {
-            //console.log("捕获2");
-        })
     }
     /**
      * 杂鱼生成函数
@@ -50,14 +45,15 @@ export class EnemySpanwner extends Component {
         let enemynode=null;
         if(this.enemyPool.size()>0){
             enemynode=this.enemyPool.get();
+            enemynode.setWorldPosition(spawnPosition);
             if(enemynode.getComponent("Enemy").Enemyname!=null){
                 enemynode.getComponent("Enemy").reset();
             }
         }
         else{
             enemynode=instantiate(this.enemies[randomRangeInt(0, this.enemies.length)]);
+            enemynode.setWorldPosition(spawnPosition);
         }
-        enemynode.setWorldPosition(spawnPosition);
         this.node.addChild(enemynode);
     }
     /**
@@ -66,7 +62,6 @@ export class EnemySpanwner extends Component {
     BossSpawner(){
         this.node.emit('Boss');
         this.unschedule(this.TrashfishSpawner);
-        // this.eventTargetspeak.dispatchEvent(new Myevent('Boss',true));
         const posX=0;
         const posY=400;
         const spawnPosition = new Vec3();

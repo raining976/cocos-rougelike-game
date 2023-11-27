@@ -14,5 +14,5 @@ export class WeaponSettings extends Component {
 export const WeaponAttr = new WeaponSettings();
 WeaponAttr['default'] = {
     id: '001',
-    damage: 10
+    damage: 25
 }

@@ -93,7 +93,7 @@ export class WeaponSpawnner extends Component {
      * @param startAngle 开始角度 默认 0
      * @param duration 持续实现 默认 1秒
      */
-    rotateWeapon(weaponNode: Node, startAngle: number = 0, duration: number = 1) {
+    rotateWeapon(weaponNode: Node, startAngle: number = 0, duration: number = 1.5) {
         tween(weaponNode)
             .to(0, { angle: startAngle })
             .to(duration, { angle: 360 + startAngle })
