@@ -27,9 +27,14 @@ export class Enemy extends Component {
     public interval:number=0.1;     //状态机AI思考间隔
     public AIdelay:number=0;        //状态机AI思考延迟
     public attackdelay:number=0.1;  //伤害判定延迟
+    protected _state:StateBase|null=null;//状态委托，储存敌人当前状态
+    protected _animator:Animator|null=null;
 
 
     start() {
+        this.node.parent.on('Boss',(event) => {//注册Boss生成监听
+            this.bloodProgressBar.progress=0;
+        })
         this.initCollision()//碰撞监听
         this.Enemyname=this.node.name;
         this.init(this.Enemyname);//初始化
@@ -37,10 +42,6 @@ export class Enemy extends Component {
         this.schedule(this.StateAI,this.interval,macro.REPEAT_FOREVER,this.AIdelay);
     }
     update(deltaTime: number) {
-        let bloodProgress:number=this.bloodProgressBar.progress;
-        this.node.parent.on('Boss',(event) => {
-            this.bloodProgressBar.progress=0;
-        })
         // 下面是自动扣血
         // if(bloodProgress>0){
         //     bloodProgress-=(deltaTime/10);
@@ -71,6 +72,7 @@ export class Enemy extends Component {
         this.xpReward=this.settings[this.Enemyname].xpReward;
         this.attackrange=this.settings[this.Enemyname].attackrange;
         this.bloodProgressBar.progress=1;
+        this.MoveAnim.play("Run");
         this.schedule(this.StateAI,this.interval,macro.REPEAT_FOREVER,this.AIdelay);
     }
     public getblood(){
@@ -118,19 +120,22 @@ export class Enemy extends Component {
         if(targetnode ==null){//目标节点不存在
             return;
         }
-
-        // if(targetnode.curState =="Die"){//玩家已死亡
+        const distance=Vec3.distance(this.node.worldPosition,targetnode.worldPosition);//攻击间隔判定//不用管报错，VScode这里识别不出bind绑定
+        // if(distance<=this.attackrange){//攻击状态处理
+        //     this.MoveAnim.stop();
+        //     this.MoveAnim.play("attack");
         //     return;
         // }
-
-        const distance=Vec3.distance(this.node.worldPosition,targetnode.worldPosition);//攻击间隔判定//不用管报错，VScode这里识别不出bind绑定
         const time=distance/enemytype.getspeed();
         let temp=new Vec3();
-            Vec3.subtract(temp, targetnode.worldPosition, this.node.worldPosition);
-            temp.normalize();//归一化方向向量
-            Vec3.multiplyScalar(temp,temp,enemytype.getattackrange());
-            Vec3.subtract(temp,targetnode.worldPosition,temp);
-            tween(this.node).to(time,{worldPosition:temp},{easing:"linear"}).start();
+        Vec3.subtract(temp, targetnode.worldPosition, this.node.worldPosition);
+        temp.normalize();//归一化方向向量
+        if((this.node.scale.x*temp.x)<0){
+            this.node.setScale(new Vec3(-this.node.scale.x,this.node.scale.y,this.node.scale.z));
+        };
+        Vec3.multiplyScalar(temp,temp,enemytype.getattackrange());
+        Vec3.subtract(temp,targetnode.worldPosition,temp);
+        tween(this.node).to(time,{worldPosition:temp},{easing:"linear"}).start();
     }
     /**
      * 节点回收处理
