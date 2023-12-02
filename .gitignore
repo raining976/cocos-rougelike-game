@@ -22,3 +22,6 @@ node_modules/
 # WebStorm
 #//////////////////////////
 .idea/
+assets/Scene/scene.scene
+assets/scripts/Player/PlayerCtrl.ts
+*.scene
