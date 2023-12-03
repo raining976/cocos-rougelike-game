@@ -32,7 +32,7 @@ export class Boss extends Enemy {
      * 动画状态切换
      */
     Statecheck(){
-        let temp=(Vec3.distance(this.node.worldPosition,this.node.parent.getComponent("EnemySpanwner").TargetNode.worldPosition)-this.attackrange<=20);
+        let temp=(Vec3.distance(this.node.worldPosition,this.node.parent.getComponent("EnemySpawner").TargetNode.worldPosition)-this.attackrange<=20);
         if(temp&&!this.inrange){
             this.MoveAnim.stop();
             this.MoveAnim.play("attack");
