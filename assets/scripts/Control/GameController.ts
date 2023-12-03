@@ -4,8 +4,9 @@ const { ccclass, property } = _decorator;
 @ccclass('GameController')
 export class GameController extends Component {
     start() {
-       this.openDebugInfo()
+       //this.openDebugInfo()
        this.node.getChildByName("EnhanceManager").active = false
+       
     }
 
     // 打开碰撞体调试信息
@@ -17,7 +18,7 @@ export class GameController extends Component {
         EPhysics2DDrawFlags.Shape;
     }
     update(deltaTime: number) {
-
+        //this.node.setSiblingIndex(1000);
     }
 }
 

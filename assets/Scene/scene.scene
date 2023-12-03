@@ -2913,6 +2913,9 @@
     "camera": {
       "__id__": 10
     },
+    "playerNode": {
+      "__id__": 38
+    },
     "_id": "18vJNSF35LGIhMQ2F9/kfY"
   },
   {
@@ -3009,6 +3012,7 @@
     "__type__": "ac01d9uNctG3oehloXvUZUx",
     "_name": "",
     "_objFlags": 0,
+    "__editorExtras__": {},
     "node": {
       "__id__": 38
     },
