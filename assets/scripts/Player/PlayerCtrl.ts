@@ -24,13 +24,11 @@ export class PlayerCtrl extends Component {
 
     start() {
         //连续性CCD
-        this.bloodBar = this.node.children[0].getComponent(ProgressBar);
-        this.hurt = this.node.children[1].getComponent(Label);
         this.playerAnim = this.node.getComponent(Animation);
         this.playerAttr = this.node.getComponent(Player);
         this.stateEntity = this.stateNode.getComponent(State)
         this.updateStateLabel()
-        
+        this.updateHeaLabel();
     }
 
     /**
@@ -38,6 +36,10 @@ export class PlayerCtrl extends Component {
      */
     updateStateLabel() {
         this.stateEntity.setAll(this.playerAttr.getLevel(), this.playerAttr.getCurExp(), this.playerAttr.getMaxExp())
+    }
+
+    updateHeaLabel() {
+        this.stateEntity.setHea(this.playerAttr.getCurHealth(), this.playerAttr.getMaxHealth());
     }
 
     onLoad() {
@@ -105,8 +107,7 @@ export class PlayerCtrl extends Component {
             // TODO: 游戏结束的逻辑
         }
         this.playerAttr.setCurHealth(newHealth);
-        this.bloodBar.progress = this.getHealthPercent()
-        this.showHurt(delta);
+        this.stateEntity.setCurHea(this.playerAttr.getCurHealth());
     }
 
     getHealthPercent(){
@@ -239,7 +240,6 @@ export class PlayerCtrl extends Component {
             this.moveStatus = 0
             this.playAnim('idle')
         }
-        //this.showHurt(10);
     }
 
     /**
