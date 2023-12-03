@@ -51,6 +51,9 @@ export class Player extends Component {
         return this.speed;
     }
 
+    public setSpeed(newSpeed: number) {
+        this.speed = newSpeed;
+    }
     public setCurHealth(newHealth: number) {
         this.curHealth = newHealth;
     }
@@ -111,6 +114,13 @@ export class Player extends Component {
         this.weaponCount = newWeaponCount;
     }
 
+    public setMaxHealth(newMaxHealth: number) {
+        this.maxHealth = newMaxHealth;
+    }
+
+    public getMaxHealth() {
+        return this.maxHealth;
+    }
 
 
 }

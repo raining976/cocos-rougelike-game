@@ -21,7 +21,7 @@ export class EnhanceSettings{
 export const EnhanceAttr = new EnhanceSettings();
 EnhanceAttr[ENHANCE_TYPE.ENHANCE_DAMAGE] = {
     type: ENHANCE_TYPE.ENHANCE_DAMAGE,
-    name: '烈焰风暴',
+    name: '天生神力',
     description: '提高角色攻击力',
     maxLevel: 5
 }

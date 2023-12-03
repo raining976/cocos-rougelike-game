@@ -322,6 +322,7 @@ export class PlayerCtrl extends Component {
             curDir.y --;
     }
 
+    
 }
 
 
