@@ -1,4 +1,4 @@
-import { AudioSource, Prefab, ParticleUtils, ParticleSystem2D, _decorator, Component, Node, Vec3, CCInteger, Animation, input, Input, EventTouch, KeyCode, EventKeyboard, Collider2D, Contact2DType, Collider, IPhysics2DContact, RigidBody, instantiate, UITransform } from 'cc';
+import { director, AudioSource, Prefab, ParticleUtils, ParticleSystem2D, _decorator, Component, Node, Vec3, CCInteger, Animation, input, Input, EventTouch, KeyCode, EventKeyboard, Collider2D, Contact2DType, Collider, IPhysics2DContact, RigidBody, instantiate, UITransform } from 'cc';
 import { Player } from './Player';
 import { Enemy } from '../Enemy/Enemy'
 import { throttle } from '../utils/util'
@@ -7,12 +7,15 @@ import { WeaponSpawnner } from '../Weapon/WeaponSpawnner';
 import { ExpBall } from '../Exp/EnemyDeath/ExpBall';
 const { ccclass, property } = _decorator;
 
+
+
 @ccclass('PlayerCtrl')
 export class PlayerCtrl extends Component {
     @property(Prefab) private particleImproLevel: Prefab | null = null;//升级特效粒子系统
     @property({ type: Node }) stateNode = null // 人物状态节点
     @property()
     moveStatus: number = 0; // 移动状态 0 静止 1移动
+    @property(Node) enhanceBoard: Node | null = null;
     moveDir: string = 'r' // l左 r右
     curDir: Vec3 = new Vec3() // 当前移动方向向量 
     playerAttr: Player | null = null;//角色属性组件
@@ -115,6 +118,11 @@ export class PlayerCtrl extends Component {
         if (newExp > this.playerAttr.getMaxExp()) {
             this.improveLevel(newExp - this.playerAttr.getMaxExp());
             this.displayImproveLevel()
+            //场景暂停
+            director.stopAnimation()
+            //属性增强面板激活
+            this.enhanceBoard.active = true
+            
         } else {
             this.playerAttr.setCurExp(newExp);
             this.stateEntity.setCurExpLabel(newExp)
@@ -313,6 +321,7 @@ export class PlayerCtrl extends Component {
         else if (curDir.y > 1)
             curDir.y --;
     }
+
 }
 
 
