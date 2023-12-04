@@ -24,6 +24,7 @@ export default class Animator {
         if (this._mapStates.has(key))
             return;
 
+        
         this._mapStates.set(key, state);
     }
 
@@ -51,15 +52,16 @@ export default class Animator {
         }
 
         if (this._state) {
+            console.log(333,this._state)
             if (this._state == this._mapStates.get(key))
                 return;
             this._state.onExit();
         }
-
-
         this._state = this._mapStates.get(key);
-        if (this._state)
+        if (this._state){
             this._state.onEnter();
+        }
+        return
     }
 
     /**获取状态机内所有状态 */
@@ -73,13 +75,13 @@ export default class Animator {
     }
 
     /**当前状态更新函数 */
-    onUpdate(dt: any) {
+    onUpdate() {
         if (!this._state) {
             return;
         }
         if (!this._state.onUpdate) {
             return;
         }
-        this._state.onUpdate(dt);
+        this._state.onUpdate();
     }
 }
