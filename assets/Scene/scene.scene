@@ -2784,6 +2784,10 @@
       {
         "__uuid__": "4ad30633-18ec-4e26-94b5-57811bffe1d5",
         "__expectedType__": "cc.Prefab"
+      },
+      {
+        "__uuid__": "fc506ad6-6d63-4846-998e-dc02563ca23e",
+        "__expectedType__": "cc.Prefab"
       }
     ],
     "Boss": [
