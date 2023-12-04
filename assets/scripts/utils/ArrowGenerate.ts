@@ -5,10 +5,11 @@ const { ccclass, property } = _decorator;
 export class ProjectileGenerate extends Component {
     @property(Prefab) private Projectile: Prefab;//投射物
     start() {
-        let Projectilenode=null;
+        // let Projectilenode=null;
         Projectilenode=instantiate(this.Projectile);
 
          
+        
     }
 
     update(deltaTime: number) {
