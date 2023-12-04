@@ -1,4 +1,4 @@
-import { AudioSource, Prefab, ParticleUtils, ParticleSystem2D, _decorator, Component, Node, Vec3, CCInteger, Animation, input, Input, EventTouch, KeyCode, EventKeyboard, Collider2D, Contact2DType, Collider, IPhysics2DContact, RigidBody, instantiate, UITransform } from 'cc';
+import { _decorator, Component, Node, Vec3, Label ,CCInteger, Color,Animation, input, Input, EventTouch, KeyCode, EventKeyboard, Collider2D, Contact2DType, Collider, IPhysics2DContact, RigidBody, ProgressBar } from 'cc';
 import { Player } from './Player';
 import { Enemy } from '../Enemy/Enemy'
 import { throttle } from '../utils/util'
@@ -9,9 +9,8 @@ const { ccclass, property } = _decorator;
 
 @ccclass('PlayerCtrl')
 export class PlayerCtrl extends Component {
-    @property(Prefab) private particleImproLevel: Prefab | null = null;//升级特效粒子系统
     @property({ type: Node }) stateNode = null // 人物状态节点
-    @property()
+
     moveStatus: number = 0; // 移动状态 0 静止 1移动
     moveDir: string = 'r' // l左 r右
     curDir: Vec3 = new Vec3() // 当前移动方向向量 
@@ -19,14 +18,17 @@ export class PlayerCtrl extends Component {
     playerAnim: Animation = null // 人物动画
     damageDelay: number = 1000; // 碰撞延迟(受到伤害的延迟)
     stateEntity: State = null // 人物状态实体类
+    bloodBar: ProgressBar | null;
+    hurt: Label | null;
+    
 
     start() {
         //连续性CCD
-
         this.playerAnim = this.node.getComponent(Animation);
         this.playerAttr = this.node.getComponent(Player);
         this.stateEntity = this.stateNode.getComponent(State)
         this.updateStateLabel()
+        this.updateHeaLabel();
     }
 
     /**
@@ -34,6 +36,10 @@ export class PlayerCtrl extends Component {
      */
     updateStateLabel() {
         this.stateEntity.setAll(this.playerAttr.getLevel(), this.playerAttr.getCurExp(), this.playerAttr.getMaxExp())
+    }
+
+    updateHeaLabel() {
+        this.stateEntity.setHea(this.playerAttr.getCurHealth(), this.playerAttr.getMaxHealth());
     }
 
     onLoad() {
@@ -88,9 +94,6 @@ export class PlayerCtrl extends Component {
             // 1. 将这个武器名称更新到人物
             // 2. 调用WeaponSpawnner.changeWeapon()
         }
-
-
-        
     }
 
     /**
@@ -104,6 +107,39 @@ export class PlayerCtrl extends Component {
             // TODO: 游戏结束的逻辑
         }
         this.playerAttr.setCurHealth(newHealth);
+        this.stateEntity.setCurHea(this.playerAttr.getCurHealth());
+    }
+
+    getHealthPercent(){
+        return this.playerAttr.getCurHealth() / this.playerAttr.getMaxHealth()
+    }
+
+    /**
+     * 降低血量上升显示
+     * @param delta 血量降低值
+     */
+    showHurt(delta:number){
+        this.hurt.string="-"+delta.toString();
+        
+        setTimeout(()=>{
+            this.hurt.node.position.set(this.hurt.node.position.x,5);
+            this.hurt.color=new Color(100,0,0,100);
+        },100)
+        setTimeout(()=>{
+            this.hurt.node.position.set(this.hurt.node.position.x,8);
+            this.hurt.color=new Color(150,0,0,150);
+        },300)
+        setTimeout(()=>{
+            this.hurt.node.position.set(this.hurt.node.position.x,12);
+            this.hurt.color=new Color(200,0,0,200);
+        },500)
+        setTimeout(()=>{
+            this.hurt.node.position.set(this.hurt.node.position.x,15);
+            this.hurt.color=new Color(255,0,0,255);
+        },700)
+        setTimeout(()=>{
+            this.hurt.color=new Color(0,0,0,0);
+        },1000)
     }
 
     /**
@@ -114,7 +150,6 @@ export class PlayerCtrl extends Component {
         let newExp = this.playerAttr.getCurExp() + delta;
         if (newExp > this.playerAttr.getMaxExp()) {
             this.improveLevel(newExp - this.playerAttr.getMaxExp());
-            this.displayImproveLevel()
         } else {
             this.playerAttr.setCurExp(newExp);
             this.stateEntity.setCurExpLabel(newExp)
@@ -136,19 +171,6 @@ export class PlayerCtrl extends Component {
         //属性提升
         //TODO:
     }
-
-    /**
-     * 升级特效
-     */
-    displayImproveLevel(){
-        //经验、等级
-        let newNode = instantiate(this.particleImproLevel);
-        newNode.setPosition(3,-30,1);
-        this.node.addChild(newNode);
-        let audioSourseImproLevel = this.node.getComponent(AudioSource);
-        audioSourseImproLevel.playOneShot(audioSourseImproLevel.clip, 1)
-    }
-
 
     onKeyDown(e: EventKeyboard) {
         this.changeDir('keyDown', e.keyCode)
@@ -201,11 +223,10 @@ export class PlayerCtrl extends Component {
                     break
             }
         }
-        this.restrictCurDir(this.curDir);
+
     }
 
     update(deltaTime: number) {
-
         let curDir = this.curDir
         // 先判断需不需要移动
         if (this.isNeedMove(curDir)) {
@@ -297,21 +318,6 @@ export class PlayerCtrl extends Component {
     playAnim(name) {
         if (!this.playerAnim.getState(name).isPlaying)
             this.playerAnim.play(name)
-    }
-
-
-    /**
-     * 限制移动方向，防止过移动现象发生
-     */
-    restrictCurDir(curDir: Vec3) {
-        if (curDir.x < -1)
-            curDir.x ++;
-        else if (curDir.x > 1)
-            curDir.x --;
-        if (curDir.y < -1)
-            curDir.y ++;
-        else if (curDir.y > 1)
-            curDir.y --;
     }
 }
 

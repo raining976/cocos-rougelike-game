@@ -58,6 +58,10 @@ export class Player extends Component {
         return this.curHealth;
     }
 
+    public getPerSentHealth() {
+        return this.curHealth/this.maxHealth;
+    }
+
     public setCurExp(newExp: number) {
         this.curExp = newExp;
     }
