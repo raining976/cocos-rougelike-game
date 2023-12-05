@@ -43,10 +43,20 @@ export class EnhanceController extends Component {
         let count: number;
         for (count = 0; count < 3; count ++) {
             let typeRand: number = randomRangeInt(0, ENHANCE_TYPE.LENGTH);
+            //初始化名称
             this.node.children[count].
             getChildByName("Name").getComponent(Label).string = EnhanceAttr[typeRand].name;
+            //初始化描述
             this.node.children[count].
             getChildByName("Description").getComponent(Label).string = EnhanceAttr[typeRand].description;
+            //获取角色节点的attributecontroller组件
+            let attrControllerPlayer = this.playerNode.getComponent(AttributeController);
+            //初始化当前等级效果
+            this.node.children[count].
+            getChildByName("Cur").getComponent(Label).string = "当前属性:" + this.getCurEffection(typeRand)//TODO: 获取当前等级效果信息
+            //初始化下一等级效果
+            this.node.children[count].
+            getChildByName("Next").getComponent(Label).string = "下一级属性:" + this.getCurEffection(typeRand)//TODO: 获取下一等级效果信息
         }
     }
 
@@ -57,27 +67,60 @@ export class EnhanceController extends Component {
         let enhanceName = button.node.getChildByName("Name").getComponent(Label).string;
         switch (enhanceName) {
             case '天生神力':
-                //TODO:
                 this.playerNode.getComponent(AttributeController).improveDamage();
                 break;
             case '沐浴回春':
-                //TODO:
                 this.playerNode.getComponent(AttributeController).improveMaxHealth();
                 break;
             case '疾风迅影':
-                //TODO:
                 this.playerNode.getComponent(AttributeController).improveSpeed();
                 break;
             default:
                 console.log("bad enhance!!!");
         }
-        console.log("属性增强！！");
         //增强面板禁用
         this.node.active = false;
         //场景恢复
         director.startAnimation();
     }
 
+    getCurEffection(type: ENHANCE_TYPE) {
+        let curLevel = this.playerNode.getComponent(AttributeController).getPassiveSkillCurLevel(type);
+        let result: string = "test";
+        switch (type) {
+            case ENHANCE_TYPE.ENHANCE_DAMAGE:
+                result = this.playerNode.getComponent(AttributeController).computeDamage(curLevel).toString();
+                break;
+            case ENHANCE_TYPE.ENHANCE_HEALTH:
+                result = this.playerNode.getComponent(AttributeController).computeMaxHealth(curLevel).toString();
+                break;
+            case ENHANCE_TYPE.ENHANCE_SPEED:
+                result = this.playerNode.getComponent(AttributeController).computeSpeed(curLevel).toString();
+                break;
+            default:
+                console.log("bad Type!!!");
+        }
+        return result;
+    }
+
+    getNextEffection(type: ENHANCE_TYPE) {
+        let nextLevel = this.playerNode.getComponent(AttributeController).getPassiveSkillCurLevel(type) + 1;
+        let result: string = "test";
+        switch (type) {
+            case ENHANCE_TYPE.ENHANCE_DAMAGE:
+                result = this.playerNode.getComponent(AttributeController).computeDamage(nextLevel).toString();
+                break;
+            case ENHANCE_TYPE.ENHANCE_HEALTH:
+                result = this.playerNode.getComponent(AttributeController).computeMaxHealth(nextLevel).toString();
+                break;
+            case ENHANCE_TYPE.ENHANCE_SPEED:
+                result = this.playerNode.getComponent(AttributeController).computeSpeed(nextLevel).toString();
+                break;
+            default:
+                console.log("bad Type!!!");
+        }
+        return result;
+    }
     update(deltaTime: number) {
         
     }

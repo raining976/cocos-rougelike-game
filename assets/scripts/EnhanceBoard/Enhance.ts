@@ -17,7 +17,7 @@ export class Enhance {
         this.type = this.setting[typeEnhance].type;
         this.name = this.setting[typeEnhance].name;
         this.description = this.setting[typeEnhance].description;
-        this.curLevel = 1;
+        this.curLevel = 0;
         this.maxLevel = this.setting[typeEnhance].maxLevel;
     }
 
@@ -37,6 +37,9 @@ export class Enhance {
     }
     public getCurLevel() {
         return this.curLevel;
+    }
+    public addCurLevel() {
+        this.curLevel++;
     }
 
 }

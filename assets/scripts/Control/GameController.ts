@@ -4,7 +4,7 @@ const { ccclass, property } = _decorator;
 @ccclass('GameController')
 export class GameController extends Component {
     start() {
-       //this.openDebugInfo()
+       this.openDebugInfo()
        this.node.getChildByName("EnhanceManager").active = false
        
     }
