@@ -44,35 +44,44 @@ EnemyAttr['Archer']={
     id:'004',
     health:100,
     damage:100,
-    speed:300,
+    speed:100,
     xpReward:100,
-    attackrange:100,
-    States:["Run","attack1","Dead"]
+    attackrange:500,
+    States:["Run","Attack","Dead"]
 }
 EnemyAttr['Yurei']={
     id:'005',
-    health:100,
+    health:300,
     damage:100,
-    speed:300,
+    speed:100,
     xpReward:100,
     attackrange:100,
-    States:["Run","attack","Dead"]
+    States:["Run","Attack","Dead"]
 }
 EnemyAttr['Onre']={
     id:'006',
-    health:100,
+    health:300,
     damage:100,
-    speed:300,
+    speed:100,
     xpReward:100,
     attackrange:100,
-    States:["Run","attack","Dead"]
+    States:["Run","Attack","Dead"]
 }
 EnemyAttr['Samurai']={
     id:'007',
     health:1000,
     damage:1000,
-    speed:500,
+    speed:400,
     xpReward:100,
-    attackrange:50,
-    States:["Run","attack","Dead"]
+    attackrange:100,
+    States:["Run","Attack","Dead"]
+}
+EnemyAttr['Wizard']={
+    id:'008',
+    health:300,
+    damage:100,
+    speed:100,
+    xpReward:100,
+    attackrange:300,
+    States:["Run","Attack","Dead"]
 }

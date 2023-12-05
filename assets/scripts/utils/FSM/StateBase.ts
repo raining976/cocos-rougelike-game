@@ -1,22 +1,23 @@
 import { _decorator, Component, Node } from 'cc';
-import { Enemy } from '../Enemy/Enemy';
-import { EnemySettings } from '../Enemy/EnemySettings';
-import { Player } from '../Player/Player';
+import { Enemy } from '../../Enemy/Enemy';
 const { ccclass, property } = _decorator;
 
 @ccclass('StateBase')
 /**状态基类，提供状态的逻辑接口 */
 export default class StateBase {
     protected _role: Enemy| null = null;
-    constructor(role:Enemy) {
+    protected _ownnode:Node|null=null;
+
+    constructor(role:Enemy,node:Node) {
         this._role = role;
+        this._ownnode=node;
     }
     //start------------虚方法-----------
     /**进入该状态时被调用 */
     onEnter() { }
     
     /**该状态每帧都会调用的方法 */
-    onUpdate(dt: any) { }
+    onUpdate() { }
     
     /**该状态监听的键盘输入事件 */
     onKeyDown(event: any) { }

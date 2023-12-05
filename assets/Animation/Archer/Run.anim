@@ -1,14 +1,14 @@
 [
   {
     "__type__": "cc.AnimationClip",
-    "_name": "Bat",
+    "_name": "Run",
     "_objFlags": 0,
     "__editorExtras__": {
       "embeddedPlayerGroups": []
     },
     "_native": "",
     "sample": 60,
-    "speed": 1,
+    "speed": 5,
     "wrapMode": 2,
     "enableTrsBlending": false,
     "_duration": 1.35,
