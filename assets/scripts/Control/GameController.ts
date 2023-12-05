@@ -5,8 +5,7 @@ const { ccclass, property } = _decorator;
 export class GameController extends Component {
     start() {
        this.openDebugInfo()
-       this.node.getChildByName("EnhanceManager").active = false
-       
+       this.node.getChildByName("EnhanceRoot").active = false
     }
 
     // 打开碰撞体调试信息

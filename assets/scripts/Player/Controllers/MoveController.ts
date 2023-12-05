@@ -105,6 +105,7 @@ export class MoveController extends Component {
             this.moveStatus = 0
             this.playAnim('idle')
         }
+        this.restrictMove();
     }
 
     /**
@@ -175,6 +176,15 @@ export class MoveController extends Component {
             this.playerAnim.play(name)
     }
 
-    
+    restrictMove() {
+        if (this.curDir.x < -1)
+            this.curDir.x ++;
+        if (this.curDir.x > 1)
+            this.curDir.x --;
+        if (this.curDir.y < -1)
+            this.curDir.y ++;
+        if (this.curDir.y > 1)
+            this.curDir.y --;
+    }
 }
 

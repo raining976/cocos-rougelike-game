@@ -8,7 +8,7 @@ export enum ENHANCE_TYPE {
     LENGTH
 }
 
-@ccclass('PlayerSettings')
+@ccclass('EnhanceSettings')
 export class EnhanceSettings{
     [index: number]: {
         type: ENHANCE_TYPE,

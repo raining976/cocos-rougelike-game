@@ -31,7 +31,7 @@ export class Player extends Component {
         this.level = 1;
         this.maxHealth = this.settings[playerName].healthLimit;
         this.curHealth = this.maxHealth;
-        this.maxExp = 100;
+        this.maxExp = 30//TODO:100;
         this.curExp = 0;
         this.damage = this.settings[playerName].damage;
         this.speed = this.settings[playerName].speed;
@@ -121,9 +121,6 @@ export class Player extends Component {
         this.maxHealth = newMaxHealth;
     }
 
-    public getMaxHealth() {
-        return this.maxHealth;
-    }
 
 
 }
