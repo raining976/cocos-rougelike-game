@@ -1,4 +1,4 @@
-import { _decorator, Component, Label, LabelAtlas, Node, UITransform, director, Button } from 'cc';
+import { _decorator, Component, Label, LabelAtlas, Node, UITransform, director, Button, Animation, UIOpacity, Sprite } from 'cc';
 import { ENHANCE_TYPE } from './EnhanceSettings';
 import { Enhance } from './Enhance';
 import { EnhanceAttr } from './EnhanceSettings';
@@ -10,16 +10,16 @@ const { ccclass, property } = _decorator;
 
 @ccclass('EnhanceController')
 export class EnhanceController extends Component {
-    @property(Node) camera: Node | null = null;//获取相机
+    //@property(Node) camera: Node | null = null;//获取相机
     @property(Node) playerNode: Node | null = null;//角色节点
+    private animation: Animation | null = null;
 
-    onEnable() {
+    start() {
+        this.node.setPosition(15, 11, 0);
         this.initButtonClick();
-        //当前节点位置、contentsize初始化
-        this.node.setPosition(this.camera.getPosition());
         this.initSize()
-        //子面板初始化
-        this.initEnhancePanel();
+        //获取动画组件
+        this.animation = this.node.getComponent(Animation);
     }
 
     protected onDestroy(): void {
@@ -44,12 +44,30 @@ export class EnhanceController extends Component {
     }
 
     /**
+     * 面板出现
+     */
+    boardAppear() {
+        //生成信息
+        this.createInfo();
+        //调节透明度
+        this.node.getComponent(UIOpacity).opacity = 255;
+        //播放进场动画
+        let duration = this.animation.getState('appear').duration;
+        console.log('duration',duration)
+        this.animation.play('appear');
+        setTimeout(() => {
+            director.stopAnimation()
+        }, duration*1100);
+    }
+    /**
      * 子面板内容初始化
      */
-    initEnhancePanel() {
+    createInfo() {
         let count: number;
         for (count = 0; count < 3; count ++) {
             let typeRand: number = randomRangeInt(0, ENHANCE_TYPE.LENGTH);
+            //初始化图标
+            
             //初始化名称
             this.node.children[count].
             getChildByName("Name").getComponent(Label).string = EnhanceAttr[typeRand].name;
@@ -73,20 +91,22 @@ export class EnhanceController extends Component {
     enhance(button: Button) {
         let enhanceName = button.node.getChildByName("Name").getComponent(Label).string;
         switch (enhanceName) {
-            case '天生神力':
+            case '神力':
                 this.playerNode.getComponent(AttrController).improveDamage();
                 break;
-            case '沐浴回春':
+            case '生命':
                 this.playerNode.getComponent(AttrController).improveMaxHealth();
                 break;
-            case '疾风迅影':
+            case '迅影':
                 this.playerNode.getComponent(AttrController).improveSpeed();
                 break;
             default:
                 console.log("bad enhance!!!");
         }
-        //增强面板禁用
-        this.node.active = false;
+        //播放退场动画
+        this.animation.play('disappear')
+        //调节透明度
+        this.node.getComponent(UIOpacity).opacity = 0;
         //场景恢复
         director.startAnimation();
     }

@@ -4,6 +4,7 @@ import { BloodLabelController } from '../StateLabelControllers/BloodLabelControl
 import { ExpLabelController } from '../StateLabelControllers/ExpLabelController';
 import { ENHANCE_TYPE } from '../../EnhanceBoard/EnhanceSettings';
 import { Enhance } from '../../EnhanceBoard/Enhance';
+import { EnhanceController } from '../../EnhanceBoard/EnhanceController';
 const { ccclass, property } = _decorator;
 
 @ccclass('AttrController')
@@ -68,9 +69,8 @@ export class AttrController extends Component {
         if (newExp >= this.playerEntity.getMaxExp()) {
             this.improveLevel(newExp - this.playerEntity.getMaxExp());
             //激活面板
-            this.enhanceBoard.active = true;
-            //场景暂停
-            director.stopAnimation();
+            this.enhanceBoard.getComponent(EnhanceController).boardAppear();
+            
         } else {
             this.playerEntity.setCurExp(newExp);
             this.expStateEntity.setCurExp(newExp);
