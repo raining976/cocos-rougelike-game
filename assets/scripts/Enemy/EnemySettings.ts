@@ -43,7 +43,7 @@ export const EnemyAttr=new EnemySettings();
 EnemyAttr['Archer']={
     id:'004',
     health:100,
-    damage:100,
+    damage:10,
     speed:100,
     xpReward:100,
     attackrange:500,
@@ -52,7 +52,7 @@ EnemyAttr['Archer']={
 EnemyAttr['Yurei']={
     id:'005',
     health:300,
-    damage:100,
+    damage:10,
     speed:100,
     xpReward:100,
     attackrange:100,
@@ -61,7 +61,7 @@ EnemyAttr['Yurei']={
 EnemyAttr['Onre']={
     id:'006',
     health:300,
-    damage:100,
+    damage:10,
     speed:100,
     xpReward:100,
     attackrange:100,
@@ -70,7 +70,7 @@ EnemyAttr['Onre']={
 EnemyAttr['Samurai']={
     id:'007',
     health:1000,
-    damage:1000,
+    damage:100,
     speed:400,
     xpReward:100,
     attackrange:100,
@@ -79,7 +79,7 @@ EnemyAttr['Samurai']={
 EnemyAttr['Wizard']={
     id:'008',
     health:300,
-    damage:100,
+    damage:10,
     speed:100,
     xpReward:100,
     attackrange:300,
