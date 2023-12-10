@@ -134,13 +134,15 @@ export class AttrController extends Component {
      */
     improveDamage() {
         this.passiveSkillsCurLevel[ENHANCE_TYPE.ENHANCE_DAMAGE]++;
-        this.playerEntity.setDamage(this.computeDamage(this.passiveSkillsCurLevel[ENHANCE_TYPE.ENHANCE_DAMAGE]));
+        let newDamage = this.computeDamage(this.passiveSkillsCurLevel[ENHANCE_TYPE.ENHANCE_DAMAGE]);
+        this.playerEntity.setDamage(newDamage);
         //TODO:调整属性平衡
     }
 
     improveSpeed() {
         this.passiveSkillsCurLevel[ENHANCE_TYPE.ENHANCE_SPEED]++;
-        this.playerEntity.setSpeed(this.computeSpeed(this.passiveSkillsCurLevel[ENHANCE_TYPE.ENHANCE_SPEED]));
+        let newSpeed = this.computeSpeed(this.passiveSkillsCurLevel[ENHANCE_TYPE.ENHANCE_SPEED]);
+        this.playerEntity.setSpeed(newSpeed);
         //TODO:调整属性平衡
     }
 

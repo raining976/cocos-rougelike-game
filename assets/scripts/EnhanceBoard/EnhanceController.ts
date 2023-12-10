@@ -1,4 +1,4 @@
-import { _decorator, Component, Label, LabelAtlas, Node, UITransform, director, Button, Animation, UIOpacity, Sprite } from 'cc';
+import { _decorator, Component, Label, LabelAtlas, Node, UITransform, director, Button, Animation, UIOpacity, Sprite, SpriteFrame, resources, AssetManager } from 'cc';
 import { ENHANCE_TYPE } from './EnhanceSettings';
 import { Enhance } from './Enhance';
 import { EnhanceAttr } from './EnhanceSettings';
@@ -67,7 +67,7 @@ export class EnhanceController extends Component {
         for (count = 0; count < 3; count ++) {
             let typeRand: number = randomRangeInt(0, ENHANCE_TYPE.LENGTH);
             //初始化图标
-            
+            this.loadImage(count, typeRand);
             //初始化名称
             this.node.children[count].
             getChildByName("Name").getComponent(Label).string = EnhanceAttr[typeRand].name;
@@ -85,6 +85,31 @@ export class EnhanceController extends Component {
         }
     }
 
+    /**
+     * 
+     */
+    loadImage(num: number, type: ENHANCE_TYPE) {
+        let imagePath: string = null;
+        switch (type) {
+            case ENHANCE_TYPE.ENHANCE_DAMAGE:
+                imagePath = "EnhanceBoard/Skills/power";
+                break;
+            case ENHANCE_TYPE.ENHANCE_HEALTH:
+                imagePath = "EnhanceBoard/Skills/heart";
+                break;
+            case ENHANCE_TYPE.ENHANCE_SPEED:
+                imagePath = "EnhanceBoard/Skills/speed";
+                break;
+            default:
+                console.log("bad enhance!!");
+        }
+        resources.load(imagePath, SpriteFrame, (err, res)=>{
+            if (err) {
+                console.log("图片不存在", err);
+            }
+            this.node.children[num].getChildByName("Image").getComponent(Sprite).spriteFrame = res;
+        })
+    }
     /**
      * 角色属性提升提升事件回调
      */

@@ -21,21 +21,21 @@ export class EnhanceSettings{
 export const EnhanceAttr = new EnhanceSettings();
 EnhanceAttr[ENHANCE_TYPE.ENHANCE_DAMAGE] = {
     type: ENHANCE_TYPE.ENHANCE_DAMAGE,
-    name: '天生神力',
+    name: '神力',
     description: '提高角色攻击力',
     maxLevel: 5
 }
 
 EnhanceAttr[ENHANCE_TYPE.ENHANCE_HEALTH] = {
     type: ENHANCE_TYPE.ENHANCE_HEALTH,
-    name: '沐浴回春',
+    name: '生命',
     description: '提高角色生命力',
     maxLevel: 5
 }
 
 EnhanceAttr[ENHANCE_TYPE.ENHANCE_SPEED] = {
     type: ENHANCE_TYPE.ENHANCE_SPEED,
-    name: '疾风迅影',
+    name: '迅影',
     description: '提高角色移动速度',
     maxLevel: 5
 }

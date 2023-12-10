@@ -2488,9 +2488,9 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 209,
-      "g": 25,
-      "b": 25,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_string": "Description",
@@ -2572,7 +2572,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 53.349609375,
+      "width": 80.0244140625,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -2597,16 +2597,16 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 209,
-      "g": 25,
-      "b": 25,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_string": "Name",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
-    "_fontSize": 20,
+    "_actualFontSize": 30,
+    "_fontSize": 30,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
     "_overflow": 0,
@@ -2706,9 +2706,9 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 209,
-      "g": 25,
-      "b": 25,
+      "r": 253,
+      "g": 244,
+      "b": 15,
       "a": 255
     },
     "_string": "Cur",
@@ -2815,9 +2815,9 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 209,
-      "g": 25,
-      "b": 25,
+      "r": 253,
+      "g": 244,
+      "b": 15,
       "a": 255
     },
     "_string": "Next",
@@ -3216,9 +3216,9 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 209,
-      "g": 25,
-      "b": 25,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_string": "Description",
@@ -3300,7 +3300,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 53.349609375,
+      "width": 80.0244140625,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -3325,16 +3325,16 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 209,
-      "g": 25,
-      "b": 25,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_string": "Name",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
-    "_fontSize": 20,
+    "_actualFontSize": 30,
+    "_fontSize": 30,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
     "_overflow": 0,
@@ -3434,9 +3434,9 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 209,
-      "g": 25,
-      "b": 25,
+      "r": 253,
+      "g": 244,
+      "b": 15,
       "a": 255
     },
     "_string": "Cur",
@@ -3543,9 +3543,9 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 209,
-      "g": 25,
-      "b": 25,
+      "r": 253,
+      "g": 244,
+      "b": 15,
       "a": 255
     },
     "_string": "Next",
@@ -3658,7 +3658,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "280d0010-735e-46c1-b5ff-7b87bde8105b@f9941",
+      "__uuid__": "2fa7fca9-11dd-4275-b9a6-482b4056747f@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -3944,9 +3944,9 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 209,
-      "g": 25,
-      "b": 25,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_string": "Description",
@@ -4028,7 +4028,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 53.349609375,
+      "width": 80.0244140625,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -4053,16 +4053,16 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 209,
-      "g": 25,
-      "b": 25,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_string": "Name",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
-    "_fontSize": 20,
+    "_actualFontSize": 30,
+    "_fontSize": 30,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
     "_overflow": 0,
@@ -4162,9 +4162,9 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 209,
-      "g": 25,
-      "b": 25,
+      "r": 253,
+      "g": 244,
+      "b": 15,
       "a": 255
     },
     "_string": "Cur",
@@ -4271,9 +4271,9 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 209,
-      "g": 25,
-      "b": 25,
+      "r": 253,
+      "g": 244,
+      "b": 15,
       "a": 255
     },
     "_string": "Next",
@@ -4386,7 +4386,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "280d0010-735e-46c1-b5ff-7b87bde8105b@f9941",
+      "__uuid__": "42cc9ddf-3224-45a1-b1cb-ad4a37c5e293@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
