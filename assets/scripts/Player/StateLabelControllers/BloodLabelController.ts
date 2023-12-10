@@ -3,28 +3,9 @@ const { ccclass, property } = _decorator;
 
 @ccclass('BloodLabelController')
 export class BloodLabelController extends Component {
-    bloodLabelNodes = {} // 血量的相关节点
-
-    curHealthLabel  = null
-    maxHealthLabel  = null
-    bloodBar = null
-
-    start() {
-        this.initChildren()
-    }
-    
-    /**
-     * 获取当前脚本节点上的子节点
-     */
-    initChildren() {
-        this.node.children.forEach(item => {
-            this.bloodLabelNodes[item.name] = item
-        });
-        
-        this.curHealthLabel = this.bloodLabelNodes['curHealth'].getComponent(Label)
-        this.maxHealthLabel =   this.bloodLabelNodes['maxHealth'].getComponent(Label)
-        this.bloodBar = this.bloodLabelNodes['bloodBar'].getComponent(ProgressBar)
-    }
+    @property(Label) curHealthLabel  = null
+    @property(Label) maxHealthLabel  = null
+    @property(ProgressBar)bloodBar = null
 
     setAll(curBlood: number, maxBlood: number) {
         this.setCurBlood(curBlood)

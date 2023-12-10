@@ -112,7 +112,7 @@ export class MoveController extends Component {
      * @param dis 移动向量
      */
     movePlayer(dis: Vec3) {
-        this.node.setPosition(this.node.position.add(dis));
+        this.node.parent.setPosition(this.node.parent.position.add(dis));
     }
 
     /**
@@ -144,26 +144,20 @@ export class MoveController extends Component {
     changePlayerTowards() {
         let curMoveDir = this.getMoveDir()
         if (this.moveDir != curMoveDir) {
-            this.flipNodes(curMoveDir)
             this.moveDir = curMoveDir
+            this.flipNode(curMoveDir)
         }
 
     }
 
     /**
-     * 将player节点以及其下下的子节点翻转
+     * 将player节点翻转
      * @param dirTxt r l 左右方向
      */
-    flipNodes(dirTxt: string) {
+    flipNode(dirTxt: string) {
         if (dirTxt === 'l') this.node.setScale(-1, 1)
         else if (dirTxt === 'r') this.node.setScale(1, 1)
-        let playerScaleX = this.node.scale.x
-        let children = this.node.children
-        for (let i = 0; i < children.length; i++) {
-            children[i].setScale(playerScaleX, 1)
-
-        }
-
+        
     }
 
     /**

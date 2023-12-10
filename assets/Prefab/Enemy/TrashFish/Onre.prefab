@@ -601,6 +601,10 @@
     "bloodProgressBar": {
       "__id__": 21
     },
+    "floatLabelPrefab": {
+      "__uuid__": "ce45f23c-bd96-4788-a15a-f200ebd27a86",
+      "__expectedType__": "cc.Prefab"
+    },
     "_id": ""
   },
   {

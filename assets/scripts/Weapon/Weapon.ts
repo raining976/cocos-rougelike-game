@@ -6,7 +6,7 @@ export class Weapon extends Component {
     
     private settings = WeaponAttr; // 武器属性
     private id: string; // 武器id
-    private name: string; // 武器名称
+    private weaponName: string; // 武器名称
     private damage: number; // 攻击伤害
 
     start() {
@@ -22,7 +22,7 @@ export class Weapon extends Component {
     }
 
     public getName() {
-        return this.name;
+        return this.weaponName;
     }
 
     public getDamage() {
@@ -34,7 +34,7 @@ export class Weapon extends Component {
     }
 
     public setName(newName: string) {
-        this.name = newName;
+        this.weaponName = newName;
     }
 }
 
