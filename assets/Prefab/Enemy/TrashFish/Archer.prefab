@@ -223,6 +223,18 @@
       {
         "__uuid__": "48c1b868-94f4-4fed-bf03-9d45f0d64398",
         "__expectedType__": "cc.AnimationClip"
+      },
+      {
+        "__uuid__": "07a828b5-c936-468c-89ad-346282ba1c1e",
+        "__expectedType__": "cc.AnimationClip"
+      },
+      {
+        "__uuid__": "d262ec41-b0c5-4005-9c36-e1c6110c520d",
+        "__expectedType__": "cc.AnimationClip"
+      },
+      {
+        "__uuid__": "6a491ccc-b33d-4e6a-8c1a-726c0afe30dd",
+        "__expectedType__": "cc.AnimationClip"
       }
     ],
     "_defaultClip": {
@@ -601,6 +613,10 @@
     "bloodProgressBar": {
       "__id__": 21
     },
+    "floatLabelPrefab": {
+      "__uuid__": "ce45f23c-bd96-4788-a15a-f200ebd27a86",
+      "__expectedType__": "cc.Prefab"
+    },
     "_id": ""
   },
   {
@@ -658,7 +674,7 @@
     "awakeOnLoad": true,
     "_group": 4,
     "_type": 3,
-    "_allowSleep": false,
+    "_allowSleep": true,
     "_gravityScale": 1,
     "_linearDamping": 0,
     "_angularDamping": 0,
