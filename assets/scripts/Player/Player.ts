@@ -4,10 +4,6 @@ const { ccclass, property } = _decorator;
 
 @ccclass('Player')
 export class Player extends Component {
-    @property(Sprite) private sprite: Sprite | null = null;//角色绘图
-    @property(Animation) private moveAnim: Animation | null = null;//角色动画
-    @property(ProgressBar) private bloodProgressBar: ProgressBar | null = null;//角色血量
-
     private settings = PlayerAttr;//角色属性组配置
     private id: string = "1" // 角色id
     private level: number = 1;
@@ -56,6 +52,13 @@ export class Player extends Component {
     }
     public getCurHealth() {
         return this.curHealth;
+    }
+    public getMaxHealth() {
+        return this.maxHealth;
+    }
+
+    public getPerSentHealth() {
+        return this.curHealth/this.maxHealth;
     }
 
     public setCurExp(newExp: number) {

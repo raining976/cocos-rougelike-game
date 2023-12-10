@@ -11,7 +11,7 @@ export class EnemySpanwner extends Component {
     @property(Node) private TargetNode: Node;//引擎内预先注入目标（玩家）节点
     
     //敌人生成相关参数
-    private SpawnerDelay:number=0.1;//杂鱼生成延迟
+    private SpawnerDelay:number=0.2//杂鱼生成延迟
     private BossSpawnerDelay:number=50;//BOSS生成延迟
     
     //对象池相关参数
@@ -51,6 +51,7 @@ export class EnemySpanwner extends Component {
         if(this.enemyPool.size()>0){//若对象池有存对象，则取出
             enemynode=this.enemyPool.get();
             if(enemynode.getComponent("Enemy").Enemyname!=null){
+                // console.log(333);
                 isoldnode=true;
             }
         }
@@ -59,12 +60,14 @@ export class EnemySpanwner extends Component {
         }
         this.node.addChild(enemynode);//杂鱼节点挂载至当前节点之下
         if(isoldnode==false){
+            // console.log(111);
             enemynode.setWorldPosition(this.randomposGenerators.CircularSpawner(this.TargetNode.worldPosition));
             setTimeout(() => {
                 enemynode.getComponent("Enemy").patch();
-            }, 100);//何等丑陋的处理方式...但是不改碰撞体和对象池的话暂时也只能这么办了
+            }, 300);//何等丑陋的处理方式...但是不改碰撞体和对象池的话暂时也只能这么办了
         }
         if(isoldnode==true){
+            // console.log(222);
             enemynode.getComponent("Enemy").reset();
         }
     }
