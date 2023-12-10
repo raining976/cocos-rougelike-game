@@ -1,0 +1,79 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "tilesheet.tsx",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "全部文件 (*)",
+    "fileStates": {
+        "": {
+            "scaleInDock": 1
+        },
+        ":/automap-tiles.tsx": {
+            "scaleInDock": 1
+        },
+        "bg1.tmx": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 269.25,
+                "y": 127.75
+            }
+        },
+        "bg1.tmx#Grass": {
+            "dynamicWrapping": false,
+            "scaleInDock": 2.2,
+            "scaleInEditor": 5.5
+        },
+        "bg1.tmx#Hills": {
+            "scaleInDock": 2.2,
+            "scaleInEditor": 11
+        },
+        "bg1.tmx#Tilled Dirt": {
+            "dynamicWrapping": false,
+            "scaleInDock": 2.2,
+            "scaleInEditor": 8
+        },
+        "bg1.tmx#tilesheet": {
+            "scaleInDock": 3,
+            "scaleInEditor": 4
+        },
+        "dirt1.tmx": {
+            "scale": 2,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 251.25,
+                "y": 255.75
+            }
+        },
+        "tilesheet.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 3
+        }
+    },
+    "frame.defaultDuration": 100,
+    "last.imagePath": "E:/Win/桌面/Rouge/assets",
+    "map.height": 32,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 32,
+    "openFiles": [
+        "dirt1.tmx",
+        "tilesheet.tsx"
+    ],
+    "project": "Rouge.tiled-project",
+    "recentFiles": [
+        "dirt1.tmx",
+        "tilesheet.tsx",
+        "bg1.tmx"
+    ],
+    "tileset.embedInMap": false,
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}
