@@ -5,21 +5,15 @@ const { ccclass, property } = _decorator;
 export class ExpBallSettings{
     [index:string]:{
         value:number,
-        color:number,
-        size:number,
     }
 };
 export const ExpBallAttr = new ExpBallSettings();
 
 ExpBallAttr['Big']={
-    value:100,
-    color:1,
-    size:2
+    value:100   
 }
 ExpBallAttr['Small']={
-    value:10,
-    color:2,
-    size:1
+    value:10
 }
 
 

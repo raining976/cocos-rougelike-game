@@ -4,29 +4,24 @@ const { ccclass, property } = _decorator;
 
 @ccclass('ExpSpawner')
 export class ExpSpawner extends Component {
-    @property(Prefab) private ExpBallPrefab: Prefab;
-    @property(Node) TargetNode: Node;
-    
-    start() {
+  @property(Prefab) private expBallPrefabs: Prefab[] = [];
+  @property(Node) TargetNode: Node;
 
-    }
+  start() {
 
-    update(deltaTime: number) {
-        
-    }
+  }
 
-    handleMonsterDeath(monsterPosition: Vec3) {
-        // 在这里处理怪物死亡后的逻辑，使用怪物位置信息（monsterPosition）
-        this.GenerateOneExpBall(monsterPosition)
-      }
-    GenerateOneExpBall(currentPosition: Vec3){
-        //经验球生成
-        let NewExpBall = instantiate(this.ExpBallPrefab); // 生成预制体实例
-    
-        NewExpBall.setWorldPosition(currentPosition);
+  update(deltaTime: number) {
 
-        this.node.addChild(NewExpBall);
+  }
 
-   }
+ 
+  GenerateOneExpBall(currentPosition: Vec3, prefabName: string = 'Small') {
+    let prefab = this.expBallPrefabs.find(prefab => prefab.name == prefabName)
+    let NewExpBall = instantiate(prefab);
+    NewExpBall.setWorldPosition(currentPosition);
+    this.node.addChild(NewExpBall);
+
+  }
 }
 

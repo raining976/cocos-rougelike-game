@@ -83,7 +83,7 @@ export class WeaponSpawnner extends Component {
         // 设置武器的锚点在人物中心偏上
         weaponNode.getComponent(UITransform).setAnchorPoint(0.5, -0.3)
         weaponNode.setPosition(spawnPosition);
-        this.player.addChild(weaponNode);
+        this.player.parent.addChild(weaponNode);
         return weaponNode
     }
 

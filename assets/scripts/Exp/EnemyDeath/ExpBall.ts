@@ -6,19 +6,16 @@ const { ccclass, property } = _decorator;
 export class ExpBall extends Component {
 
     protected settings = ExpBallAttr;//敌人属性组配置
-    protected size: number; // 经验球大小
-    protected color: number; // 经验球颜色
     protected value: number; // 经验球值
 
     start() {
-        let expBallName = 'Small'
+        //根据挂载的预制体的名字决定value
+        let expBallName = this.node.name;
         this.init(expBallName)
         this.autoDestroy()
     }
 
     init(expBallName: string) {
-        this.size = this.settings[expBallName].size;
-        this.color = this.settings[expBallName].color;
         this.value = this.settings[expBallName].value;
     }
 

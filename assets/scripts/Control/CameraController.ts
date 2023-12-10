@@ -4,7 +4,7 @@ const { ccclass, property } = _decorator;
 @ccclass('CameraController')
 export class CameraController extends Component {
     @property(Node)
-    player:Node = null
+    playerBase:Node = null
 
     playerPosition:Vec3 = null
 
@@ -17,8 +17,8 @@ export class CameraController extends Component {
     }   
 
     setCameraPosition(deltaTime){
-        const aimX = this.player.position.x
-        const aimY = this.player.position.y
+        const aimX = this.playerBase.position.x
+        const aimY = this.playerBase.position.y
         const x = this.node.position.x
         const y = this.node.position.y
         const lerpX = lerp(x,aimX,2 * deltaTime) 
