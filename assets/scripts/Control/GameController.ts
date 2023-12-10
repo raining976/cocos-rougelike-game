@@ -12,7 +12,6 @@ enum GameState {
 export class GameController extends Component {
     @property({ type: Node })
     public Menu: Node | null = null; // 开始的 UI
-    @property(Canvas) uiCanvas = null
 
     start() {
         // this.openDebugInfo();
@@ -36,14 +35,14 @@ export class GameController extends Component {
     setCurState(value: GameState) {
         switch (value) {
             case GameState.GS_PLAYING:
-                this.gameBack()
+                this.gameBack();
                 break;
             case GameState.GS_PAUSE:
-                this.gamePause()
+                this.gamePause();
                 break;
             case GameState.GS_END:
-                this.gameEnd()
-                this.gameBackStart()
+                this.gameEnd();
+                this.gameBackStart();
                 break;
         }
     }
@@ -70,17 +69,17 @@ export class GameController extends Component {
         //director.loadScene("start");
     }
 
-    //暂停游戏，打开菜单
+    //按钮事件-暂停游戏，打开菜单
     onPauseButtonClicked() {
         this.setCurState(GameState.GS_PAUSE);
     }
 
-    //退出游戏
+    //按钮事件-退出游戏
     onExitButtonClicked() {
         this.setCurState(GameState.GS_END);
     }
 
-    //返回游戏
+    //按钮事件-继续游戏
     onBackButtonClicked() {
         this.setCurState(GameState.GS_PLAYING);
 
@@ -99,6 +98,7 @@ export class GameController extends Component {
     onPlayButtonClicked() {
         director.loadScene("scene");
     }
+
     update(deltaTime: number) {
 
     }
