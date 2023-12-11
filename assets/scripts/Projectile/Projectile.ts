@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Vec3, macro, Contact2DType, Collider2D, IPhysics2DContact, instantiate } from 'cc';
+import { _decorator, Component, Node, Vec3, macro, Contact2DType, Collider2D, IPhysics2DContact, instantiate, BoxCollider2D } from 'cc';
 
 import { FloatLabel } from '../FloatLabel/FloatLabel';
 import { FloatLabelBase } from '../FloatLabel/FloatLabelBase';
@@ -27,6 +27,7 @@ export class Projectile extends Component {
     }
 
     reclaim(){
+        this.getComponent(BoxCollider2D).tag=-1;//回收时将tag修改为-1，标志不可用
         if(this.node.parent){
             this.unschedule(this.fly);
             this.node.parent.getComponent(ProjectileGenerate).getProjectilePool().put(this.node);
@@ -53,11 +54,10 @@ export class Projectile extends Component {
         }
     }
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
-        if (otherCollider.tag == 5) {
-        }
     }
     onEndContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
-        if(otherCollider.tag==0){
+        console.log(567,otherCollider.tag);
+        if(otherCollider.tag==0||(otherCollider.tag==1&&otherCollider.node!=this.node.parent)){//防止自己射自己
             setTimeout(() => {
                 this.reclaim();
             }, 0.1);//cocos引擎存在的问题，碰撞之后节点立刻销毁会出现报错，必须延时

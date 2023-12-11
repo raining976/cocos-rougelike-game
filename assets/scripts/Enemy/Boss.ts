@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Prefab, randomRange,Vec3, instantiate, macro,game, Sprite, Animation, ProgressBar, tween,Event} from 'cc';
+import { _decorator, Component, Node, Prefab, randomRange,Vec3, instantiate, macro,game, Sprite, Animation, ProgressBar, tween,Event, BoxCollider2D} from 'cc';
 import { EnemyAttr } from './EnemySettings';
 import { Enemy } from './Enemy';
 import AnimatorManager from '../utils/FSM/AnimatorManager';
@@ -22,10 +22,14 @@ export class Boss extends Enemy {
                 this._animator.regState(data,new ProxyClass("Enemy_"+data,this,this.node));//不用管报错，代理构建识别不出来
             }
         }
+        setTimeout(() => {
+            this.node.getComponent(BoxCollider2D).tag=1;
+        }, 100);//延时激活碰撞体
         this.schedule(this.StateAI,this.interval,macro.REPEAT_FOREVER,this.AIdelay);
         this.schedule(this.Statecheck,this.interval,macro.REPEAT_FOREVER,this.AIdelay)
     }
     reclaim(){
+        this.getComponent(BoxCollider2D).tag=-1;//回收时将tag修改为-1，标志不可用
         this.unschedule(this.StateAI);
         this.node.destroy();
         this.node.parent.emit('Bossdied');

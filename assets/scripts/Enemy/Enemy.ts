@@ -11,6 +11,7 @@ import { ProxyClass } from '../utils/FSM/ProxyClass';
 import { FloatLabel } from '../FloatLabel/FloatLabel';
 import { FloatLabelBase } from '../FloatLabel/FloatLabelBase';
 import { ProjectileGenerate } from '../Projectile/ProjectileGenerate';
+import { Projectile } from '../Projectile/Projectile';
 
 const { ccclass, property } = _decorator;
 
@@ -52,7 +53,8 @@ export class Enemy extends Component {
     public dir:Vec3=new Vec3();//指向目标节点的单位向量
 
     start() {
-        this.initBoss()//注册Boss生成监听
+        this.initCollision()//碰撞监听
+        // this.initBoss()//注册Boss生成监听
 
         //随机坐标生成器初始化
         this.randomposGenerators = new Randompos();
@@ -77,8 +79,6 @@ export class Enemy extends Component {
 
         /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
         //FSM注册
-        // console.log(111,"Enemy_"+this.settings[this.Enemyname].States[0]);
-        // let aClss=new ProxyClass('AClass');
         this._animator = AnimatorManager.instance().getAnimator(this.Enemyname);//通过名称获取对应的FSM，每种敌人都有自己的FSM
         if (this._animator) {//假如FSM存在，则注册FSM中的状态
             for (let data of this.settings[this.Enemyname].States) {//遍历setting获得该种敌人的所有状态，通过代理类ProxyClass动态构建对应状态对象，注册到对应敌人的FSM中
@@ -120,8 +120,8 @@ export class Enemy extends Component {
         this.projectilerange=this.settings[this.Enemyname].projectilerange;
         this.attackrange = this.settings[this.Enemyname].attackrange;
         this.bloodProgressBar.progress = 1;
-        this.initCollision()//碰撞监听
         this._animator.switchState("Run");
+        this.initCollision()//碰撞监听
         this.schedule(this.StateAI, this.interval, macro.REPEAT_FOREVER, this.AIdelay);
     }
     /**
@@ -154,13 +154,11 @@ export class Enemy extends Component {
      * 
      */
     reclaim() {
-        this.node.setWorldPosition(this.randomposGenerators.CircularSpawner(this.node.parent.getComponent(EnemySpawner).gettargetnode().worldPosition));
+        this.getComponent(BoxCollider2D).tag=-1;//回收时将tag修改为-1，标志不可用
         this.CollisionDisable();
-        setTimeout(() => {
             if (this.node.parent) {
                 this.node.parent.getComponent(EnemySpawner).getenemypool().put(this.node);
-            }
-        }, 300);//没有延时的话，放入对象池会导致setposition的中断
+            };
         return;
     }
 
@@ -208,16 +206,32 @@ export class Enemy extends Component {
     }
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
 
-
+        console.log(987,otherCollider.tag,selfCollider.tag)
         //碰撞体注意事项:
         // 1: 两者至少一个kinematic
         // 2: 两者不能是同一个分组，也不能是同一个Default
 
         //这里将武器的Tag设置成5就会撞击了
-        if (otherCollider.tag == 5) {
+        if (otherCollider.tag == 5&&selfCollider.tag == 1) {
 
             let reduceBloodValue = otherCollider.node.getComponent(Weapon).getDamage()
             let maxHealth = this.gethealth()
+            let percent = (reduceBloodValue / maxHealth)
+            let curProgress = this.bloodProgressBar.progress
+            if (curProgress > 0) {
+                let label = instantiate(this.floatLabelPrefab)
+                label.getComponent(FloatLabelBase).initLabel('Enemy',reduceBloodValue)
+                this.node.addChild(label)
+                this.bloodProgressBar.progress -= percent
+            }
+        }
+
+        // 中立投射物，对敌我双方都会造成伤害
+        if (otherCollider.tag == 4&&selfCollider.tag == 1) {
+            console.log(742)
+            let ProjectileNode = otherCollider.node;
+            let reduceBloodValue = ProjectileNode.getComponent(Projectile).getProjectiledamage();
+            let maxHealth = this.gethealth();
             let percent = (reduceBloodValue / maxHealth)
             let curProgress = this.bloodProgressBar.progress
             if (curProgress > 0) {
@@ -280,13 +294,6 @@ export class Enemy extends Component {
 
     /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
     //补丁
-    /**
-     * 这就一个纯补丁，以后得想个办法移走
-     */
-    patch() {
-        this.bloodProgressBar.progress = 1;
-        this.initCollision()//碰撞监听
-    }
     ProjectileGenerate(pos:Vec3){
         this.node.getComponent(ProjectileGenerate).Generate(pos);//生成投射物
     }

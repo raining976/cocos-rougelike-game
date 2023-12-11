@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Prefab, instantiate, NodePool, Vec3, tween, Collider2D, Contact2DType, IPhysics2DContact, macro, director } from 'cc';
+import { _decorator, Component, Node, Prefab, instantiate, NodePool, Vec3, tween, Collider2D, Contact2DType, IPhysics2DContact, macro, director, BoxCollider2D } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('ProjectileGenerate')
@@ -37,6 +37,9 @@ export class ProjectileGenerate extends Component {
         if(this.dir.y<0){
             Projectilenode.angle=-Projectilenode.angle;
         }
+        setTimeout(() => {
+            Projectilenode.getComponent(BoxCollider2D).tag=4;
+        }, 1000);//延时激活碰撞体
     }
     getProjectilePool(){
         return this.ProjectilePool;
