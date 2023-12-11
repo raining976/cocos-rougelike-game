@@ -206,7 +206,6 @@ export class Enemy extends Component {
     }
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
 
-        console.log(987,otherCollider.tag,selfCollider.tag)
         //碰撞体注意事项:
         // 1: 两者至少一个kinematic
         // 2: 两者不能是同一个分组，也不能是同一个Default
@@ -228,7 +227,6 @@ export class Enemy extends Component {
 
         // 中立投射物，对敌我双方都会造成伤害
         if (otherCollider.tag == 4&&selfCollider.tag == 1) {
-            console.log(742)
             let ProjectileNode = otherCollider.node;
             let reduceBloodValue = ProjectileNode.getComponent(Projectile).getProjectiledamage();
             let maxHealth = this.gethealth();
