@@ -1,6 +1,6 @@
 import { _decorator, BoxCollider2D, Collider2D, Component, Contact2DType, director, Director, IPhysics2DContact, macro, Node, RigidBody2D, tween, UITransform, Vec3 } from 'cc';
 import { Skill } from './Skill';
-import { skillAttr } from './SkillSettings';
+import skillSettings from './SkillSettings';
 import { Enemy } from '../Enemy/Enemy';
 const { ccclass, property } = _decorator;
 
@@ -12,22 +12,33 @@ export class Dart extends Skill {
 
     private speed: number = 0.001; //设置飞镖速度
     private targetNode: Node;    //追逐的目标
-
+    private skillName: string = 'Dart';
 
     async start() {
-    
 
         //获得最近距离的敌人节点
         await this.getMinDisNode(this.getMinDisEnemy())
-        .then(res=>{
-            this.targetNode = res
-        })
-        this.schedule(this.chasing, 0.5)
-        this.initSkillSettings();               //初始化技能配置
+            .then(res => {
+                this.targetNode = res
+            })
+        this.schedule(this.chasing, 0.2)
+        this.init();
         this.initCollision();                   //碰撞注册
         this.autoDestroy();                     //自动销毁
     }
-    
+    /**
+     * 初始化技能设置
+     */
+
+    init() {
+        let skillName = this.skillName
+        this.id = skillSettings[skillName].id
+        this.damage = skillSettings[skillName].damage
+        this.skillLevel = skillSettings[skillName].skillLevel
+
+    }
+
+
     chasing() {
         tween(this.node).
             to(1, {
@@ -41,21 +52,9 @@ export class Dart extends Skill {
     update() {
 
     }
-    /**
-     * 根据属性组，初始化技能属性
-     */
-    initSkillSettings() {
-        //该方法会被子技能继承，因此this在实际上应该指的是具体的技能脚本, 挂载技能预制体上
-        let prefabName = this.node.name;
-        this.id = skillAttr[prefabName].id;
-        this.damage = skillAttr[prefabName].damage;
-        this.skillLevel = skillAttr[prefabName].skillLevel;
-        this.skillLogic = skillAttr[prefabName].skillLogic;
 
-    }
-
-    getMinDisNode(cb){
-        return new Promise((resolve,reject)=>{
+    getMinDisNode(cb) {
+        return new Promise((resolve, reject) => {
             resolve(cb);
         })
     }
@@ -63,6 +62,7 @@ export class Dart extends Skill {
      *  获得距离最近的节点
      */
     getMinDisEnemy() {
+        //截流函数
         const canvas = director.getScene().getChildByName('Canvas');//获得画布
         //enemies是所有挂载的怪物节点，enemies数组是会变化的
         const enemies = canvas.children.filter(item => item.getComponent(Enemy) != null);
@@ -124,9 +124,9 @@ export class Dart extends Skill {
 
         if (otherCollider.tag === 1) {
             //敌人的Tag等于一
-            director.once(Director.EVENT_AFTER_PHYSICS, () =>{
+            director.once(Director.EVENT_AFTER_PHYSICS, () => {
                 selfCollider.node.destroy();
-            },this)
+            }, this)
         }
     }
 
@@ -140,13 +140,12 @@ export class Dart extends Skill {
 
     }
 
-
-
-
+    /**
+     * use this method to find the closest enemy node
+     */
 
 
 
 }
-
 
 
