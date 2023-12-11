@@ -3,25 +3,21 @@ import { Enemy } from '../Enemy/Enemy';
 const { ccclass, property } = _decorator;
 
 //负责释放技能预制体
-@ccclass('SkillManager')
-export class SkillManager extends Component {
+@ccclass('DartManager')
+export class DartManager extends Component {
     
     @property(Prefab) private skillPrefabs: Prefab[] = [];//注入技能预制体数组
     @property(Node) private playerNode: Node;
-    private skillSpawnDelay:number = 5;
+    private dartSkillSpawnDelay:number = 5;
    
     start () { 
-        console.log("StartSkillManager")
+        console.log("DartSkillManager")
         /**
          * 定时器，每5秒执行释放一个预制体
          */
         this.schedule(() => {
             this.generateOneSkill();
-        }, this.skillSpawnDelay, macro.REPEAT_FOREVER)
-
-    }
-
-    update () {
+        }, this.dartSkillSpawnDelay, macro.REPEAT_FOREVER)
 
     }
 
@@ -34,11 +30,12 @@ export class SkillManager extends Component {
         let prefab = this.skillPrefabs.find(prefab => prefab.name == prefabName);
         let newSkill = instantiate(prefab);
         newSkill.setPosition(this.playerNode.position);
+        // TODO: 
+        // 获取容器节点 （canvas下 nodeContainer 
+        // 把飞行物放到这个节点下
         this.node.addChild(newSkill);
         //把飞镖预制体放在和 player 平行的节点上
-
-
     }
-
+ 
 }
 
