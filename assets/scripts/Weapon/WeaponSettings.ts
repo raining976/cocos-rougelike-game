@@ -2,7 +2,7 @@ import { _decorator, Component, Node } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('WeaponSettings')
-export class WeaponSettings extends Component {
+export class WeaponSettings{
     [index: string]: {
         id: string,
         damage: number
@@ -14,5 +14,5 @@ export class WeaponSettings extends Component {
 export const WeaponAttr = new WeaponSettings();
 WeaponAttr['default'] = {
     id: '001',
-    damage: 100
+    damage: 80
 }

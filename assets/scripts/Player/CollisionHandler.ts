@@ -1,4 +1,4 @@
-import { _decorator, Component, Node ,Collider2D,Contact2DType,director} from 'cc';
+import { _decorator, Component, Node ,Collider2D,Contact2DType,director, Prefab, IPhysics2DContact, instantiate} from 'cc';
 const { ccclass, property } = _decorator;
 import { ExpBall } from '../Exp/EnemyDeath/ExpBall';
 import { Player } from './Player';
@@ -8,6 +8,7 @@ import { AttrController } from './Controllers/AttrController';
 
 @ccclass('CollisionHandler')
 export class CollisionHandler extends Component {
+  
     attrController: AttrController = null // 属性控制器
     start() {
         this.attrController = this.node.getComponent(AttrController)
@@ -37,12 +38,12 @@ export class CollisionHandler extends Component {
 
     onBeginContact(selfCollier: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
         // 小怪
-        // if (otherCollider.tag == 1) {
-        //     let enemyNode = otherCollider.node
-        //     let canvas = director.getScene().getChildByName("Canvas") 
-        //     if(canvas.children.includes(enemyNode))
-        //         this.attrController.reduceHealth(enemyNode.getComponent(Enemy).getdamage());
-        // }
+        if (otherCollider.tag == 1) {
+            let enemyNode = otherCollider.node
+            let canvas = director.getScene().getChildByName("Canvas") 
+            let isExist = canvas.children.find(child => child == enemyNode)
+            isExist && this.attrController.reduceHealth(enemyNode.getComponent(Enemy).getdamage());
+        }
 
         // 经验球
         if (otherCollider.tag == 2) {

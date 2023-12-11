@@ -5,29 +5,11 @@ const { ccclass, property } = _decorator;
 export class ExpLabelController extends Component {
     expLabelNodes = {} // 经验值的相关节点
 
-    curExpLabel = null;
-    maxExpLabel = null;
-    expBar = null;
-    levelLabel = null;
+    @property(Label)curExpLabel = null;
+    @property(Label)maxExpLabel = null;
+    @property(ProgressBar)expBar = null;
+    @property(Label)levelLabel = null;
 
-
-    start() {
-        this.initChildren()
-        console.log('this.expLabelNodes', this.expLabelNodes)
-    }
-
-    /**
-     * 获取当前脚本节点上的子节点
-     */
-    initChildren() {
-        this.node.children.forEach(item => {
-            this.expLabelNodes[item.name] = item
-        });
-        this.curExpLabel = this.expLabelNodes['curExp'].getComponent(Label)
-        this.maxExpLabel = this.expLabelNodes['maxExp'].getComponent(Label)
-        this.expBar = this.expLabelNodes['expBar'].getComponent(ProgressBar)
-        this.levelLabel = this.expLabelNodes['level'].getComponent(Label)
-    }
 
     setAll(curExp: number, maxExp: number, level: number) {
         this.setCurExp(curExp)

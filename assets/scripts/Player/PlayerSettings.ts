@@ -8,7 +8,6 @@ export class PlayerSettings{
         healthLimit: number,
         damage: number,
         speed: number,
-        attackRange: number,
         weaponName: string,
         weaponCount: number
     }
@@ -16,10 +15,9 @@ export class PlayerSettings{
 export const PlayerAttr = new PlayerSettings();
 PlayerAttr['Yellow'] = {
     id: '001',
-    healthLimit: 1000,
+    healthLimit: 500,
     damage: 100,
     speed: 3,
-    attackRange: 100,
     weaponCount: 4,
     weaponName: 'default'
 }

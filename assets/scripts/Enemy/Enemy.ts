@@ -7,6 +7,9 @@ import Animator from '../utils/FSM/Animator';
 import { Randompos } from '../utils/Randompos';
 import AnimatorManager from '../utils/FSM/AnimatorManager';
 import { ProxyClass } from '../utils/FSM/ProxyClass';
+import { FloatLabel } from '../FloatLabel/FloatLabel';
+import { FloatLabelBase } from '../FloatLabel/FloatLabelBase';
+
 const { ccclass, property } = _decorator;
 
 @ccclass('Enemy')
@@ -15,6 +18,7 @@ export class Enemy extends Component {
     @property(Sprite) protected sprite: Sprite;//敌人的绘图
     @property(Animation) protected MoveAnim: Animation;//敌人的动画
     @property(ProgressBar) bloodProgressBar: ProgressBar;//敌人的血条
+    @property(Prefab) floatLabelPrefab: Prefab; // 浮动label的prefab
 
     protected settings = EnemyAttr;//敌人属性组配置
     protected id: string = "1";
@@ -37,7 +41,7 @@ export class Enemy extends Component {
     protected _animator: Animator | null = null;//动画机，管理某种敌人的状态
 
     //随机坐标生成器
-    private randomposGenerators:Randompos;
+    private randomposGenerators: Randompos;
 
     start() {
         //监听函数注册
@@ -45,15 +49,15 @@ export class Enemy extends Component {
         this.initCollision()//碰撞监听
 
         //随机坐标生成器初始化
-        this.randomposGenerators=new Randompos();
-        this.randomposGenerators.setRectangleParameter(100,200,100,200);
+        this.randomposGenerators = new Randompos();
+        this.randomposGenerators.setRectangleParameter(100, 200, 100, 200);
         this.randomposGenerators.setCircleParameter(800);
 
         //敌人初始化
         this.Enemyname = this.node.name;
         this.init(this.Enemyname);//初始化
         this.MoveAnim.play();
-        
+
         /*说实话，这一段现在放在这里并不太好，因为这样每生成一个敌人就会重复一次动画机的注册，
         就会new一批状态对象，而我们全局只需要注册一次。
         所以最好有一个全局管理的脚本，然后在那里注册状态*/
@@ -69,10 +73,10 @@ export class Enemy extends Component {
         //FSM注册
         // console.log(111,"Enemy_"+this.settings[this.Enemyname].States[0]);
         // let aClss=new ProxyClass('AClass');
-        this._animator=AnimatorManager.instance().getAnimator(this.Enemyname);//通过名称获取对应的FSM，每种敌人都有自己的FSM
-        if(this._animator){//假如FSM存在，则注册FSM中的状态
-            for(let data of this.settings[this.Enemyname].States){//遍历setting获得该种敌人的所有状态，通过代理类ProxyClass动态构建对应状态对象，注册到对应敌人的FSM中
-                this._animator.regState(data,new ProxyClass("Enemy_"+data,this,this.node));//不用管报错，代理构建识别不出来
+        this._animator = AnimatorManager.instance().getAnimator(this.Enemyname);//通过名称获取对应的FSM，每种敌人都有自己的FSM
+        if (this._animator) {//假如FSM存在，则注册FSM中的状态
+            for (let data of this.settings[this.Enemyname].States) {//遍历setting获得该种敌人的所有状态，通过代理类ProxyClass动态构建对应状态对象，注册到对应敌人的FSM中
+                this._animator.regState(data, new ProxyClass("Enemy_" + data, this, this.node));//不用管报错，代理构建识别不出来
             }
         }
         // this._animator.switchState("Run");//状态初始化为Run,这也是FSM的好处：只需要字符串即可实现状态的切换
@@ -81,7 +85,7 @@ export class Enemy extends Component {
         //FSMAI运行
         this.schedule(this.StateAI, this.interval, macro.REPEAT_FOREVER, this.AIdelay);
     }
-    
+
     /**
      * 敌人节点初始化函数
      * @param Enemyname ：敌人名称，用来提取配置
@@ -112,7 +116,7 @@ export class Enemy extends Component {
     /**
      * FSMAI，以一定间隔进行思考执行动作，只负责状态的切换
      */
-     StateAI() {
+    StateAI() {
         const targetnode: Node = this.node.parent.getComponent("EnemySpawner").TargetNode;
         const distance = Vec3.distance(this.node.worldPosition, targetnode.worldPosition);
         this._animator.onUpdate();
@@ -126,12 +130,12 @@ export class Enemy extends Component {
             return;
         }
 
-        if(distance<this.attackrange){//目标进入攻击范围则切换至攻击状态，反之切换至运动状态
+        if (distance < this.attackrange) {//目标进入攻击范围则切换至攻击状态，反之切换至运动状态
             this._animator.switchState("Attack");
-        }else{
+        } else {
             this._animator.switchState("Run");
         }
-        
+
     }
     /**
      * 节点回收处理
@@ -141,7 +145,7 @@ export class Enemy extends Component {
         this.node.setWorldPosition(this.randomposGenerators.CircularSpawner(this.node.parent.getComponent("EnemySpawner").TargetNode.worldPosition));
         this.CollisionDisable();
         setTimeout(() => {
-            if(this.node.parent){
+            if (this.node.parent) {
                 this.node.parent.getComponent("EnemySpawner").enemyPool.put(this.node);
             }
         }, 300);//没有延时的话，放入对象池会导致setposition的中断
@@ -157,14 +161,14 @@ export class Enemy extends Component {
         let prefabName = this.Enemyname.includes('Boss') ? 'Big' : 'Small';
         expSpawner.GenerateOneExpBall(this.EnemyDeathWorldPosition, prefabName)
     }
-    
+
 
     /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
     //监听函数
     /**
      * Boss生成的监听函数注册
      */
-    initBoss(){
+    initBoss() {
         this.node.parent.on('Boss', (event) => {
             this.bloodProgressBar.progress = 0;
         })
@@ -199,12 +203,17 @@ export class Enemy extends Component {
 
         //这里将武器的Tag设置成5就会撞击了
         if (otherCollider.tag == 5) {
-            //这两句不能放在外面，要不然如果碰到的是经验球就会报错
+
             let reduceBloodValue = otherCollider.node.getComponent(Weapon).getDamage()
             let maxHealth = this.gethealth()
             let percent = (reduceBloodValue / maxHealth)
             let curProgress = this.bloodProgressBar.progress
-            curProgress > 0 && (this.bloodProgressBar.progress -= percent)
+            if (curProgress > 0) {
+                let label = instantiate(this.floatLabelPrefab)
+                label.getComponent(FloatLabelBase).initLabel('Enemy',reduceBloodValue)
+                this.node.addChild(label)
+                this.bloodProgressBar.progress -= percent
+            }
         }
     }
 
@@ -256,7 +265,7 @@ export class Enemy extends Component {
     /**
      * 这就一个纯补丁，以后得想个办法移走
      */
-    patch(){
+    patch() {
         this.bloodProgressBar.progress = 1;
     }
     /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------*/

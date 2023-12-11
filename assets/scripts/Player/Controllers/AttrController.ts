@@ -2,47 +2,24 @@ import { _decorator, Component, Node ,Prefab,instantiate,UITransform,AudioSource
 import { Player } from '../Player';
 import { BloodLabelController } from '../StateLabelControllers/BloodLabelController';
 import { ExpLabelController } from '../StateLabelControllers/ExpLabelController';
-import { ENHANCE_TYPE } from '../../EnhanceBoard/EnhanceSettings';
-import { Enhance } from '../../EnhanceBoard/Enhance';
-import { EnhanceController } from '../../EnhanceBoard/EnhanceController';
+import { FloatLabelBase } from '../../FloatLabel/FloatLabelBase';
 const { ccclass, property } = _decorator;
 
 @ccclass('AttrController')
 export class AttrController extends Component {
     @property(Node) stateLabelNode = null // 人物状态根节点
     @property(Prefab) upgradePrefab = null
-    @property(Node) enhanceBoard: Node | null = null;
-    bloodStateEntity: BloodLabelController = null // 血条实体类
-    expStateEntity: ExpLabelController = null // 经验实体类
+    @property(Prefab) floatLabelPrefab: Prefab;
+
     playerEntity: Player = null // 人物实体类
     upgradeAudio = null // 升级音效
     passiveSkillsCurLevel: number[] = new Array(ENHANCE_TYPE.LENGTH);//角色被动技能当前等级
 
     start() {
         this.upgradeAudio = this.node.getComponent(AudioSource)
-        this.bloodStateEntity = this.stateLabelNode.getComponentInChildren(BloodLabelController)
-        this.expStateEntity = this.stateLabelNode.getComponentInChildren(ExpLabelController)
         this.playerEntity = this.node.getComponent(Player)
-        this.initStateLabel()
-        this.updateExpLabel()
-        this.initPassiveSkills()
     }
 
-    updateExpLabel() {
-        this.expStateEntity.setAll(this.playerEntity.getCurExp(), this.playerEntity.getMaxExp(), this.playerEntity.getLevel())
-    }
-
-    updateBloodLabel() {
-        this.bloodStateEntity.setAll(this.playerEntity.getCurHealth(), this.playerEntity.getMaxHealth())
-    }
-
-    /**
-     * 获取状态节点的实体类
-     */
-    initStateLabel() {
-        this.expStateEntity.setAll(this.playerEntity.getCurExp(), this.playerEntity.getMaxExp(), this.playerEntity.getLevel())
-        this.bloodStateEntity.setAll(this.playerEntity.getCurHealth(), this.playerEntity.getMaxHealth())
-    }
 
     /**
      * 在与小怪碰撞后，降低角色血量
@@ -50,12 +27,15 @@ export class AttrController extends Component {
      */
     reduceHealth(delta: number) {
         let newHealth = this.playerEntity.getCurHealth() - delta;
-        if (newHealth < 0) {
+        if (newHealth <= 0) {
             alert("game over!!!")
             // TODO: 游戏结束的逻辑
+        }else{
+            let label = instantiate(this.floatLabelPrefab)
+            label.getComponent(FloatLabelBase).initLabel('Player',delta)
+            this.node.parent.addChild(label)
         }
         this.playerEntity.setCurHealth(newHealth);
-        this.bloodStateEntity.setCurBlood(newHealth);
     }
 
 
@@ -73,7 +53,7 @@ export class AttrController extends Component {
             
         } else {
             this.playerEntity.setCurExp(newExp);
-            this.expStateEntity.setCurExp(newExp);
+            // this.expStateEntity.setCurExp(newExp);
         }
 
     }
@@ -88,7 +68,6 @@ export class AttrController extends Component {
         this.playerEntity.setLevel(playerEntity.getLevel() + 1)
         //TODO:this.playerEntity.setMaxExp(playerEntity.getMaxExp() * 2)
         this.playerEntity.setCurExp(overflowExp)
-        this.updateExpLabel()
         this.playUpgrade()
         
         //属性提升
