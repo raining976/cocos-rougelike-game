@@ -56,7 +56,6 @@ export class Projectile extends Component {
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
     }
     onEndContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
-        console.log(567,otherCollider.tag);
         if(otherCollider.tag==0||(otherCollider.tag==1&&otherCollider.node!=this.node.parent)){//防止自己射自己
             setTimeout(() => {
                 this.reclaim();
