@@ -16,7 +16,7 @@ export class GameController extends Component {
     start() {
         // this.openDebugInfo();
         this.init()
-        this.Menu.setPosition(this.Menu.position.add(new Vec3(0, 0, 1000)))
+        //this.Menu.setPosition(this.Menu.position.add(new Vec3(0, 0, 1000)))
     }
 
     // 打开碰撞体调试信息
@@ -35,14 +35,14 @@ export class GameController extends Component {
     setCurState(value: GameState) {
         switch (value) {
             case GameState.GS_PLAYING:
-                this.gameBack();
+                this.gameBack()
                 break;
             case GameState.GS_PAUSE:
-                this.gamePause();
+                this.gamePause()
                 break;
             case GameState.GS_END:
-                this.gameEnd();
-                this.gameBackStart();
+                this.gameEnd()
+
                 break;
         }
     }
@@ -60,26 +60,32 @@ export class GameController extends Component {
 
     gameEnd() {
         this.Menu.active = false;
-        director.end();
+        // director.end();
+        // 
+        //game.restart();
+        director.loadScene("start");
         director.resume();
     }
 
-    gameBackStart() {
-        game.restart();
-        //director.loadScene("start");
+    gameReStart() {
+        this.Menu.active = false;
+        director.end();
+        // game.restart();
+        director.loadScene("scene");
+        director.resume();
     }
 
-    //按钮事件-暂停游戏，打开菜单
+    //暂停游戏，打开菜单
     onPauseButtonClicked() {
         this.setCurState(GameState.GS_PAUSE);
     }
 
-    //按钮事件-退出游戏
+    //退出游戏
     onExitButtonClicked() {
         this.setCurState(GameState.GS_END);
     }
 
-    //按钮事件-继续游戏
+    //返回游戏
     onBackButtonClicked() {
         this.setCurState(GameState.GS_PLAYING);
 
@@ -87,18 +93,13 @@ export class GameController extends Component {
 
     //重新开始游戏
     onRestartButtonClicked() {
-        this.Menu.active = false;
-        // director.end();
-        // director.resume();
-        //director.loadScene("scene");
-        this.gameBackStart();
+        this.gameReStart()
     }
 
     //开始游戏
     onPlayButtonClicked() {
         director.loadScene("scene");
     }
-
     update(deltaTime: number) {
 
     }
