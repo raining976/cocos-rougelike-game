@@ -1,4 +1,4 @@
-import { _decorator, Component, Label, LabelAtlas, Node, UITransform, director, Button, Animation, UIOpacity, Sprite, SpriteFrame, resources, AssetManager } from 'cc';
+import { _decorator, Component, Label, LabelAtlas, Node, UITransform, director, Button, Animation, UIOpacity, Sprite, SpriteFrame, resources, AssetManager, Layout, VerticalTextAlignment, Prefab, instantiate } from 'cc';
 import { ENHANCE_TYPE } from './EnhanceSettings';
 import { Enhance } from './Enhance';
 import { EnhanceAttr } from './EnhanceSettings';
@@ -14,12 +14,12 @@ export class EnhanceController extends Component {
     @property(Node) playerNode: Node | null = null;//角色节点
     private animation: Animation | null = null;
 
+    @property(Prefab) enhanceElement: Prefab = null;
     start() {
-        this.node.setPosition(15, 11, 0);
+        this.initEnhanceBoard();
+        this.initEnhanceElement()
+        //初始化事件
         this.initButtonClick();
-        this.initSize()
-        //获取动画组件
-        this.animation = this.node.getComponent(Animation);
     }
 
     protected onDestroy(): void {
@@ -28,18 +28,36 @@ export class EnhanceController extends Component {
             this.node.children[index].off(Button.EventType.CLICK, this.enhance, this);
     }
 
-    initSize() {
-        let canvasUITran = this.node.parent.parent.getComponent(UITransform);
+    initEnhanceElement() {
+        for (let i = 0; i < 3; ++ i) {
+            let newEle = instantiate(this.enhanceElement);
+            this.node.addChild(newEle);
+        }
+    }
+    initEnhanceBoard() {
+        //初始化位置
+        this.node.setPosition(0, 0, 0);
+        //initsize
         let uiTran = this.node.getComponent(UITransform);
-        uiTran.width = canvasUITran.width;
-        uiTran.height = canvasUITran.height;
+        uiTran.width = 500;
+        uiTran.height = 600;
+        //初始化动画
+        //this.animation = this.node.getComponent(Animation);
+        //初始化布局
+        this.initLayout();
+    }
+
+    initLayout() {
+        let layout = this.node.getComponent(Layout);
+        layout.spacingY = 20;
+        layout.paddingTop = 60;
     }
     /**
      * 按钮事件初始化
      */
     initButtonClick() {
         let index: number;
-        for (index = 0; index < 3; index ++)
+        for (index = 0; index < this.node.children.length; index ++)
             this.node.children[index].on(Button.EventType.CLICK, this.enhance, this);
     }
 
@@ -52,12 +70,12 @@ export class EnhanceController extends Component {
         //调节透明度
         this.node.getComponent(UIOpacity).opacity = 255;
         //播放进场动画
-        let duration = this.animation.getState('appear').duration;
-        console.log('duration',duration)
-        this.animation.play('appear');
-        setTimeout(() => {
-            director.stopAnimation()
-        }, duration*1100);
+        //let duration = this.animation.getState('appear').duration;
+        //console.log('duration',duration)
+        // this.animation.play('appear');
+        // setTimeout(() => {
+        //     director.stopAnimation()
+        // }, duration*1100);
     }
     /**
      * 子面板内容初始化
@@ -67,7 +85,7 @@ export class EnhanceController extends Component {
         for (count = 0; count < 3; count ++) {
             let typeRand: number = randomRangeInt(0, ENHANCE_TYPE.LENGTH);
             //初始化图标
-            this.loadImage(count, typeRand);
+            //this.loadImage(count, typeRand);
             //初始化名称
             this.node.children[count].
             getChildByName("Name").getComponent(Label).string = EnhanceAttr[typeRand].name;
@@ -129,7 +147,7 @@ export class EnhanceController extends Component {
                 console.log("bad enhance!!!");
         }
         //播放退场动画
-        this.animation.play('disappear')
+        //this.animation.play('disappear')
         //调节透明度
         this.node.getComponent(UIOpacity).opacity = 0;
         //场景恢复

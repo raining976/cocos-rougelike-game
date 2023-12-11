@@ -5,7 +5,7 @@ const { ccclass, property } = _decorator;
 export class GameController extends Component {
     start() {
        this.openDebugInfo()
-       this.node.getChildByName("EnhanceRoot").getComponent(UIOpacity).opacity = 0;
+       this.node.getChildByName("Camera").getChildByName("EnhanceBoard").getComponent(UIOpacity).opacity = 0;
     }
 
     // 打开碰撞体调试信息

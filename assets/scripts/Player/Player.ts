@@ -71,9 +71,6 @@ export class Player extends Component {
         return this.speed;
     }
 
-    public setSpeed(newSpeed: number) {
-        this.speed = newSpeed;
-    }
     public setCurHealth(newHealth: number) {
         this.bloodStateController.setCurBlood(newHealth)
         this.curHealth = newHealth;
@@ -82,10 +79,6 @@ export class Player extends Component {
         return this.curHealth;
     }
 
-    public setMaxHealth(newMaxHealth: number) {
-        this.bloodStateController.setMaxBlood(newMaxHealth)
-        this.maxHealth = newMaxHealth;
-    }
     public getMaxHealth() {
         return this.maxHealth;
     }

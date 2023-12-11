@@ -3,6 +3,8 @@ import { Player } from '../Player';
 import { BloodLabelController } from '../StateLabelControllers/BloodLabelController';
 import { ExpLabelController } from '../StateLabelControllers/ExpLabelController';
 import { FloatLabelBase } from '../../FloatLabel/FloatLabelBase';
+import { ENHANCE_TYPE } from '../../EnhanceBoard/EnhanceSettings';
+import { EnhanceController } from '../../EnhanceBoard/EnhanceController';
 const { ccclass, property } = _decorator;
 
 @ccclass('AttrController')
@@ -11,6 +13,9 @@ export class AttrController extends Component {
     @property(Prefab) upgradePrefab = null
     @property(Prefab) floatLabelPrefab: Prefab;
 
+    @property(Node) enhanceBoard: Node | null = null;
+    @property(Node) bloodState: Node | null = null;
+
     playerEntity: Player = null // 人物实体类
     upgradeAudio = null // 升级音效
     passiveSkillsCurLevel: number[] = new Array(ENHANCE_TYPE.LENGTH);//角色被动技能当前等级
@@ -18,7 +23,9 @@ export class AttrController extends Component {
     start() {
         this.upgradeAudio = this.node.getComponent(AudioSource)
         this.playerEntity = this.node.getComponent(Player)
+        this.initPassiveSkills();   
     }
+
 
 
     /**
@@ -49,7 +56,7 @@ export class AttrController extends Component {
         if (newExp >= this.playerEntity.getMaxExp()) {
             this.improveLevel(newExp - this.playerEntity.getMaxExp());
             //激活面板
-            this.enhanceBoard.getComponent(EnhanceController).boardAppear();
+            this.enhanceBoard.getComponent(EnhanceController).boardAppear()
             
         } else {
             this.playerEntity.setCurExp(newExp);
@@ -91,6 +98,9 @@ export class AttrController extends Component {
         this.node.addChild(upgradeNode)
     }
 
+    /**
+     * 初始化技能等级
+     */
     initPassiveSkills() {
         let index: number;
         for (index = 0; index < this.passiveSkillsCurLevel.length; index ++)
@@ -103,7 +113,7 @@ export class AttrController extends Component {
         this.passiveSkillsCurLevel[ENHANCE_TYPE.ENHANCE_HEALTH] ++;
         let newMaxHealth = this.computeMaxHealth(this.passiveSkillsCurLevel[ENHANCE_TYPE.ENHANCE_HEALTH]);
         this.playerEntity.setMaxHealth(newMaxHealth);
-        this.bloodStateEntity.setMaxBlood(newMaxHealth)
+        this.bloodState.getComponent(BloodLabelController).setMaxBlood(newMaxHealth)
         //TODO:调整属性平衡
 
     }
