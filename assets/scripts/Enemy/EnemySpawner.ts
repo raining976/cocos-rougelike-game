@@ -5,7 +5,7 @@ import { Randompos } from '../utils/Randompos';
 const { ccclass, property } = _decorator;
 
 @ccclass('EnemySpawner')
-export class EnemySpanwner extends Component {
+export class EnemySpawner extends Component {
     @property(Prefab) private enemies: Prefab[]=[];//引擎内预先注入敌人预制体数组
     @property(Prefab) private Boss: Prefab[]=[];//引擎内预先注入Boss预制体数组
     @property(Node) private TargetNode: Node;//引擎内预先注入目标（玩家）节点
@@ -23,7 +23,7 @@ export class EnemySpanwner extends Component {
 
     start() {
         //监听器注册
-        this.initBossdied();
+        // this.initBossdied();
 
         //对象池初始化
         this.enemyPool=new NodePool();
@@ -51,7 +51,6 @@ export class EnemySpanwner extends Component {
         if(this.enemyPool.size()>0){//若对象池有存对象，则取出
             enemynode=this.enemyPool.get();
             if(enemynode.getComponent("Enemy").Enemyname!=null){
-                // console.log(333);
                 isoldnode=true;
             }
         }
@@ -59,24 +58,20 @@ export class EnemySpanwner extends Component {
             enemynode=instantiate(this.enemies[randomRangeInt(0, this.enemies.length)]);
         }
         this.node.addChild(enemynode);//杂鱼节点挂载至当前节点之下
-        if(isoldnode==false){
-            // console.log(111);
-            enemynode.setWorldPosition(this.randomposGenerators.CircularSpawner(this.TargetNode.worldPosition));
-            setTimeout(() => {
-                enemynode.getComponent("Enemy").patch();
-            }, 300);//何等丑陋的处理方式...但是不改碰撞体和对象池的话暂时也只能这么办了
-        }
+        enemynode.setWorldPosition(this.randomposGenerators.CircularSpawner(this.TargetNode.worldPosition));
         if(isoldnode==true){
-            // console.log(222);
             enemynode.getComponent("Enemy").reset();
         }
+        setTimeout(() => {
+            enemynode.getComponent(BoxCollider2D).tag=1;
+        }, 1000);
     }
     /**
      * Boss生成函数
      */
     BossSpawner(){
         this.node.emit('Boss');
-        this.unschedule(this.TrashfishSpawner);
+        // this.unschedule(this.TrashfishSpawner);
         let Bossnode=null;
         Bossnode=instantiate(this.Boss[randomRangeInt(0, this.Boss.length)]);//实例化boss节点
         Bossnode.setWorldPosition(this.randomposGenerators.IndividualSpawner(this.TargetNode.worldPosition,this.node.worldPosition,0,400));
@@ -89,6 +84,12 @@ export class EnemySpanwner extends Component {
         this.node.on('Bossdied',(event) => {//注册Boss死亡监听
             this.schedule(this.TrashfishSpawner,this.SpawnerDelay,macro.REPEAT_FOREVER);
         })
+    }
+    getenemypool(){
+        return this.enemyPool;
+    }
+    gettargetnode(){
+        return this.TargetNode;
     }
 }
 
