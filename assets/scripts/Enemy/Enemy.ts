@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, Prefab, randomRange, instantiate, macro, game, Sprite, Animation, ProgressBar, tween, AnimationState, Vec3, director, Collider2D, Contact2DType, IPhysics2DContact, BoxCollider2D, Tween } from 'cc';
 import { EnemyAttr } from './EnemySettings';
+import { EnemySpawner } from './EnemySpawner';
 import { ExpSpawner } from '../Exp/EnemyDeath/ExpSpawner';
 import { Weapon } from '../Weapon/Weapon';
 import StateBase from '../utils/FSM/StateBase';
@@ -9,6 +10,8 @@ import AnimatorManager from '../utils/FSM/AnimatorManager';
 import { ProxyClass } from '../utils/FSM/ProxyClass';
 import { FloatLabel } from '../FloatLabel/FloatLabel';
 import { FloatLabelBase } from '../FloatLabel/FloatLabelBase';
+import { ProjectileGenerate } from '../Projectile/ProjectileGenerate';
+import { Projectile } from '../Projectile/Projectile';
 
 const { ccclass, property } = _decorator;
 
@@ -26,10 +29,10 @@ export class Enemy extends Component {
     protected damage: number = 1;
     protected speed: number = 100;
     protected xpReward: number = 1;
-    protected attackrange: number = 100;//伤害判定范围
+    protected hasremote: boolean=false;//拥有远程攻击形式
+    protected projectilerange:number =-1;//远程攻击范围
+    protected attackrange: number = -1;//近战攻击范围
     protected Enemyname: string;//敌人名称，用以从配置中提取属性
-
-    protected isBoss: boolean = false
 
     EnemyDeathWorldPosition: Vec3 = new Vec3() // 怪物死亡世界坐标
 
@@ -40,13 +43,18 @@ export class Enemy extends Component {
     protected _state: StateBase | null = null;//状态委托，储存敌人当前状态
     protected _animator: Animator | null = null;//动画机，管理某种敌人的状态
 
+    protected purgerange:number=1500;//清除距离，超过这个距离的敌人将为了节省性能被直接回收
+
     //随机坐标生成器
     private randomposGenerators: Randompos;
 
+    public targetnode:Node=new Node();//目标节点
+    public distance:number=-1;//与目标节点的距离
+    public dir:Vec3=new Vec3();//指向目标节点的单位向量
+
     start() {
-        //监听函数注册
-        this.initBoss()//注册Boss生成监听
         this.initCollision()//碰撞监听
+        // this.initBoss()//注册Boss生成监听
 
         //随机坐标生成器初始化
         this.randomposGenerators = new Randompos();
@@ -71,8 +79,6 @@ export class Enemy extends Component {
 
         /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
         //FSM注册
-        // console.log(111,"Enemy_"+this.settings[this.Enemyname].States[0]);
-        // let aClss=new ProxyClass('AClass');
         this._animator = AnimatorManager.instance().getAnimator(this.Enemyname);//通过名称获取对应的FSM，每种敌人都有自己的FSM
         if (this._animator) {//假如FSM存在，则注册FSM中的状态
             for (let data of this.settings[this.Enemyname].States) {//遍历setting获得该种敌人的所有状态，通过代理类ProxyClass动态构建对应状态对象，注册到对应敌人的FSM中
@@ -96,7 +102,10 @@ export class Enemy extends Component {
         this.damage = this.settings[Enemyname].damage;
         this.speed = this.settings[Enemyname].speed;
         this.xpReward = this.settings[Enemyname].xpReward;
+        this.hasremote=this.settings[Enemyname].remote;
+        this.projectilerange=this.settings[Enemyname].projectilerange;
         this.attackrange = this.settings[Enemyname].attackrange;
+        this.targetnode = this.node.parent.getComponent(EnemySpawner).gettargetnode();
     }
     /**
      * 敌人节点复位函数
@@ -107,33 +116,36 @@ export class Enemy extends Component {
         this.damage = this.settings[this.Enemyname].damage;
         this.speed = this.settings[this.Enemyname].speed;
         this.xpReward = this.settings[this.Enemyname].xpReward;
+        this.hasremote=this.settings[this.Enemyname].remote;
+        this.projectilerange=this.settings[this.Enemyname].projectilerange;
         this.attackrange = this.settings[this.Enemyname].attackrange;
         this.bloodProgressBar.progress = 1;
-        this.initCollision()//碰撞监听
         this._animator.switchState("Run");
+        this.initCollision()//碰撞监听
         this.schedule(this.StateAI, this.interval, macro.REPEAT_FOREVER, this.AIdelay);
     }
     /**
      * FSMAI，以一定间隔进行思考执行动作，只负责状态的切换
      */
-    StateAI() {
-        const targetnode: Node = this.node.parent.getComponent("EnemySpawner").TargetNode;
-        const distance = Vec3.distance(this.node.worldPosition, targetnode.worldPosition);
+     StateAI() {
+        this.distance = Vec3.distance(this.node.worldPosition, this.targetnode.worldPosition);//获取距离
+        Vec3.subtract(this.dir, this.targetnode.worldPosition, this.node.worldPosition);//获取方向向量
+        this.dir.normalize();//归一化方向向量
         this._animator.onUpdate();
 
-        if (this.getblood() <= 0) {//假如敌人死亡
+        if (this.getblood() <= 0||this.distance>this.purgerange) {//假如敌人死亡或超出清除距离
             this._animator.switchState("Dead");
             return;
         }
 
-        if (targetnode == null) {//假如目标节点不存在
-            return;
-        }
-
-        if (distance < this.attackrange) {//目标进入攻击范围则切换至攻击状态，反之切换至运动状态
+        if(this.distance<this.attackrange){//目标进入攻击范围则切换至攻击状态，反之切换至运动状态
             this._animator.switchState("Attack");
-        } else {
-            this._animator.switchState("Run");
+        }else{
+            if(this.distance<this.projectilerange){//如果进入抛射范围，则进行远程攻击
+                this._animator.switchState("Shot");
+            }else{
+                this._animator.switchState("Run");
+            }
         }
 
     }
@@ -142,13 +154,11 @@ export class Enemy extends Component {
      * 
      */
     reclaim() {
-        this.node.setWorldPosition(this.randomposGenerators.CircularSpawner(this.node.parent.getComponent("EnemySpawner").TargetNode.worldPosition));
+        this.getComponent(BoxCollider2D).tag=-1;//回收时将tag修改为-1，标志不可用
         this.CollisionDisable();
-        setTimeout(() => {
             if (this.node.parent) {
-                this.node.parent.getComponent("EnemySpawner").enemyPool.put(this.node);
-            }
-        }, 300);//没有延时的话，放入对象池会导致setposition的中断
+                this.node.parent.getComponent(EnemySpawner).getenemypool().put(this.node);
+            };
         return;
     }
 
@@ -157,7 +167,7 @@ export class Enemy extends Component {
         // 将怪物位置信息传递给经验球脚本
         this.EnemyDeathWorldPosition = this.node.getPosition()
         const canvas = director.getScene().getChildByName('Canvas');
-        const expSpawner = canvas.getComponent(ExpSpawner);
+        const expSpawner = this.node.parent.getComponent(ExpSpawner);
         let prefabName = this.Enemyname.includes('Boss') ? 'Big' : 'Small';
         expSpawner.GenerateOneExpBall(this.EnemyDeathWorldPosition, prefabName)
     }
@@ -196,16 +206,30 @@ export class Enemy extends Component {
     }
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
 
-
         //碰撞体注意事项:
         // 1: 两者至少一个kinematic
         // 2: 两者不能是同一个分组，也不能是同一个Default
 
         //这里将武器的Tag设置成5就会撞击了
-        if (otherCollider.tag == 5) {
+        if (otherCollider.tag == 5&&selfCollider.tag == 1) {
 
             let reduceBloodValue = otherCollider.node.getComponent(Weapon).getDamage()
             let maxHealth = this.gethealth()
+            let percent = (reduceBloodValue / maxHealth)
+            let curProgress = this.bloodProgressBar.progress
+            if (curProgress > 0) {
+                let label = instantiate(this.floatLabelPrefab)
+                label.getComponent(FloatLabelBase).initLabel('Enemy',reduceBloodValue)
+                this.node.addChild(label)
+                this.bloodProgressBar.progress -= percent
+            }
+        }
+
+        // 中立投射物，对敌我双方都会造成伤害
+        if (otherCollider.tag == 4&&selfCollider.tag == 1) {
+            let ProjectileNode = otherCollider.node;
+            let reduceBloodValue = ProjectileNode.getComponent(Projectile).getProjectiledamage();
+            let maxHealth = this.gethealth();
             let percent = (reduceBloodValue / maxHealth)
             let curProgress = this.bloodProgressBar.progress
             if (curProgress > 0) {
@@ -252,21 +276,24 @@ export class Enemy extends Component {
     public getEnemyname() {
         return this.Enemyname;
     }
+    public getstate() {
+        return this._state;
+    }
     public setblood(bloodProgress: number) {
         this.bloodProgressBar.progress = bloodProgress;
     }
     public setEnemyname(name: string) {
         this.Enemyname = name;
     }
+    public setstate(state: StateBase) {
+        this._state = state;
+    }
     /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
     /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
     //补丁
-    /**
-     * 这就一个纯补丁，以后得想个办法移走
-     */
-    patch() {
-        this.bloodProgressBar.progress = 1;
+    ProjectileGenerate(pos:Vec3){
+        this.node.getComponent(ProjectileGenerate).Generate(pos);//生成投射物
     }
     /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 }

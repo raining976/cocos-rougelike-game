@@ -4,7 +4,18 @@ import { ExpBall } from '../Exp/EnemyDeath/ExpBall';
 import { Player } from './Player';
 import{Enemy} from '../Enemy/Enemy';
 import { AttrController } from './Controllers/AttrController';
-
+import { ProjectileGenerate } from '../Projectile/ProjectileGenerate';
+import { Projectile } from '../Projectile/Projectile';
+/*
+tag:
+-1:不可用对象
+0：玩家
+1：小怪
+2：经验球
+3：更改武器
+4：中立投射物
+5：武器
+*/
 
 @ccclass('CollisionHandler')
 export class CollisionHandler extends Component {
@@ -40,9 +51,7 @@ export class CollisionHandler extends Component {
         // 小怪
         if (otherCollider.tag == 1) {
             let enemyNode = otherCollider.node
-            let canvas = director.getScene().getChildByName("Canvas") 
-            let isExist = canvas.children.find(child => child == enemyNode)
-            isExist && this.attrController.reduceHealth(enemyNode.getComponent(Enemy).getdamage());
+            this.attrController.reduceHealth(enemyNode.getComponent(Enemy).getdamage());
         }
 
         // 经验球
@@ -56,6 +65,11 @@ export class CollisionHandler extends Component {
             // TODO: 
             // 1. 将这个武器名称更新到人物
             // 2. 调用WeaponSpawnner.changeWeapon()
+        }
+        // 中立投射物，对敌我双方都会造成伤害
+        if (otherCollider.tag == 4) {
+            let ProjectileNode = otherCollider.node
+            this.attrController.reduceHealth(ProjectileNode.getComponent(Projectile).getProjectiledamage());
         }
     }
    

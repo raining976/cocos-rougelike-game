@@ -52,7 +52,6 @@ export default class Animator {
         }
 
         if (this._state) {
-            console.log(333,this._state)
             if (this._state == this._mapStates.get(key))
                 return;
             this._state.onExit();
