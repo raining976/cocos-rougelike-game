@@ -16,7 +16,7 @@ export class DartManager extends Component {
          * 定时器，每5秒执行释放一个预制体
          */
         this.schedule(() => {
-            this.generateOneSkill();
+            this.generateOneDart();
         }, this.dartSkillSpawnDelay, macro.REPEAT_FOREVER)
 
     }
@@ -25,16 +25,15 @@ export class DartManager extends Component {
      * 释放一个技能预制体
      */
 
-    generateOneSkill(prefabName: string = 'Dart'){
+    generateOneDart(prefabName: string = 'Dart'){
         //在预制体数组内寻找对应的预制体
         let prefab = this.skillPrefabs.find(prefab => prefab.name == prefabName);
         let newSkill = instantiate(prefab);
-        newSkill.setPosition(this.playerNode.position);
         // TODO: 
-        // 获取容器节点 （canvas下 nodeContainer 
+        // 获取容器节点 canvas下 nodeContainer 
         // 把飞行物放到这个节点下
-        this.node.addChild(newSkill);
-        //把飞镖预制体放在和 player 平行的节点上
+        newSkill.setWorldPosition(this.playerNode.worldPosition)
+        this.node.getChildByName('NodeContainer').addChild(newSkill);
     }
  
 }
