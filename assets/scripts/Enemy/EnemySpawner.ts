@@ -5,7 +5,7 @@ import { Randompos } from '../utils/Randompos';
 const { ccclass, property } = _decorator;
 
 @ccclass('EnemySpawner')
-export class EnemySpanwner extends Component {
+export class EnemySpawner extends Component {
     @property(Prefab) private enemies: Prefab[]=[];//引擎内预先注入敌人预制体数组
     @property(Prefab) private Boss: Prefab[]=[];//引擎内预先注入Boss预制体数组
     @property(Node) private TargetNode: Node;//引擎内预先注入目标（玩家）节点
@@ -89,6 +89,12 @@ export class EnemySpanwner extends Component {
         this.node.on('Bossdied',(event) => {//注册Boss死亡监听
             this.schedule(this.TrashfishSpawner,this.SpawnerDelay,macro.REPEAT_FOREVER);
         })
+    }
+    getenemypool(){
+        return this.enemyPool;
+    }
+    gettargetnode(){
+        return this.TargetNode;
     }
 }
 

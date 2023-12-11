@@ -37,11 +37,10 @@ export class ProjectileGenerate extends Component {
         if(this.dir.y<0){
             Projectilenode.angle=-Projectilenode.angle;
         }
-        if(this.node.scale.x<0){//假如敌人scale改变，作为子节点的投射物scale也会改变，因而需要调整angle
-            Projectilenode.angle=180-Projectilenode.angle;
-        }
     }
-    
+    getProjectilePool(){
+        return this.ProjectilePool;
+    }
 }
 
 

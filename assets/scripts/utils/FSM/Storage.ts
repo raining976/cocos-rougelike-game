@@ -18,8 +18,8 @@ export class Enemy_Run extends StateBase{
         const targetnode: Node = this._role.targetnode;//目标节点
         const distance:number=this._role.distance;//与目标的距离
         const dir:Vec3=this._role.dir;//指向目标节点的单位向量
-        if ((this._role.node.scale.x * dir.x) < 0) {//转向
-            this._role.node.setScale(new Vec3(-this._role.node.scale.x, this._role.node.scale.y, this._role.node.scale.z));
+        if ((this._role.node.getChildByName("Graph").scale.x * dir.x) < 0) {//转向
+            this._role.node.getChildByName("Graph").setScale(new Vec3(-this._role.node.getChildByName("Graph").scale.x, this._role.node.getChildByName("Graph").scale.y, this._role.node.getChildByName("Graph").scale.z));
         };
         let time = distance / this._role.getspeed();//到达时间=距离/速度
         if(this._role.getEnemyname()=="Onre"&&distance<300){
@@ -44,8 +44,8 @@ export class Enemy_Run extends StateBase{
     }
     onUpdate(){//之所以加update，是为了保证远程攻击敌人处于attack状态时可以切换朝向
         const dir:Vec3=this._role.dir;//指向目标节点的单位向量
-        if ((this._role.node.scale.x * dir.x) < 0) {//转向
-            this._role.node.setScale(new Vec3(-this._role.node.scale.x, this._role.node.scale.y, this._role.node.scale.z));
+        if ((this._role.node.getChildByName("Graph").scale.x * dir.x) < 0) {//转向
+            this._role.node.getChildByName("Graph").setScale(new Vec3(-this._role.node.getChildByName("Graph").scale.x, this._role.node.getChildByName("Graph").scale.y, this._role.node.getChildByName("Graph").scale.z));
         };
     }
     onExit(){
@@ -65,8 +65,8 @@ export class Enemy_Run extends StateBase{
     onUpdate(){//之所以加update，是为了保证远程攻击敌人处于attack状态时可以切换朝向
         const targetnode: Node = this._role.targetnode;
         const dir:Vec3=this._role.dir;//指向目标节点的单位向量
-        if ((this._role.node.scale.x * dir.x) < 0) {
-            this._role.node.setScale(new Vec3(-this._role.node.scale.x, this._role.node.scale.y, this._role.node.scale.z));
+        if ((this._role.node.getChildByName("Graph").scale.x * dir.x) < 0) {
+            this._role.node.getChildByName("Graph").setScale(new Vec3(-this._role.node.getChildByName("Graph").scale.x, this._role.node.getChildByName("Graph").scale.y, this._role.node.getChildByName("Graph").scale.z));
         };
         this._role.ProjectileGenerate(targetnode.worldPosition);//执行射击
     }

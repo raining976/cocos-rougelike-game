@@ -61,7 +61,7 @@ EnemyAttr['Yurei']={
     xpReward:100,
     remote:false,
     projectilerange:-1,//没有远程攻击手段
-    attackrange:100,
+    attackrange:1,
     States:["Run","Attack","Dead"]
 }
 EnemyAttr['Onre']={
@@ -72,7 +72,7 @@ EnemyAttr['Onre']={
     xpReward:100,
     remote:false,
     projectilerange:-1,
-    attackrange:100,
+    attackrange:1,
     States:["Run","Attack","Dead"]
 }
 EnemyAttr['Samurai']={
@@ -83,7 +83,7 @@ EnemyAttr['Samurai']={
     xpReward:100,
     remote:false,
     projectilerange:-1,
-    attackrange:100,
+    attackrange:1,
     States:["Run","Attack","Dead"]
 }
 EnemyAttr['Wizard']={

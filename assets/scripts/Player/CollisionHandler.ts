@@ -4,6 +4,8 @@ import { ExpBall } from '../Exp/EnemyDeath/ExpBall';
 import { Player } from './Player';
 import{Enemy} from '../Enemy/Enemy';
 import { AttrController } from './Controllers/AttrController';
+import { ProjectileGenerate } from '../Projectile/ProjectileGenerate';
+import { Projectile } from '../Projectile/Projectile';
 
 
 @ccclass('CollisionHandler')
@@ -56,6 +58,11 @@ export class CollisionHandler extends Component {
             // TODO: 
             // 1. 将这个武器名称更新到人物
             // 2. 调用WeaponSpawnner.changeWeapon()
+        }
+        // 投射物
+        if (otherCollider.tag == 4) {
+            let ProjectileNode = otherCollider.node
+            this.attrController.reduceHealth(ProjectileNode.getComponent(Projectile).getProjectiledamage());
         }
     }
    
