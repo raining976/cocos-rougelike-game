@@ -138,6 +138,7 @@ export class Player extends Component {
     }
 
     public setMaxHealth(newMaxHealth: number) {
+        this.bloodStateController.setMaxBlood(newMaxHealth);
         this.maxHealth = newMaxHealth;
     }
 

@@ -14,7 +14,6 @@ export class AttrController extends Component {
     @property(Prefab) floatLabelPrefab: Prefab;
 
     @property(Node) enhanceBoard: Node | null = null;
-    @property(Node) bloodState: Node | null = null;
 
     playerEntity: Player = null // 人物实体类
     upgradeAudio = null // 升级音效
@@ -55,13 +54,6 @@ export class AttrController extends Component {
         let newExp = this.playerEntity.getCurExp() + delta;
         if (newExp >= this.playerEntity.getMaxExp()) {
             this.improveLevel(newExp - this.playerEntity.getMaxExp());
-            //激活面板
-            this.enhanceBoard.getComponent(EnhanceController).boardAppear()
-            //暂停场景,如果不进行延迟执行，显示图片会乱，甚至显示不出来
-            setTimeout(()=>{
-                director.stopAnimation();
-            },500)
-            
         } else {
             this.playerEntity.setCurExp(newExp);
             // this.expStateEntity.setCurExp(newExp);
@@ -80,7 +72,12 @@ export class AttrController extends Component {
         //TODO:this.playerEntity.setMaxExp(playerEntity.getMaxExp() * 2)
         this.playerEntity.setCurExp(overflowExp)
         this.playUpgrade()
-        
+        //激活面板
+        this.enhanceBoard.getComponent(EnhanceController).boardAppear()
+        //暂停场景,如果不进行延迟执行，显示图片会乱，甚至显示不出来
+        setTimeout(()=>{
+            director.stopAnimation();
+        },500)
         //属性提升
         //TODO:
     }
@@ -117,7 +114,6 @@ export class AttrController extends Component {
         this.passiveSkillsCurLevel[ENHANCE_TYPE.ENHANCE_HEALTH] ++;
         let newMaxHealth = this.computeMaxHealth(this.passiveSkillsCurLevel[ENHANCE_TYPE.ENHANCE_HEALTH]);
         this.playerEntity.setMaxHealth(newMaxHealth);
-        this.bloodState.getComponent(BloodLabelController).setMaxBlood(newMaxHealth)
         //TODO:调整属性平衡
     }
 
