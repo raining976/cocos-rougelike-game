@@ -11,7 +11,6 @@ export class ProxyClass {
      */
    constructor(className: string, option1:any, option2:any) {
        //一个简单的异常判断，如果存储类中不存在此类 则抛出异常提醒
-    //   console.log(className,option);
       if (Storage[className] === undefined || Storage[className] === null) {
         throw new Error(`未找到 className：${className} 对应实现`);
       }

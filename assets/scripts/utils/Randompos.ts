@@ -33,8 +33,6 @@ export class Randompos extends Component{
         const spawnPosition = new Vec3();
         spawnPosition.x = centerpos.x + x-canvepos.x;
         spawnPosition.y = centerpos.y + y-canvepos.y;
-        console.log(11,centerpos);
-        console.log(spawnPosition);
         return spawnPosition;
     }
     /**

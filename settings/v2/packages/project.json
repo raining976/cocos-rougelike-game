@@ -16,12 +16,17 @@
       {
         "index": 2,
         "name": "ENEMY"
+      },
+      {
+        "index": 3,
+        "name": "Projectile"
       }
     ],
     "collisionMatrix": {
       "0": 0,
-      "1": 6,
-      "2": 2
+      "1": 14,
+      "2": 10,
+      "3": 6
     }
   }
 }

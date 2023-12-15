@@ -8,6 +8,8 @@ export class EnemySettings{
         damage:number,
         speed:number,
         xpReward:number,
+        remote:boolean,
+        projectilerange:number,
         attackrange:number
         States:string[]
     }
@@ -44,44 +46,54 @@ EnemyAttr['Archer']={
     id:'004',
     health:100,
     damage:10,
-    speed:100,
+    speed:50,
     xpReward:100,
-    attackrange:500,
-    States:["Run","Attack","Dead"]
+    remote:true,
+    projectilerange:500,
+    attackrange:300,
+    States:["Run","Attack","Dead","Shot"]
 }
 EnemyAttr['Yurei']={
     id:'005',
     health:300,
     damage:10,
-    speed:100,
+    speed:50,
     xpReward:100,
-    attackrange:100,
+    remote:false,
+    projectilerange:-1,//没有远程攻击手段
+    attackrange:1,
     States:["Run","Attack","Dead"]
 }
 EnemyAttr['Onre']={
     id:'006',
     health:300,
     damage:10,
-    speed:100,
+    speed:50,
     xpReward:100,
-    attackrange:100,
+    remote:false,
+    projectilerange:-1,
+    attackrange:1,
     States:["Run","Attack","Dead"]
 }
 EnemyAttr['Samurai']={
     id:'007',
-    health:1000,
+    health:3000,
     damage:100,
-    speed:400,
+    speed:100,
     xpReward:100,
-    attackrange:100,
+    remote:false,
+    projectilerange:-1,
+    attackrange:1,
     States:["Run","Attack","Dead"]
 }
 EnemyAttr['Wizard']={
     id:'008',
     health:300,
     damage:10,
-    speed:100,
+    speed:50,
     xpReward:100,
-    attackrange:300,
-    States:["Run","Attack","Dead"]
+    remote:true,
+    projectilerange:300,
+    attackrange:-1,//没有近战手段
+    States:["Run","Attack","Dead","Shot"]
 }
