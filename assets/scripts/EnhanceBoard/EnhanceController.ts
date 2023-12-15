@@ -15,6 +15,7 @@ export class EnhanceController extends Component {
     private animation: Animation | null = null;
 
     @property(Prefab) enhanceElement: Prefab = null;
+
     start() {
         this.initEnhanceBoard();
         this.initEnhanceElement()
@@ -73,9 +74,7 @@ export class EnhanceController extends Component {
         //let duration = this.animation.getState('appear').duration;
         //console.log('duration',duration)
         // this.animation.play('appear');
-        // setTimeout(() => {
-        //     director.stopAnimation()
-        // }, duration*1100);
+
     }
     /**
      * 子面板内容初始化
@@ -85,7 +84,7 @@ export class EnhanceController extends Component {
         for (count = 0; count < 3; count ++) {
             let typeRand: number = randomRangeInt(0, ENHANCE_TYPE.LENGTH);
             //初始化图标
-            //this.loadImage(count, typeRand);
+            this.loadImage(count, typeRand);
             //初始化名称
             this.node.children[count].
             getChildByName("Name").getComponent(Label).string = EnhanceAttr[typeRand].name;
@@ -96,7 +95,7 @@ export class EnhanceController extends Component {
             let attrControllerPlayer = this.playerNode.getComponent(AttrController);
             //初始化当前等级效果
             this.node.children[count].
-            getChildByName("Cur").getComponent(Label).string = "当前属性:" + this.getCurEffection(typeRand)//TODO: 获取当前等级效果信息
+            getChildByName("Cur").getComponent(Label).string = "当前级属性:" + this.getCurEffection(typeRand)//TODO: 获取当前等级效果信息
             //初始化下一等级效果
             this.node.children[count].
             getChildByName("Next").getComponent(Label).string = "下一级属性:" + this.getNextEffection(typeRand)//TODO: 获取下一等级效果信息
@@ -110,13 +109,13 @@ export class EnhanceController extends Component {
         let imagePath: string = null;
         switch (type) {
             case ENHANCE_TYPE.ENHANCE_DAMAGE:
-                imagePath = "EnhanceBoard/Skills/power";
+                imagePath = "EnhanceBoard/Skills/power/spriteFrame";
                 break;
             case ENHANCE_TYPE.ENHANCE_HEALTH:
-                imagePath = "EnhanceBoard/Skills/heart";
+                imagePath = "EnhanceBoard/Skills/heart/spriteFrame";
                 break;
             case ENHANCE_TYPE.ENHANCE_SPEED:
-                imagePath = "EnhanceBoard/Skills/speed";
+                imagePath = "EnhanceBoard/Skills/speed/spriteFrame";
                 break;
             default:
                 console.log("bad enhance!!");
