@@ -4138,8 +4138,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 40,
-      "height": 36
+      "width": 500,
+      "height": 600
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -4169,7 +4169,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "57520716-48c8-4a19-8acf-41c9f8777fb0@f9941",
+      "__uuid__": "a042d6c0-482c-4898-96b9-63a6d713741f@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -5259,8 +5259,12 @@
       "__uuid__": "ce45f23c-bd96-4788-a15a-f200ebd27a86",
       "__expectedType__": "cc.Prefab"
     },
-    "enhanceBoard": null,
-    "bloodState": null,
+    "enhanceBoard": {
+      "__id__": 106
+    },
+    "bloodState": {
+      "__id__": 118
+    },
     "_id": "08h87xfxdAx7ex+fowdMBG"
   },
   {

@@ -13,7 +13,7 @@ export class EnhanceController extends Component {
     //@property(Node) camera: Node | null = null;//获取相机
     @property(Node) playerNode: Node | null = null;//角色节点
     private animation: Animation | null = null;
-
+    private playAttrController: AttrController;
     @property(Prefab) enhanceElement: Prefab = null;
 
     start() {
@@ -21,6 +21,7 @@ export class EnhanceController extends Component {
         this.initEnhanceElement()
         //初始化事件
         this.initButtonClick();
+        this.playAttrController = this.playerNode.getComponent(AttrController);
     }
 
     protected onDestroy(): void {
@@ -32,6 +33,7 @@ export class EnhanceController extends Component {
     initEnhanceElement() {
         for (let i = 0; i < 3; ++ i) {
             let newEle = instantiate(this.enhanceElement);
+            newEle.getChildByName("Type").active = false;
             this.node.addChild(newEle);
         }
     }
@@ -76,32 +78,33 @@ export class EnhanceController extends Component {
         // this.animation.play('appear');
 
     }
+
     /**
      * 子面板内容初始化
      */
     createInfo() {
-        let count: number;
-        for (count = 0; count < 3; count ++) {
+        for (let i = 0; i < 3; i ++) {
             let typeRand: number = randomRangeInt(0, ENHANCE_TYPE.LENGTH);
             //初始化图标
-            this.loadImage(count, typeRand);
+            this.loadImage(i, typeRand);
             //初始化名称
-            this.node.children[count].
-            getChildByName("Name").getComponent(Label).string = EnhanceAttr[typeRand].name;
+            this.setChildLabel(i, "Name", EnhanceAttr[typeRand].name);
             //初始化描述
-            this.node.children[count].
-            getChildByName("Description").getComponent(Label).string = EnhanceAttr[typeRand].description;
-            //获取角色节点的attributecontroller组件
-            let attrControllerPlayer = this.playerNode.getComponent(AttrController);
+            this.setChildLabel(i, "Description", EnhanceAttr[typeRand].description);
             //初始化当前等级效果
-            this.node.children[count].
-            getChildByName("Cur").getComponent(Label).string = "当前级属性:" + this.getCurEffection(typeRand)//TODO: 获取当前等级效果信息
+            this.setChildLabel(i, "Cur", "当前级属性:" + this.getCurEffection(typeRand))
             //初始化下一等级效果
-            this.node.children[count].
-            getChildByName("Next").getComponent(Label).string = "下一级属性:" + this.getNextEffection(typeRand)//TODO: 获取下一等级效果信息
+            this.setChildLabel(i, "Next", "下一级属性:" + this.getNextEffection(typeRand))
+            //初始化类型
+            this.setChildLabel(i, "Type", typeRand.toString())
         }
     }
 
+
+    setChildLabel(index: number, childLabelName: string, newValue) {
+        const ele = this.node.children[index];
+        ele.getChildByName(childLabelName).getComponent(Label).string = newValue;
+    }
     /**
      * 
      */
@@ -131,16 +134,16 @@ export class EnhanceController extends Component {
      * 角色属性提升提升事件回调
      */
     enhance(button: Button) {
-        let enhanceName = button.node.getChildByName("Name").getComponent(Label).string;
+        let enhanceName = parseInt(button.node.getChildByName("Type").getComponent(Label).string);
         switch (enhanceName) {
-            case '神力':
-                this.playerNode.getComponent(AttrController).improveDamage();
+            case ENHANCE_TYPE.ENHANCE_DAMAGE:
+                this.playAttrController.improveDamage();
                 break;
-            case '生命':
-                this.playerNode.getComponent(AttrController).improveMaxHealth();
+            case ENHANCE_TYPE.ENHANCE_HEALTH:
+                this.playAttrController.improveMaxHealth();
                 break;
-            case '迅影':
-                this.playerNode.getComponent(AttrController).improveSpeed();
+            case ENHANCE_TYPE.ENHANCE_SPEED:
+                this.playAttrController.improveSpeed();
                 break;
             default:
                 console.log("bad enhance!!!");
@@ -154,17 +157,17 @@ export class EnhanceController extends Component {
     }
 
     getCurEffection(type: ENHANCE_TYPE) {
-        let curLevel = this.playerNode.getComponent(AttrController).getPassiveSkillCurLevel(type);
+        let curLevel = this.playAttrController.getPassiveSkillCurLevel(type);
         let result: string = "test";
         switch (type) {
             case ENHANCE_TYPE.ENHANCE_DAMAGE:
-                result = this.playerNode.getComponent(AttrController).computeDamage(curLevel).toString();
+                result = this.playAttrController.computeDamage(curLevel).toString();
                 break;
             case ENHANCE_TYPE.ENHANCE_HEALTH:
-                result = this.playerNode.getComponent(AttrController).computeMaxHealth(curLevel).toString();
+                result = this.playAttrController.computeMaxHealth(curLevel).toString();
                 break;
             case ENHANCE_TYPE.ENHANCE_SPEED:
-                result = this.playerNode.getComponent(AttrController).computeSpeed(curLevel).toString();
+                result = this.playAttrController.computeSpeed(curLevel).toString();
                 break;
             default:
                 console.log("bad Type!!!");
@@ -173,17 +176,17 @@ export class EnhanceController extends Component {
     }
 
     getNextEffection(type: ENHANCE_TYPE) {
-        let nextLevel = this.playerNode.getComponent(AttrController).getPassiveSkillCurLevel(type) + 1;
+        let nextLevel = this.playAttrController.getPassiveSkillCurLevel(type) + 1;
         let result: string = "test";
         switch (type) {
             case ENHANCE_TYPE.ENHANCE_DAMAGE:
-                result = this.playerNode.getComponent(AttrController).computeDamage(nextLevel).toString();
+                result = this.playAttrController.computeDamage(nextLevel).toString();
                 break;
             case ENHANCE_TYPE.ENHANCE_HEALTH:
-                result = this.playerNode.getComponent(AttrController).computeMaxHealth(nextLevel).toString();
+                result = this.playAttrController.computeMaxHealth(nextLevel).toString();
                 break;
             case ENHANCE_TYPE.ENHANCE_SPEED:
-                result = this.playerNode.getComponent(AttrController).computeSpeed(nextLevel).toString();
+                result = this.playAttrController.computeSpeed(nextLevel).toString();
                 break;
             default:
                 console.log("bad Type!!!");
