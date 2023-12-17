@@ -1,5 +1,4 @@
-import { _decorator, Component, Node } from 'cc';
-import { Player } from './Player';
+import { _decorator } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('PlayerSettings')

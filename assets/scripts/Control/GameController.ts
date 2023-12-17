@@ -101,7 +101,7 @@ export class GameController extends Component {
         director.loadScene("scene");
     }
     update(deltaTime: number) {
-
+        //this.node.setSiblingIndex(1000);
     }
 
 }

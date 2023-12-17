@@ -79,10 +79,6 @@ export class Player extends Component {
         return this.curHealth;
     }
 
-    public setMaxHealth(newMaxHealth: number) {
-        this.bloodStateController.setMaxBlood(newMaxHealth)
-        this.maxHealth = newMaxHealth;
-    }
     public getMaxHealth() {
         return this.maxHealth;
     }
@@ -139,6 +135,11 @@ export class Player extends Component {
 
     public setWeaponCount(newWeaponCount: number) {
         this.weaponCount = newWeaponCount;
+    }
+
+    public setMaxHealth(newMaxHealth: number) {
+        this.bloodStateController.setMaxBlood(newMaxHealth);
+        this.maxHealth = newMaxHealth;
     }
 
 
