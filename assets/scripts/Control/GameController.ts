@@ -29,7 +29,19 @@ export class GameController extends Component {
     }
 
     init() {
-        this.Menu.active = false;
+        this.hiddenMenu()
+    }
+
+    showMenu(){
+        if( this.Menu && !this.Menu.activeInHierarchy){
+            this.Menu.active = true
+        }
+    }
+
+    hiddenMenu(){
+        if(this.Menu && this.Menu.activeInHierarchy ){
+            this.Menu.active = false
+        }
     }
 
     setCurState(value: GameState) {

@@ -20,8 +20,6 @@ export class Player extends Component {
     private maxExp: number;//经验值上限
     private damage: number; // 攻击伤害
     private speed: number; // 移动速度
-    private weaponCount: number // 武器数量
-    private weaponName: string // 武器名称
 
     start() {
         const playerName: string = "Yellow";
@@ -44,8 +42,6 @@ export class Player extends Component {
         this.curExp = 0
         this.damage =  this.settings[playerName].damage
         this.speed = this.settings[playerName].speed
-        this.weaponCount =  this.settings[playerName].weaponCount
-        this.weaponName = this.settings[playerName].weaponName
     }
 
     updateStateLabel(){
@@ -119,22 +115,6 @@ export class Player extends Component {
 
     public setDamage(newDamage: number) {
         this.damage = newDamage
-    }
-
-    public getWeaponName() {
-        return this.weaponName;
-    }
-
-    public setWeaponName(newWeaponName: string) {
-        this.weaponName = newWeaponName;
-    }
-
-    public getWeaponCount() {
-        return this.weaponCount;
-    }
-
-    public setWeaponCount(newWeaponCount: number) {
-        this.weaponCount = newWeaponCount;
     }
 
     public setMaxHealth(newMaxHealth: number) {

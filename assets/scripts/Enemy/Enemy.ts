@@ -12,6 +12,7 @@ import { FloatLabel } from '../FloatLabel/FloatLabel';
 import { FloatLabelBase } from '../FloatLabel/FloatLabelBase';
 import { ProjectileGenerate } from '../Projectile/ProjectileGenerate';
 import { Projectile } from '../Projectile/Projectile';
+import { Skill } from '../Skill/Skill';
 
 const { ccclass, property } = _decorator;
 
@@ -213,7 +214,7 @@ export class Enemy extends Component {
         //这里将武器的Tag设置成5就会撞击了
         if (otherCollider.tag == 5&&selfCollider.tag == 1) {
 
-            let reduceBloodValue = otherCollider.node.getComponent(Weapon).getDamage()
+            let reduceBloodValue = otherCollider.node.getComponent(Skill).getDamage()
             let maxHealth = this.gethealth()
             let percent = (reduceBloodValue / maxHealth)
             let curProgress = this.bloodProgressBar.progress
