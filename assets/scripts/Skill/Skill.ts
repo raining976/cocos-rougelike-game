@@ -1,4 +1,4 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Collider2D, Component, Contact2DType, IPhysics2DContact, Node } from 'cc';
 import { skillSettings } from './SkillSettings';
 const { ccclass, property } = _decorator;
 
@@ -6,11 +6,17 @@ const { ccclass, property } = _decorator;
 export class Skill extends Component {
 
     protected id: string
-    protected skillName: string; 
+    protected skillName: string;
     protected damage: number;
+    protected collider:Collider2D = null
     // protected duration: number
     // protected range: number
     // protected releaseInterval: number 
+
+    start(){
+        this.initCollision()
+    }
+
 
     /**
      * 初始化技能属性 每次升级后都应该执行一遍此函数
@@ -77,6 +83,39 @@ export class Skill extends Component {
     // }
 
 
+    // ----------------------------------------------------------------
+    // 碰撞相关
+    /**
+     * 初始化碰撞回调
+     */
+    initCollision(){
+        this.collider = this.getComponent(Collider2D);
+        if (this.collider) {
+            this.collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
+        }
+    }
+
+    /**
+     * 开启碰撞组件
+     */
+    openCollision(){
+        this.collider.enabled = true
+    }
+
+    /**
+     * 关闭碰撞组件
+     */
+    closeCollision(){
+        this.collider.enabled = false
+    }
+
+    /**
+     * 碰撞回调 需重写 针对那些碰撞后消失的技能以及其他处理
+     * @param selfCollider 自己的碰撞体
+     * @param otherCollider 另一个碰撞体
+     * @param contact 
+     */
+    onBeginContact (selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {}
 
 }
 
