@@ -1,7 +1,8 @@
-import { _decorator, BoxCollider2D, Collider2D, Component, Contact2DType, director, Director, IPhysics2DContact, macro, Node, RigidBody2D, tween, UITransform, Vec3 } from 'cc';
+import { _decorator, BoxCollider2D, Collider2D, Component, Contact2DType, director, Director, IPhysics2DContact, macro, Node, RigidBody2D, Tween, tween, UITransform, Vec3 } from 'cc';
 import { Skill } from './Skill';
 import skillSettings from './SkillSettings';
 import { Enemy } from '../Enemy/Enemy';
+import { DartManager } from './DartManager';
 const { ccclass, property } = _decorator;
 
 /**
@@ -10,6 +11,7 @@ const { ccclass, property } = _decorator;
 @ccclass('Skill')
 export class Dart extends Skill {
 
+
     private speed: number = 0.001; //设置飞镖速度
     private targetNode: Node;    //追逐的目标
     private skillName: string = 'Dart';
@@ -17,26 +19,31 @@ export class Dart extends Skill {
 
 
 
-
     start() {
-
-        //this.targetNode = this.getMinDisEnemy();
-        //this.schedule(this.chasing, 0.2)        //未必使用
+        console.log('new Dart')
         this.init();
+        this.targetNode = this.getMinDisEnemy();
+        this.schedule(this.chasing, 0.5)        //未必使用
         this.initCollision();                   //碰撞注册
         this.autoDestroy();                     //自动销毁
     }
 
-    chasing() {
-        tween(this.node).
-            to(1, {
-                //相对坐标转换
-                position: this.targetNode.worldPosition
-            })
-            .repeatForever()
-            .start()
 
+    /**
+     * 回收节点
+     */
+    reclaim(){
+        // TODO： 先判断是不是已经被回收了
+        // 没有被回收就手动回收
     }
+
+
+    chasing() {
+        tween(this.node)
+            .to(1.0, { position: this.targetNode.worldPosition }, { easing: "linear" })
+            .start();
+    }
+    
 
     /**
      * 初始化技能设置
@@ -55,8 +62,8 @@ export class Dart extends Skill {
     * 获得距离最近的节点，如果返回的节点从画布上取下，则继续执行函数
     */
     getMinDisEnemy() {
-        const canvas = director.getScene().getChildByName('Canvas');
-        let enemies = canvas.children.filter(item => item.getComponent(Enemy) != null);
+        const nodePool = director.getScene().getChildByName('Canvas').getChildByName('NodePool');
+        let enemies = nodePool.children.filter(item => item.getComponent(Enemy) != null);
 
         let min = Infinity;
         let playerPos = this.node.worldPosition;
@@ -79,7 +86,7 @@ export class Dart extends Skill {
                 minDisNode = currentMinNode;
             } else {
                 // 如果当前循环中没有找到有效节点，可能是因为数组中的节点都被移除了，更新 enemies 数组
-                enemies = canvas.children.filter(item => item.getComponent(Enemy) != null);
+                enemies = nodePool.children.filter(item => item.getComponent(Enemy) != null);
             }
         }
 

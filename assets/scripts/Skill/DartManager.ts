@@ -8,7 +8,7 @@ export class DartManager extends Component {
     
     @property(Prefab) private skillPrefabs: Prefab[] = [];//注入技能预制体数组
     @property(Node) private playerNode: Node;
-    private dartSkillSpawnDelay:number = 5;
+    private dartSkillSpawnDelay:number = 2;
    
     start () { 
         console.log("DartSkillManager")
@@ -28,13 +28,11 @@ export class DartManager extends Component {
     generateOneDart(prefabName: string = 'Dart'){
         //在预制体数组内寻找对应的预制体
         let prefab = this.skillPrefabs.find(prefab => prefab.name == prefabName);
-        let newSkill = instantiate(prefab);
-        // TODO: 
-        // 获取容器节点 canvas下 nodeContainer 
-        // 把飞行物放到这个节点下
-        newSkill.setWorldPosition(this.playerNode.worldPosition)
-        this.node.getChildByName('NodeContainer').addChild(newSkill);
+        let dartNode = instantiate(prefab);
+        dartNode.setWorldPosition(this.playerNode.position) //  这里拿到的是人物的相对坐标 赋值给技能飞行物的世界坐标
+        let nodeContainer = director.getScene().getChildByName("Canvas").getChildByName('NodePool')
+        nodeContainer.addChild(dartNode);
     }
- 
+
 }
 
