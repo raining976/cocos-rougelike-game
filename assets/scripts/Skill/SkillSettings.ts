@@ -54,6 +54,28 @@ skillSettings['SpinBall'] = {
     ]
 }
 
+/**
+ *  追踪飞镖
+ */
+skillSettings['Dart'] = {
+    id: '002',
+    skillName: "Dart",
+    skillLevel: 1,
+    damage: 20,
+    skillCount: 2,
+    duration: 1000,
+    range: 100,
+    releaseInterval: 500,
+    upgradeArray: [
+        {
+            damage: 110,
+        },
+        {
+            range: 110,
+        }
+    ]
+
+}
 
 
 
