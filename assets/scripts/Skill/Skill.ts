@@ -9,9 +9,6 @@ export class Skill extends Component {
     protected skillName: string;
     protected damage: number;
     protected collider:Collider2D = null
-    // protected duration: number
-    // protected range: number
-    // protected releaseInterval: number 
 
     start(){
         this.initCollision()
@@ -29,9 +26,6 @@ export class Skill extends Component {
         this.id = skillSettings[skillName].id
         this.skillName = skillSettings[skillName].skillName
         this.damage = skillSettings[skillName].damage
-        // this.duration = skillSettings[skillName].duration
-        // this.range = skillSettings[skillName].range
-        // this.releaseInterval = skillSettings[skillName].releaseInterval
     }
 
     /**
@@ -57,30 +51,6 @@ export class Skill extends Component {
     getDamage() {
         return this.damage
     }
-
-    // /**
-    //  * 获取技能持续时间
-    //  * @returns {number} duration 毫秒
-    //  */
-    // getDuration() {
-    //     return this.duration
-    // }
-
-    // /**
-    //  * 获取技能范围 
-    //  * @returns {number} range
-    //  */
-    // getRange() {
-    //     return this.range
-    // }
-
-    // /**
-    //  * 获取技能释放的时间间隔
-    //  * @returns {number} releaseInterval 毫秒
-    //  */
-    // getReleaseInterval() {
-    //     return this.releaseInterval
-    // }
 
 
     // ----------------------------------------------------------------
