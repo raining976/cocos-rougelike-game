@@ -56,7 +56,8 @@ export class SpinBallController extends SkillController {
      * @param startAngle 开始角度
      * @param duration 持续时间(旋转速度)
      */
-    private static rotateBall(ballNode: Node, startAngle: number = 0, duration: number = 1.5) {
+    private static rotateBall(ballNode: Node, startAngle: number = 0) {
+        const duration = skillSettings[this.skillName].duration || 2
         tween(ballNode)
             .to(0, { angle: startAngle })
             .to(duration, { angle: 360 + startAngle })

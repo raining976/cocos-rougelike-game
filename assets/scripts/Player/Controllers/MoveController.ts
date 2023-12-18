@@ -1,6 +1,27 @@
 import { _decorator, Component, Node, Vec3, Label ,CCInteger, Color,Animation, input, Input, EventTouch, KeyCode, EventKeyboard, Collider2D, Contact2DType, Collider, IPhysics2DContact, RigidBody, ProgressBar ,director} from 'cc';
 import { Player } from '../Player';
+import { IdleState } from '../State/IdleState';
+import { RunState } from '../State/RunState';
+import FSMManager from '../State/FSMManager';
+import { DeadState } from '../State/DeadState';
+import { HurtState } from '../State/HurtState';
 const { ccclass, property } = _decorator;
+
+export enum PLAYER_STATE {
+    IDLE,
+    RUN,
+    HURT,
+    DEAD,
+
+}
+
+const STATE_CLASS = [
+    IdleState,
+    RunState,
+    HurtState,
+    DeadState
+]
+
 
 @ccclass('MoveController')
 export class MoveController extends Component {
@@ -13,9 +34,22 @@ export class MoveController extends Component {
     playerAnim: Animation = null // 人物动画
     damageDelay: number = 1000; // 碰撞延迟(受到伤害的延迟)
 
+    fsmManager:FSMManager
+
     start() {
         this.playerEntity = this.node.getComponent(Player)
         this.playerAnim = this.node.getComponent(Animation);
+        this.initFSMManager()
+    }
+
+    initFSMManager() {
+        this.fsmManager = new FSMManager()
+        for(let i in PLAYER_STATE) {
+            let index = Number(i)
+            if(!isNaN(index)){
+                this.fsmManager.stateList.push(new STATE_CLASS[index](index,this,this.fsmManager))
+            }
+        }
     }
 
     onLoad() {
@@ -100,12 +134,18 @@ export class MoveController extends Component {
             let dis = dirBackup.multiplyScalar(this.playerEntity.getSpeed());
             this.movePlayer(dis)
             this.changePlayerTowards()
-            this.playAnim('run')
+            // this.playAnim('run')
+            this.changeState(PLAYER_STATE.RUN)
         } else {
             this.moveStatus = 0
-            this.playAnim('idle')
+            // this.playAnim('idle')
+            this.changeState(PLAYER_STATE.IDLE)
         }
         this.restrictMove();
+    }
+
+    changeState(state: PLAYER_STATE) {
+        this.fsmManager.changeState(state)
     }
 
     /**

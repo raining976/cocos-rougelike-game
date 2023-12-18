@@ -14,7 +14,7 @@ class SkillSettings {
         damage: number,
         /** 技能数量  根据需要添加 */
         skillCount: number,
-        /** 技能持续时间 毫秒 */
+        /** 技能持续时间(技能释放速度) 秒 */
         duration: number,
         /** 技能范围 */
         range: number,
@@ -40,11 +40,15 @@ skillSettings['SpinBall'] = {
     skillName: "SpinBall",
     skillLevel: 1,
     damage: 100,
-    skillCount: 2,
-    duration: 1000,
+    skillCount: 1,
+    duration: 2, // 对于这个来说就是旋转一周的时间
     range: 100,
     releaseInterval: 500,
     upgradeArray: [
+        {
+            description:"增加一个飞行物",
+            skillCount:2,
+        },
         {
             damage: 110,
         },
