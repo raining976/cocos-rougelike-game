@@ -1,8 +1,8 @@
-import { _decorator, CircleCollider2D, Component, director, Node, NodePool, Prefab, tween, UITransform } from 'cc';
+import { _decorator, CircleCollider2D, Node, tween, UITransform } from 'cc';
 import { SkillController } from '../SkillController';
 import { skillSettings } from '../SkillSettings';
 import { Skill } from '../Skill';
-const { ccclass, property } = _decorator;
+const { ccclass } = _decorator;
 
 @ccclass('SpinBallController')
 export class SpinBallController extends SkillController {
@@ -11,17 +11,15 @@ export class SpinBallController extends SkillController {
     private static curBallNodes: Array<Node> = []; // 当前所有的节点
 
     /**
-     * 开始执行技能
+     * 启动技能技能
+     * 因为我这个技能不需要自动释放和回收 所以写法和你们的是不一样的
+     * 具体参考基类的实例写法
      */
-
     static startSkill() {
-        this.spawnSkill()
+        this.releaseSkill()
     }
 
-    /**
-     * 生成技能
-     */
-    private static spawnSkill() {
+    static releaseSkill(): void {
         const len = this.curBallNodes.length
         const targetCount = this.settings.skillCount
         for (let i = 0; i < targetCount - len; i++) {
@@ -29,15 +27,15 @@ export class SpinBallController extends SkillController {
             this.playerBaseNode.addChild(node)
             this.curBallNodes.push(node)
         }
-        this.setNodes()
+        this.updateNodesAttr()
     }
 
     /**
-     * 设置节点的相关信息 包括锚点(范围) 旋转等等
-     */
-    private static setNodes() {
-        let len = this.curBallNodes.length
-        let deltaAngle = 360 / len
+    * 更新节点的相关信息 包括锚点(范围) 旋转等等
+    */
+    private static updateNodesAttr() {
+        const len = this.curBallNodes.length
+        const deltaAngle = 360 / len
         const range = this.settings.range / 100
         for (let i = 0; i < len; i++) {
             const ballNode = this.curBallNodes[i]
@@ -45,7 +43,7 @@ export class SpinBallController extends SkillController {
             ballNode.getComponent(UITransform).setAnchorPoint(0.5, -3 * range) // 修改范围
             const contentSize = ballNode.getComponent(UITransform).width // 获取大小
             const anchorY = ballNode.getComponent(UITransform).anchorY
-            ballNode.getComponent(CircleCollider2D).offset.y = contentSize * -anchorY + contentSize/2 // 修改碰撞体的偏移量
+            ballNode.getComponent(CircleCollider2D).offset.y = contentSize * -anchorY + contentSize / 2 // 修改碰撞体的偏移量
             this.rotateBall(ballNode, deltaAngle * i) // 更新缓动函数
         }
     }
@@ -65,11 +63,5 @@ export class SpinBallController extends SkillController {
             .repeatForever()
             .start();
     }
-
-    
-
-
-
-
 }
 
