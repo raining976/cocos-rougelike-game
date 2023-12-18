@@ -29,7 +29,19 @@ export class GameController extends Component {
     }
 
     init() {
-        this.Menu.active = false;
+        this.hiddenMenu()
+    }
+
+    showMenu(){
+        if( this.Menu && !this.Menu.activeInHierarchy){
+            this.Menu.active = true
+        }
+    }
+
+    hiddenMenu(){
+        if(this.Menu && this.Menu.activeInHierarchy ){
+            this.Menu.active = false
+        }
     }
 
     setCurState(value: GameState) {
@@ -101,7 +113,7 @@ export class GameController extends Component {
         director.loadScene("scene");
     }
     update(deltaTime: number) {
-
+        //this.node.setSiblingIndex(1000);
     }
 
 }

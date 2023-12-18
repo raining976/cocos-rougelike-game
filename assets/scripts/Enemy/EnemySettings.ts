@@ -46,7 +46,7 @@ EnemyAttr['Archer']={
     id:'004',
     health:100,
     damage:10,
-    speed:50,
+    speed:40,
     xpReward:100,
     remote:true,
     projectilerange:500,
@@ -55,9 +55,9 @@ EnemyAttr['Archer']={
 }
 EnemyAttr['Yurei']={
     id:'005',
-    health:300,
+    health:100,
     damage:10,
-    speed:50,
+    speed:40,
     xpReward:100,
     remote:false,
     projectilerange:-1,//没有远程攻击手段
@@ -66,9 +66,9 @@ EnemyAttr['Yurei']={
 }
 EnemyAttr['Onre']={
     id:'006',
-    health:300,
+    health:100,
     damage:10,
-    speed:50,
+    speed:40,
     xpReward:100,
     remote:false,
     projectilerange:-1,
@@ -79,7 +79,7 @@ EnemyAttr['Samurai']={
     id:'007',
     health:3000,
     damage:100,
-    speed:100,
+    speed:40,
     xpReward:100,
     remote:false,
     projectilerange:-1,
@@ -88,9 +88,9 @@ EnemyAttr['Samurai']={
 }
 EnemyAttr['Wizard']={
     id:'008',
-    health:300,
+    health:100,
     damage:10,
-    speed:50,
+    speed:40,
     xpReward:100,
     remote:true,
     projectilerange:300,
