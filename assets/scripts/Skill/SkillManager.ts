@@ -28,6 +28,9 @@ export class SkillManager extends Component {
         /** 测试 */
         let skillName = 'SpinBall'
         this.initSkill(skillName)
+        setTimeout(() => {
+            this.upgradeSkill(skillName)
+        }, 3000);
     }
 
     /**
@@ -80,7 +83,7 @@ export class SkillManager extends Component {
      * 卸载技能 如果需要的话
      * @param skillName 技能名称
      */
-    unloadSkill(skillName: string) { }
+    unloadSkill(skillName: string) {}
 
     /**
      * 升级技能
@@ -91,7 +94,8 @@ export class SkillManager extends Component {
         const upgradeObj = skillSettings[skillName].upgradeArray[nextLevel - 2]
 
         Object.keys(upgradeObj).forEach(key => {
-            skillSettings[skillName][key] = upgradeObj[key];
+            if (key != 'description')
+                skillSettings[skillName][key] = upgradeObj[key];
         })
 
         skillSettings[skillName].skillLevel++
