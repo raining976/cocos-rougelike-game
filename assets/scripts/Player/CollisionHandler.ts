@@ -6,6 +6,7 @@ import{Enemy} from '../Enemy/Enemy';
 import { AttrController } from './Controllers/AttrController';
 import { ProjectileGenerate } from '../Projectile/ProjectileGenerate';
 import { Projectile } from '../Projectile/Projectile';
+import { MoveController, PLAYER_STATE } from './Controllers/MoveController';
 /*
 tag:
 -1:不可用对象
@@ -70,6 +71,10 @@ export class CollisionHandler extends Component {
         if (otherCollider.tag == 4) {
             let ProjectileNode = otherCollider.node
             this.attrController.reduceHealth(ProjectileNode.getComponent(Projectile).getProjectiledamage());
+        }
+
+        if(otherCollider.tag == 1 || otherCollider.tag == 4){
+            this.node.getComponent(MoveController).changeState(PLAYER_STATE.HURT)
         }
     }
    

@@ -1,10 +1,11 @@
-import { _decorator, Component, Node ,Prefab,instantiate,UITransform,AudioSource, director} from 'cc';
+import { _decorator, Component, Node, Prefab, instantiate, UITransform, AudioSource, director } from 'cc';
 import { Player } from '../Player';
 import { BloodLabelController } from '../StateLabelControllers/BloodLabelController';
 import { ExpLabelController } from '../StateLabelControllers/ExpLabelController';
 import { FloatLabelBase } from '../../FloatLabel/FloatLabelBase';
 import { ENHANCE_TYPE } from '../../EnhanceBoard/EnhanceSettings';
 import { EnhanceController } from '../../EnhanceBoard/EnhanceController';
+import { MoveController, PLAYER_STATE } from './MoveController';
 const { ccclass, property } = _decorator;
 
 @ccclass('AttrController')
@@ -22,7 +23,7 @@ export class AttrController extends Component {
     start() {
         this.upgradeAudio = this.node.getComponent(AudioSource)
         this.playerEntity = this.node.getComponent(Player)
-        this.initPassiveSkills();   
+        this.initPassiveSkills();
     }
 
 
@@ -34,11 +35,14 @@ export class AttrController extends Component {
     reduceHealth(delta: number) {
         let newHealth = this.playerEntity.getCurHealth() - delta;
         if (newHealth <= 0) {
-            alert("game over!!!")
+            this.node.getComponent(MoveController).changeState(PLAYER_STATE.DEAD)
             // TODO: 游戏结束的逻辑
-        }else{
+            // setTimeout(() => {
+            //     alert("game over!!!")
+            // }, 2000);
+        } else {
             let label = instantiate(this.floatLabelPrefab)
-            label.getComponent(FloatLabelBase).initLabel('Player',delta)
+            label.getComponent(FloatLabelBase).initLabel('Player', delta)
             this.node.parent.addChild(label)
         }
         this.playerEntity.setCurHealth(newHealth);
@@ -75,9 +79,9 @@ export class AttrController extends Component {
         //激活面板
         this.enhanceBoard.getComponent(EnhanceController).boardAppear()
         //暂停场景,如果不进行延迟执行，显示图片会乱，甚至显示不出来
-        setTimeout(()=>{
+        setTimeout(() => {
             director.stopAnimation();
-        },500)
+        }, 500)
         //属性提升
         //TODO:
     }
@@ -85,7 +89,7 @@ export class AttrController extends Component {
     /**
      * 播放升级特效
      */
-    playUpgrade(){
+    playUpgrade() {
         this.spawnUpgrade()
         this.upgradeAudio.play()
     }
@@ -93,7 +97,7 @@ export class AttrController extends Component {
     /**
      * 生成升级特效
      */
-    spawnUpgrade(){
+    spawnUpgrade() {
         let upgradePrefab = this.upgradePrefab
         let upgradeNode = instantiate(upgradePrefab)
         this.node.addChild(upgradeNode)
@@ -104,14 +108,14 @@ export class AttrController extends Component {
      */
     initPassiveSkills() {
         let index: number;
-        for (index = 0; index < this.passiveSkillsCurLevel.length; index ++)
+        for (index = 0; index < this.passiveSkillsCurLevel.length; index++)
             this.passiveSkillsCurLevel[index] = 0;
     }
     /**
      * 提升角色生命值
      */
     improveMaxHealth() {
-        this.passiveSkillsCurLevel[ENHANCE_TYPE.ENHANCE_HEALTH] ++;
+        this.passiveSkillsCurLevel[ENHANCE_TYPE.ENHANCE_HEALTH]++;
         let newMaxHealth = this.computeMaxHealth(this.passiveSkillsCurLevel[ENHANCE_TYPE.ENHANCE_HEALTH]);
         this.playerEntity.setMaxHealth(newMaxHealth);
         //TODO:调整属性平衡
