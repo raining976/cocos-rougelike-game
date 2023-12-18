@@ -7,14 +7,18 @@ import { DeadState } from '../State/DeadState';
 import { HurtState } from '../State/HurtState';
 const { ccclass, property } = _decorator;
 
+/** 状态枚举 */
 export enum PLAYER_STATE {
     IDLE,
     RUN,
     HURT,
     DEAD,
-
 }
 
+/** 状态名字数组 */
+const animNameArr = ['idle', 'run', 'hurt','dead']
+
+/** 状态对应类 */
 const STATE_CLASS = [
     IdleState,
     RunState,
@@ -34,7 +38,7 @@ export class MoveController extends Component {
     playerAnim: Animation = null // 人物动画
     damageDelay: number = 1000; // 碰撞延迟(受到伤害的延迟)
 
-    fsmManager:FSMManager
+    fsmManager:FSMManager // 有限状态机
 
     start() {
         this.playerEntity = this.node.getComponent(Player)
@@ -42,12 +46,15 @@ export class MoveController extends Component {
         this.initFSMManager()
     }
 
+    /**
+     * 初始化状态机
+     */
     initFSMManager() {
         this.fsmManager = new FSMManager()
         for(let i in PLAYER_STATE) {
             let index = Number(i)
             if(!isNaN(index)){
-                this.fsmManager.stateList.push(new STATE_CLASS[index](index,this,this.fsmManager))
+                this.fsmManager.stateList.push(new STATE_CLASS[index](index,this,this.fsmManager,animNameArr[index]))
             }
         }
     }

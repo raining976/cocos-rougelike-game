@@ -4,16 +4,6 @@ const { ccclass, property } = _decorator;
 
 @ccclass('DeadState')
 export class DeadState extends FSMState {
-    onEnter(): void {
-        let duration = this.stateComponent.getComponent(Animation).getState('dead').duration
-        this.stateComponent.getComponent(Animation).play('dead')
-        this.setManagerControl(false)
-        setTimeout(() => {
-            this.setManagerControl(true)
-        }, duration * 1000);
-    }
-    onUpdate(): void {
-
-    }
+     isNeedControl: boolean = true;
 }
 
