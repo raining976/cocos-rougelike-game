@@ -1,23 +1,27 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator } from 'cc';
 import FSMState from './FSMState';
-const { ccclass, property } = _decorator;
+const { ccclass } = _decorator;
 
 @ccclass('FSMManager')
 export default class FSMManager {
+    /** 状态实例数组 */
     stateList: FSMState[] = []
-    currentID:number = -1;
-    public isControl:boolean = true;
-
-    changeState(stateID:number):void {
-        if(this.isControl && this.currentID != stateID){
-            this.currentID = stateID;
-            this.stateList[stateID].onEnter()
-        }
+    /** 当前状态id */
+    currentID: number = -1;
+    /** 控制权 true表示有控制权 */
+    private isControl: boolean = true;
+    setIsControl(value: boolean): void {
+        this.isControl = value;
     }
 
-    onUpdate(){
-        if(this.currentID != -1){
-            this.stateList[this.currentID].onUpdate()
+    /**
+     * 修改状态
+     * @param stateID 状态id
+     */
+    changeState(stateID: number): void {
+        if (this.isControl && this.currentID != stateID) {
+            this.currentID = stateID;
+            this.stateList[stateID].onEnter()
         }
     }
 
