@@ -28,9 +28,6 @@ export class SkillManager extends Component {
         /** 测试 */
         let skillName = 'SpinBall'
         this.initSkill(skillName)
-        setTimeout(() => {
-            this.upgradeSkill(skillName)
-        }, 3000);
     }
 
     /**
@@ -101,8 +98,4 @@ export class SkillManager extends Component {
         skillSettings[skillName].skillLevel++
         this.restartSkill(skillName)
     }
-
-
-
 }
-
