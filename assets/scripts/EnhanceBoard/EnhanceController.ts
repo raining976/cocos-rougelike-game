@@ -1,7 +1,7 @@
 import { _decorator, Component, Label, LabelAtlas, Node, UITransform, director, Button, Animation, UIOpacity, Sprite, SpriteFrame, resources, AssetManager, Layout, VerticalTextAlignment, Prefab, instantiate } from 'cc';
 import { ENHANCE_TYPE } from './EnhanceSettings';
 import { Enhance } from './Enhance';
-import { EnhanceAttr } from './EnhanceSettings';
+import { enhanceSettings } from './EnhanceSettings';
 import { randomRangeInt } from 'cc';
 import { Player } from '../Player/Player';
 import { AttrController } from '../Player/Controllers/AttrController';
@@ -84,19 +84,20 @@ export class EnhanceController extends Component {
      */
     createInfo() {
         for (let i = 0; i < 3; i ++) {
-            let typeRand: number = randomRangeInt(0, ENHANCE_TYPE.LENGTH);
+            let type: number = randomRangeInt(0, ENHANCE_TYPE.LENGTH);
+            let curLevel = this.playAttrController.getPassiveSkillCurLevel(type);
             //初始化图标
-            this.loadImage(i, typeRand);
+            this.loadImage(i, type);
             //初始化名称
-            this.setChildLabel(i, "Name", EnhanceAttr[typeRand].name);
+            this.setChildLabel(i, "Name", enhanceSettings[type].name);
             //初始化描述
-            this.setChildLabel(i, "Description", EnhanceAttr[typeRand].description);
+            this.setChildLabel(i, "Description", enhanceSettings[type].description);
             //初始化当前等级效果
-            this.setChildLabel(i, "Cur", "当前级属性:" + this.getCurEffection(typeRand))
+            this.setChildLabel(i, "Cur", "当前级属性:" + this.getEffection(type, curLevel))
             //初始化下一等级效果
-            this.setChildLabel(i, "Next", "下一级属性:" + this.getNextEffection(typeRand))
+            this.setChildLabel(i, "Next", "下一级属性:" + this.getEffection(type, curLevel + 1))
             //初始化类型
-            this.setChildLabel(i, "Type", typeRand.toString())
+            this.setChildLabel(i, "Type", type.toString())
         }
     }
 
@@ -109,20 +110,7 @@ export class EnhanceController extends Component {
      * 
      */
     loadImage(num: number, type: ENHANCE_TYPE) {
-        let imagePath: string = null;
-        switch (type) {
-            case ENHANCE_TYPE.ENHANCE_DAMAGE:
-                imagePath = "EnhanceBoard/Skills/power/spriteFrame";
-                break;
-            case ENHANCE_TYPE.ENHANCE_HEALTH:
-                imagePath = "EnhanceBoard/Skills/heart/spriteFrame";
-                break;
-            case ENHANCE_TYPE.ENHANCE_SPEED:
-                imagePath = "EnhanceBoard/Skills/speed/spriteFrame";
-                break;
-            default:
-                console.log("bad enhance!!");
-        }
+        let imagePath: string = enhanceSettings[type].imagePath;
         resources.load(imagePath, SpriteFrame, (err, res)=>{
             if (err) {
                 console.log("图片不存在", err);
@@ -130,6 +118,7 @@ export class EnhanceController extends Component {
             this.node.children[num].getChildByName("Image").getComponent(Sprite).spriteFrame = res;
         })
     }
+
     /**
      * 角色属性提升提升事件回调
      */
@@ -156,45 +145,23 @@ export class EnhanceController extends Component {
         director.startAnimation();
     }
 
-    getCurEffection(type: ENHANCE_TYPE) {
-        let curLevel = this.playAttrController.getPassiveSkillCurLevel(type);
-        let result: string = "test";
-        switch (type) {
-            case ENHANCE_TYPE.ENHANCE_DAMAGE:
-                result = this.playAttrController.computeDamage(curLevel).toString();
-                break;
-            case ENHANCE_TYPE.ENHANCE_HEALTH:
-                result = this.playAttrController.computeMaxHealth(curLevel).toString();
-                break;
-            case ENHANCE_TYPE.ENHANCE_SPEED:
-                result = this.playAttrController.computeSpeed(curLevel).toString();
-                break;
-            default:
-                console.log("bad Type!!!");
-        }
-        return result;
-    }
 
-    getNextEffection(type: ENHANCE_TYPE) {
-        let nextLevel = this.playAttrController.getPassiveSkillCurLevel(type) + 1;
-        let result: string = "test";
+    getEffection(type: ENHANCE_TYPE, level: number) {
+        let result: string = "nothing";
         switch (type) {
             case ENHANCE_TYPE.ENHANCE_DAMAGE:
-                result = this.playAttrController.computeDamage(nextLevel).toString();
+                result = this.playAttrController.computeDamage(level).toString();
                 break;
             case ENHANCE_TYPE.ENHANCE_HEALTH:
-                result = this.playAttrController.computeMaxHealth(nextLevel).toString();
+                result = this.playAttrController.computeMaxHealth(level).toString();
                 break;
             case ENHANCE_TYPE.ENHANCE_SPEED:
-                result = this.playAttrController.computeSpeed(nextLevel).toString();
+                result = this.playAttrController.computeSpeed(level).toString();
                 break;
             default:
                 console.log("bad Type!!!");
         }
         return result;
-    }
-    update(deltaTime: number) {
-        
     }
 }
 

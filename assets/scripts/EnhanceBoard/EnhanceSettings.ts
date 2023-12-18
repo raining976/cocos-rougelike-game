@@ -15,29 +15,33 @@ export class EnhanceSettings{
         name: string,
         description: string,
         maxLevel: number,
+        imagePath: string,
     }
 };
 
-export const EnhanceAttr = new EnhanceSettings();
-EnhanceAttr[ENHANCE_TYPE.ENHANCE_DAMAGE] = {
+export const enhanceSettings = new EnhanceSettings();
+enhanceSettings[ENHANCE_TYPE.ENHANCE_DAMAGE] = {
     type: ENHANCE_TYPE.ENHANCE_DAMAGE,
     name: '神力',
     description: '提高角色攻击力',
-    maxLevel: 5
+    maxLevel: 5,
+    imagePath: "EnhanceBoard/Skills/power/spriteFrame"
 }
 
-EnhanceAttr[ENHANCE_TYPE.ENHANCE_HEALTH] = {
+enhanceSettings[ENHANCE_TYPE.ENHANCE_HEALTH] = {
     type: ENHANCE_TYPE.ENHANCE_HEALTH,
     name: '生命',
     description: '提高角色生命力',
-    maxLevel: 5
+    maxLevel: 5,
+    imagePath: "EnhanceBoard/Skills/power/spriteFrame",
 }
 
-EnhanceAttr[ENHANCE_TYPE.ENHANCE_SPEED] = {
+enhanceSettings[ENHANCE_TYPE.ENHANCE_SPEED] = {
     type: ENHANCE_TYPE.ENHANCE_SPEED,
     name: '迅影',
     description: '提高角色移动速度',
-    maxLevel: 5
+    maxLevel: 5,
+    imagePath: "EnhanceBoard/Skills/speed/spriteFrame"
 }
 // class EnhanceType <T extends string>{
 //     private descriptions: Record<T,string>;
