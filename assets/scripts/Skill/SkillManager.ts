@@ -31,6 +31,13 @@ export class SkillManager extends Component {
         setTimeout(() => {
             this.upgradeSkill(skillName)
         }, 3000);
+
+        /** Dart测试 */
+        let skillName_1 = 'Dart'
+        this.initSkill(skillName_1);
+
+
+
     }
 
     /**

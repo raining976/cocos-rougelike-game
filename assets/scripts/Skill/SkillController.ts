@@ -72,7 +72,7 @@ export class SkillController {
      * 回收目标节点到节点池
      * @param node 目标节点
      */
-    protected static reclaimSkill(node: Node) {
+    public static reclaimSkill(node: Node) {
         this.nodePool.put(node)
     }
 
