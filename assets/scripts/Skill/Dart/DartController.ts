@@ -18,10 +18,8 @@ export class DartController extends SkillController {
      * 开始执行技能
      */
     static startSkill() {
-        //发射三个飞镖
-        for (let i = 0; i < this.settings.skillCount; i++) {
-            this.spawnSkill();
-        }
+
+        this.spawnSkill();
     }
 
     /**
@@ -35,27 +33,30 @@ export class DartController extends SkillController {
 
 
     /**
-     * 生成一个飞镖，随机朝着某个方向前进
+     * 生成skillCount数量的飞镖，随机朝着不同方向前进
      */
     private static spawnSkill() {
-        /** 从节点池取出并更新技能设置，在释放之前 */
-        let dartNode = this.spawnSingleSkill();
-        dartNode.getComponent(Skill).initSkill('Dart');
-        /** 判断从节点池取出的节点是否已经在curDartNodes里面了 */
-        if(this.curDartNodes.indexOf(dartNode) === -1) {
-            this.curDartNodes.push(dartNode);
+ 
+        let moveDirections = this.generateUniqueDirections(this.settings.skillCount);//获取方向向量组
+        for(let i = 0; i < this.settings.skillCount; i++){
+            /** 从节点池取出并更新技能设置，在释放之前 */
+            let dartNode = this.spawnSingleSkill();
+            dartNode.getComponent(Skill).initSkill('Dart');
+             /** 判断从节点池取出的节点是否已经在curDartNodes里面了 */
+            if(this.curDartNodes.indexOf(dartNode) === -1) {
+                this.curDartNodes.push(dartNode);
+            }
+            /** 设置坐标 */
+            dartNode.setWorldPosition(this.playerBaseNode.position);
+            /** 挂到画布上 */
+            director.getScene().getChildByName('Canvas').getChildByName('NodePool').addChild(dartNode);
+            /** 添加缓动 */
+            this.skillMoving(dartNode, moveDirections[i].multiplyScalar(this.settings.duration));//duration是速度
         }
-        /** 设置坐标 */
-        dartNode.setWorldPosition(this.playerBaseNode.position);
-        /** 挂到画布上 */
-        director.getScene().getChildByName('Canvas').getChildByName('NodePool').addChild(dartNode);
-        /** 计算每次缓动加上的向量, 这里的duration是技能飞行速度 */
-        let movePosition = this.getRandomDirection().multiplyScalar(this.settings.duration);
-        this.skillMoving(dartNode, movePosition);        
     }
 
     /**
-     * 朝着某个方向移动
+     * 朝着某个方向移动，将节点作为参数就可以进行移动
      */
     private static skillMoving(dartNode: Node, movePosition: Vec3) {
 
@@ -87,21 +88,39 @@ export class DartController extends SkillController {
 
 
     /**
-     * 
-     * @returns 随机返回一个三维向量八种可能结果：例如[1, 1, 0], 其中z = 0, x, y在[-1, 0, 1] 随机
+     * 获取n个向量的向量组，n由skillCount决定
+     * @returns 返回一个向量组，这个向量组里的方向都不同，其中z = 0, x, y在[-1, 0, 1] 随机
      */
 
-    private static getRandomDirection() {
-        const getRandomZeroOrOne = () => Math.floor(Math.random() * 3) - 1;
+    private static generateUniqueDirections(n: number): Vec3[] {
+        //维护一个方向数组，在获取n个向量的时候，每次获取都必须与向量组里面的不同
+        const directions: Vec3[] = [];
+        //内联一个获得随机方向的函数
+        const getRandomDirection = (): Vec3 => {
+            const getRandomZeroOrOne = () => Math.floor(Math.random() * 3) - 1;
+            let x: number, y: number;
 
-        let x: number, y: number;
-        do {
-            x = getRandomZeroOrOne();
-            y = getRandomZeroOrOne();
-        } while (x === 0 && y === 0);
+            let isOrigin: boolean, isDirectionAlreadyPresent: boolean;
+            do {
+                x = getRandomZeroOrOne();
+                y = getRandomZeroOrOne();
+                const isOrigin = x === 0 && y === 0;
+                const isDirectionAlreadyPresent = directions.some(direction => direction.equals(new Vec3(x, y, 0)));
+                //方向不为0向量且和向量组里的不重复才允许继续获得
+            } while (isOrigin || isDirectionAlreadyPresent);
     
-        return new Vec3(x, y, 0);
+            return new Vec3(x, y, 0);
+        };  
+    
+        while (directions.length < n) {
+            const newDirection = getRandomDirection();
+            directions.push(newDirection);
+        }
+    
+        console.log('directions',directions);
+        return directions;
     }
+    
     /**
      * 升级技能
      */

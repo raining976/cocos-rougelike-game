@@ -66,9 +66,9 @@ skillSettings['Dart'] = {
     skillName: "Dart",
     skillLevel: 1,
     damage: 20,
-    skillCount: 3,   //对飞镖来说是发射的飞镖数量
-    duration: 40,   //对飞镖来说是技能速度, 每秒移动50
-    range: 1000,     //对飞镖来说是销毁的范围，超出多少范围销毁
+    skillCount: 5,   //对飞镖来说是发射的飞镖数量
+    duration: 200,   //对飞镖来说是技能速度, 每秒移动50
+    range: 2000,     //对飞镖来说是销毁的范围，超出多少范围销毁
     releaseInterval: 500,
     upgradeArray: [
         {

@@ -22,13 +22,13 @@ export class Dart extends Skill {
     
    onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
         //console.log('发生碰撞')
-        if (otherCollider.tag == -1 ) {
-            console.log("正确碰撞");
-            console.log(selfCollider.node.name)
-            console.log(otherCollider.node.name)
+        //if (otherCollider.tag == -1 ) {
+            //console.log("正确碰撞");
+            //console.log(selfCollider.node.name)
+            //console.log(otherCollider.node.name)
             //SkillController.reclaimSkill(selfCollider.node);
         }
     }
-}
+
 
 
