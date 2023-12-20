@@ -26,7 +26,7 @@ export class SkillManager extends Component {
     start() {
         this.playerBaseNode = this.node.parent // 获取主角基类节点
         /** 测试 */
-        let skillName = 'SpinBall'
+        let skillName = 'Bomb'
         this.initSkill(skillName)
     }
 

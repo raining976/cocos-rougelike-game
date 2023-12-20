@@ -58,6 +58,31 @@ skillSettings['SpinBall'] = {
     ]
 }
 
+/**
+ * 炸弹轰炸
+ */
+skillSettings['Bomb'] = {
+    id: '001',
+    skillName: "Bomb",
+    skillLevel: 1,
+    damage: 100,
+    skillCount: 20,
+    duration: 2000, // ms
+    range: 600,
+    releaseInterval: 3000,
+    upgradeArray: [
+        {
+            skillCount: 2,
+        },
+        {
+            skillCount: 3,
+        },
+        {
+            skillCount: 4,
+        }
+    ]
+}
+
 
 
 

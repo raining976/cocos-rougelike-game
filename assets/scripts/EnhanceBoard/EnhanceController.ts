@@ -50,6 +50,9 @@ export class EnhanceController extends Component {
         this.initLayout();
     }
 
+    /**
+     * 初始化布局
+     */
     initLayout() {
         let layout = this.node.getComponent(Layout);
         layout.spacingY = 20;
@@ -72,10 +75,6 @@ export class EnhanceController extends Component {
         this.createInfo();
         //调节透明度
         this.node.getComponent(UIOpacity).opacity = 255;
-        //播放进场动画
-        //let duration = this.animation.getState('appear').duration;
-        //console.log('duration',duration)
-        // this.animation.play('appear');
 
     }
 
@@ -137,8 +136,6 @@ export class EnhanceController extends Component {
             default:
                 console.log("bad enhance!!!");
         }
-        //播放退场动画
-        //this.animation.play('disappear')
         //调节透明度
         this.node.getComponent(UIOpacity).opacity = 0;
         //场景恢复

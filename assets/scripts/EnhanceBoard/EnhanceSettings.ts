@@ -43,26 +43,3 @@ enhanceSettings[ENHANCE_TYPE.ENHANCE_SPEED] = {
     maxLevel: 5,
     imagePath: "EnhanceBoard/Skills/speed/spriteFrame"
 }
-// class EnhanceType <T extends string>{
-//     private descriptions: Record<T,string>;
-//     constructor(public value:T) { }
-
-//     description(description:string) :this{
-//         this.descriptions[this.value] = description;
-//         return this;
-//     }
-//     getDescription():string{
-//         return this.descriptions[this.value];
-//     }
-// }
-
-
-// export const ENHANCE_TYPE = {
-//     ENHANCE_DAMAGE : new EnhanceType("ENHANCE_DAMAGE").description('提升攻击力'),
-//     ENHANCE_HEALTH : new EnhanceType("ENHANCE_HEALTH").description('提高声明值'),
-//     ENHANCE_SPEED  : new EnhanceType("ENHANCE_SPEED").description('提高移动速度'),
-// }
-
-// ENHANCE_TYPE.ENHANCE_DAMAGE.getDescription()
-
-
