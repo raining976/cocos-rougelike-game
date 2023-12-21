@@ -1,4 +1,4 @@
-import { _decorator, animation, Component, Node, randomRange, Vec3, Animation, math } from 'cc';
+import { _decorator, animation, Component, Node, randomRange, Vec3, Animation, math, director, UITransform } from 'cc';
 import { skillSettings } from '../SkillSettings';
 import { SkillController } from '../SkillController';
 import { Skill } from '../Skill';
@@ -20,12 +20,17 @@ export class BombController extends SkillController {
      * 生成一个随机相对位置
      * @returns 随机相对角色位置
      */
-    private static generateRandomPosition(/*maxWidth: number, maxHeight: number*/) {
+    private static generateRandomPosition(maxX: number, maxY: number) {
         const range = this.settings.range
-        const randomNum = ()=>{
-            return range*randomRange(-1,1)
+        const randomNum = (n: number)=>{
+            let result = range * randomRange(-1, 1)
+            if (result < -n)
+                result = -n
+            else if (result > n)
+                result = n
+            return result
         }
-        return new Vec3(randomNum(), randomNum(),0).add(this.playerBaseNode.position)
+        return new Vec3(randomNum(maxX), randomNum(maxY),0).add(this.playerBaseNode.position)
     }
 
 
@@ -33,10 +38,12 @@ export class BombController extends SkillController {
      * 释放技能重写
      */
     static releaseSkill() {
-        
+        let uiTranform = director.getScene().getChildByName('Canvas').getComponent(UITransform);
+        let widthCanvas = uiTranform.width;
+        let heightCanvas = uiTranform.height;
         for(let i = 0; i < this.settings.skillCount ; i++)  {
             let skillNode = this.spawnSingleSkill()
-            skillNode.setWorldPosition(this.generateRandomPosition())
+            skillNode.setWorldPosition(this.generateRandomPosition(widthCanvas/2, heightCanvas/2))
             skillNode.getComponent(Skill).initSkill(this.skillName) // 更新
             this.playerBaseNode.parent.addChild(skillNode)
             skillNode.getComponent(Animation).play(this.skillName)

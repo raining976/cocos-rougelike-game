@@ -1,11 +1,11 @@
 import { _decorator, Component, Node } from 'cc';
-import { ENHANCE_TYPE, EnhanceAttr } from './EnhanceSettings';
+import { ENHANCE_TYPE, enhanceSettings } from './EnhanceSettings';
 const { ccclass, property } = _decorator;
 
 @ccclass('Enhance')
 export class Enhance {
 
-    private setting = EnhanceAttr;
+    private setting = enhanceSettings;
     private type: ENHANCE_TYPE | null = null;
     private name: string | null = null;
     private description: string | null = null;
