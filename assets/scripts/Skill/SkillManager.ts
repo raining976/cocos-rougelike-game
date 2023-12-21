@@ -32,9 +32,7 @@ export class SkillManager extends Component {
     start() {
         this.playerBaseNode = this.node.parent // 获取主角基类节点
         this.skillNodeContainer = director.getScene().getChildByName('Canvas').getChildByName('NodePool')
-        /** 测试 */
-        let skillName = 'SpinBall'
-        this.initSkill(skillName)
+
     }
 
     /**

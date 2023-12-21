@@ -2,6 +2,7 @@ import { _decorator, Component, Node } from 'cc';
 import { SkillController } from './SkillController';
 import { SpinBallController } from './SpinBall/SpinBallController';
 import { StraightBallController } from './StraightBall/StraightBallController';
+import { DartController } from './Dart/DartController';
 const { ccclass, property } = _decorator;
 
 /**
@@ -25,3 +26,6 @@ skillControllerSettings['StraightBall'] = {
     controller: StraightBallController
 }
 
+skillControllerSettings['Dart'] = {
+    controller: DartController
+}
