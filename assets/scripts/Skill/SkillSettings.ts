@@ -59,35 +59,27 @@ skillSettings['SpinBall'] = {
 }
 
 /**
- * 炸弹轰炸
+ * 直线法球
  */
-skillSettings['Bomb'] = {
-    id: '001',
-    skillName: "Bomb",
+skillSettings['StraightBall'] = {
+    id: '002',
+    skillName: "StraightBall",
     skillLevel: 1,
     damage: 100,
-    skillCount: 40,
-    duration: 2000, // ms
-    range: 600,
-    releaseInterval: 3000,
+    skillCount: 1,
+    duration: 1000, //
+    range: 130, 
+    releaseInterval: 2000,
     upgradeArray: [
         {
-            skillCount: 2,
+            description:'飞行物增加一',
+            skillCount:2
         },
         {
-            skillCount: 4,
+            damage: 120,
         },
         {
-            damage: 200,
-        },
-        {
-            skillCount: 8,
-        },
-        {
-            skillCount: 16,
-        },
-        {
-            skillCount: 32,
+            range: 110,
         }
     ]
 }
