@@ -108,8 +108,4 @@ export class SkillManager extends Component {
         skillSettings[skillName].skillLevel++
         this.restartSkill(skillName)
     }
-
-
-
 }
-
