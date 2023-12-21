@@ -45,7 +45,7 @@ export class BombController extends SkillController {
             let skillNode = this.spawnSingleSkill()
             skillNode.setWorldPosition(this.generateRandomPosition(widthCanvas/2, heightCanvas/2))
             skillNode.getComponent(Skill).initSkill(this.skillName) // 更新
-            this.playerBaseNode.parent.addChild(skillNode)
+            this.skillNodeContainer.addChild(skillNode)
             skillNode.getComponent(Animation).play(this.skillName)
             this.autoReclaimSkill(skillNode,this.settings.duration);
         }

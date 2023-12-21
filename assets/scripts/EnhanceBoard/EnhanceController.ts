@@ -22,6 +22,8 @@ export class EnhanceController extends Component {
         //初始化事件
         this.initButtonClick();
         this.playAttrController = this.playerNode.getComponent(AttrController);
+        //初始化图片
+        this.initImage();
     }
 
     protected onDestroy(): void {
@@ -101,22 +103,36 @@ export class EnhanceController extends Component {
         }
     }
 
-
+    /**
+     * 给孩子设置标签值
+     * @param index 孩子索引
+     * @param childLabelName 孩子的标签节点名字
+     * @param newValue 新值
+     */
     setChildLabel(index: number, childLabelName: string, newValue) {
         const ele = this.node.children[index];
         ele.getChildByName(childLabelName).getComponent(Label).string = newValue;
     }
+
     /**
-     * 
+     * 初始化图片
      */
-    loadImage(num: number, type: ENHANCE_TYPE) {
-        let imagePath: string = enhanceSettings[type].imagePath;
-        resources.load(imagePath, SpriteFrame, (err, res)=>{
-            if (err) {
-                console.log("图片不存在", err);
-            }
-            this.node.children[num].getChildByName("Image").getComponent(Sprite).spriteFrame = res;
-        })
+    initImage() {
+        for (let i = 0; i < ENHANCE_TYPE.LENGTH; ++ i) {
+            resources.load(enhanceSettings[i].imagePath, SpriteFrame, (err, res) => {
+                if (err) {
+                    console.log("图片不存在", err)
+                }
+                enhanceSettings[i].sprite = res;
+            })
+        }
+    }
+
+    /**
+     * 加载图片
+     */
+    loadImage(index: number, type: ENHANCE_TYPE) {
+        this.node.children[index].getChildByName("Image").getComponent(Sprite).spriteFrame = enhanceSettings[type].sprite;
     }
 
     /**

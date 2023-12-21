@@ -66,7 +66,7 @@ skillSettings['Bomb'] = {
     skillName: "Bomb",
     skillLevel: 1,
     damage: 100,
-    skillCount: 5,
+    skillCount: 40,
     duration: 2000, // ms
     range: 600,
     releaseInterval: 3000,
@@ -75,10 +75,19 @@ skillSettings['Bomb'] = {
             skillCount: 2,
         },
         {
-            skillCount: 3,
+            skillCount: 4,
         },
         {
-            skillCount: 4,
+            damage: 200,
+        },
+        {
+            skillCount: 8,
+        },
+        {
+            skillCount: 16,
+        },
+        {
+            skillCount: 32,
         }
     ]
 }

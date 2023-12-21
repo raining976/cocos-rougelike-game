@@ -1,4 +1,4 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Component, Node, SpriteFrame } from 'cc';
 const { ccclass, property } = _decorator;
 
 export enum ENHANCE_TYPE {
@@ -16,6 +16,7 @@ export class EnhanceSettings{
         description: string,
         maxLevel: number,
         imagePath: string,
+        sprite: SpriteFrame
     }
 };
 
@@ -25,7 +26,8 @@ enhanceSettings[ENHANCE_TYPE.ENHANCE_DAMAGE] = {
     name: '神力',
     description: '提高角色攻击力',
     maxLevel: 5,
-    imagePath: "EnhanceBoard/Skills/power/spriteFrame"
+    imagePath: "EnhanceBoard/Skills/power/spriteFrame",
+    sprite: null
 }
 
 enhanceSettings[ENHANCE_TYPE.ENHANCE_HEALTH] = {
@@ -34,6 +36,7 @@ enhanceSettings[ENHANCE_TYPE.ENHANCE_HEALTH] = {
     description: '提高角色生命力',
     maxLevel: 5,
     imagePath: "EnhanceBoard/Skills/power/spriteFrame",
+    sprite: null,
 }
 
 enhanceSettings[ENHANCE_TYPE.ENHANCE_SPEED] = {
@@ -41,5 +44,7 @@ enhanceSettings[ENHANCE_TYPE.ENHANCE_SPEED] = {
     name: '迅影',
     description: '提高角色移动速度',
     maxLevel: 5,
-    imagePath: "EnhanceBoard/Skills/speed/spriteFrame"
+    imagePath: "EnhanceBoard/Skills/speed/spriteFrame",
+    sprite: null,
 }
+

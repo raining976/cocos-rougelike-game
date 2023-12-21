@@ -78,12 +78,6 @@ export class AttrController extends Component {
         this.playUpgrade()
         //激活面板
         this.enhanceBoard.getComponent(EnhanceController).boardAppear()
-        //暂停场景,如果不进行延迟执行，显示图片会乱，甚至显示不出来
-        setTimeout(() => {
-            director.stopAnimation();
-        }, 500)
-        //属性提升
-        //TODO:
     }
 
     /**
