@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, NodePool, Prefab } from 'cc';
+import { _decorator, Component, director, Node, NodePool, Prefab } from 'cc';
 import { skillSettings } from './SkillSettings';
 import { skillControllerSettings } from './SkillControllerSettings';
 const { ccclass, property } = _decorator;
@@ -10,7 +10,11 @@ const { ccclass, property } = _decorator;
 export class SkillManager extends Component {
     /** 技能预制体数组 要保证预制体名字和setting中的一致 */
     @property(Prefab) skillPrefabs: Prefab[] = [];
+    /** 人物基节点 */
     playerBaseNode: Node
+    /** 技能节点的容器 */
+    skillNodeContainer: Node;
+
     /** 技能预制体节点池相关映射 */
     skills: {
         [key: string]: {
@@ -19,12 +23,15 @@ export class SkillManager extends Component {
             /** 该技能节点池 */
             nodePool: NodePool,
             /** 人物基节点 这里都相对于人物的基节点了 */
-            playerBaseNode: Node
+            playerBaseNode: Node,
+            /** 飞行物容器节点 */
+            skillNodeContainer: Node,
         }
     } = {}
 
     start() {
         this.playerBaseNode = this.node.parent // 获取主角基类节点
+        this.skillNodeContainer = director.getScene().getChildByName('Canvas').getChildByName('NodePool')
         /** 测试 */
         let skillName = 'SpinBall'
         this.initSkill(skillName)
@@ -39,7 +46,7 @@ export class SkillManager extends Component {
     registerSkill(skillName: string) {
         const skillPrefab = this.skillPrefabs.find(prefab => prefab.name === skillName)
         if (skillPrefab) {
-            this.skills[skillName] = { skillPrefab, nodePool: new NodePool(), playerBaseNode: this.playerBaseNode }
+            this.skills[skillName] = { skillPrefab, nodePool: new NodePool(), playerBaseNode: this.playerBaseNode, skillNodeContainer: this.skillNodeContainer }
         } else {
             throw new Error(`${skillName} prefab not found!`);
         }
@@ -55,9 +62,9 @@ export class SkillManager extends Component {
         this.registerSkill(skillName)
         const skillData = this.skills[skillName]
         if (skillData) {
-            const { skillPrefab, nodePool, playerBaseNode } = skillData
+            const { skillPrefab, nodePool, playerBaseNode, skillNodeContainer } = skillData
             console.log(`opening ${skillName} `)
-            skillControllerSettings[skillName].controller.initSkill({ skillPrefab, nodePool, playerBaseNode })
+            skillControllerSettings[skillName].controller.initSkill({ skillPrefab, nodePool, playerBaseNode, skillNodeContainer })
         } else {
             throw new Error(`SkillController ${skillName} not found!`);
         }
@@ -80,7 +87,7 @@ export class SkillManager extends Component {
      * 卸载技能 如果需要的话
      * @param skillName 技能名称
      */
-    unloadSkill(skillName: string) {}
+    unloadSkill(skillName: string) { }
 
     /**
      * 升级技能

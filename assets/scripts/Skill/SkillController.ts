@@ -9,7 +9,9 @@ export class SkillController {
     /** 当前技能的节点池 */
     protected static nodePool: NodePool
     /** 人物节点的父节点 playerBase */
-    protected static playerBaseNode: Node // 人物节点的父节点
+    protected static playerBaseNode: Node
+    /** 技能节点容器 */
+    protected static skillNodeContainer:Node
     /** 技能释放的定时器 */
     protected static timer = null;
 
@@ -21,6 +23,7 @@ export class SkillController {
         this.skillPrefab = skillData.skillPrefab
         this.nodePool = skillData.nodePool
         this.playerBaseNode = skillData.playerBaseNode
+        this.skillNodeContainer = skillData.skillNodeContainer
         this.startSkill()
     }
 
