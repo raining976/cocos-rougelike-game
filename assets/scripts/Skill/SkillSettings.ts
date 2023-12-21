@@ -46,8 +46,8 @@ skillSettings['SpinBall'] = {
     releaseInterval: 500,
     upgradeArray: [
         {
-            description:"增加一个飞行物",
-            skillCount:2,
+            description: "增加一个飞行物",
+            skillCount: 2,
         },
         {
             damage: 110,
@@ -59,8 +59,34 @@ skillSettings['SpinBall'] = {
 }
 
 /**
- *  追踪飞镖
+ * 直线法球
  */
+skillSettings['StraightBall'] = {
+    id: '002',
+    skillName: "StraightBall",
+    skillLevel: 1,
+    damage: 100,
+    skillCount: 1,
+    duration: 1000, //
+    range: 130,
+    releaseInterval: 2000,
+    upgradeArray: [
+        {
+            description: '飞行物增加一',
+            skillCount: 2
+        },
+        {
+            damage: 120,
+        },
+        {
+            range: 110,
+        }
+    ]
+}
+
+/*
+*  追踪飞镖
+*/
 skillSettings['Dart'] = {
     id: '002',
     skillName: "Dart",
@@ -72,11 +98,10 @@ skillSettings['Dart'] = {
     releaseInterval: 500,
     upgradeArray: [
         {
-            skillCount:2,
+            skillCount: 2,
         },
     ]
 
 }
-
 
 
