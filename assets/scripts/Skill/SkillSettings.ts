@@ -58,6 +58,32 @@ skillSettings['SpinBall'] = {
     ]
 }
 
+/**
+ * 直线法球
+ */
+skillSettings['StraightBall'] = {
+    id: '002',
+    skillName: "StraightBall",
+    skillLevel: 1,
+    damage: 100,
+    skillCount: 1,
+    duration: 1000, //
+    range: 130, 
+    releaseInterval: 2000,
+    upgradeArray: [
+        {
+            description:'飞行物增加一',
+            skillCount:2
+        },
+        {
+            damage: 120,
+        },
+        {
+            range: 110,
+        }
+    ]
+}
+
 
 
 
