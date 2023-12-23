@@ -5,13 +5,16 @@ export enum ENHANCE_TYPE {
     ENHANCE_DAMAGE,
     ENHANCE_HEALTH,
     ENHANCE_SPEED,
-    LENGTH
+    //LENGTH,
+    ENHANCE_SPINBALL = 'SpinBall',
+    ENHANCE_STRTBALL = 'StraigtBall',
+    ENHANCE_BOMB = 'Bomb',
+    
 }
 
 @ccclass('EnhanceSettings')
 export class EnhanceSettings{
     [index: number]: {
-        type: ENHANCE_TYPE,
         name: string,
         description: string,
         maxLevel: number,
@@ -22,29 +25,41 @@ export class EnhanceSettings{
 
 export const enhanceSettings = new EnhanceSettings();
 enhanceSettings[ENHANCE_TYPE.ENHANCE_DAMAGE] = {
-    type: ENHANCE_TYPE.ENHANCE_DAMAGE,
-    name: '神力',
+    name: 'Power',
     description: '提高角色攻击力',
-    maxLevel: 5,
-    imagePath: "EnhanceBoard/Skills/power/spriteFrame",
+    maxLevel: 10,
+    imagePath: "EnhanceBoard/Skills/Power/spriteFrame",
     sprite: null
 }
 
 enhanceSettings[ENHANCE_TYPE.ENHANCE_HEALTH] = {
-    type: ENHANCE_TYPE.ENHANCE_HEALTH,
-    name: '生命',
+    name: 'Health',
     description: '提高角色生命力',
-    maxLevel: 5,
-    imagePath: "EnhanceBoard/Skills/power/spriteFrame",
+    maxLevel: 10,
+    imagePath: "EnhanceBoard/Skills/Health/spriteFrame",
     sprite: null,
 }
 
 enhanceSettings[ENHANCE_TYPE.ENHANCE_SPEED] = {
-    type: ENHANCE_TYPE.ENHANCE_SPEED,
-    name: '迅影',
+    name: 'Speed',
     description: '提高角色移动速度',
-    maxLevel: 5,
-    imagePath: "EnhanceBoard/Skills/speed/spriteFrame",
+    maxLevel: 10,
+    imagePath: "EnhanceBoard/Skills/Speed/spriteFrame",
     sprite: null,
 }
 
+enhanceSettings[ENHANCE_TYPE.ENHANCE_SPINBALL] = {
+    name: 'SpinBall',
+    description: '坤球旋转',
+    maxLevel: 10,
+    imagePath: "EnhanceBoard/Skills/SpinBall/spriteFrame",
+    sprite: null,
+}
+
+enhanceSettings[ENHANCE_TYPE.ENHANCE_STRTBALL] = {
+    name: 'StraightBall',
+    description: '直球, 就是直着发射的球',
+    maxLevel: 10,
+    imagePath: "EnhanceBoard/Skills/StraightBall/spriteFrame",
+    sprite: null,
+}

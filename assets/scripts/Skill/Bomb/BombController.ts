@@ -8,10 +8,15 @@ const { ccclass, property } = _decorator;
 export class BombController extends SkillController {
     private static skillName = 'Bomb';
     private static settings = skillSettings['Bomb'];
+    private static windowWith
+    private static windowHeight
     /**
      * 启动技能重写
      */
     static startSkill() {
+        let uiTranform = director.getScene().getChildByName('Canvas').getComponent(UITransform);
+        this.windowWith = uiTranform.width;
+        this.windowHeight = uiTranform.height;
         this.startReleaseSkill(this.settings.releaseInterval);
     }
 
@@ -20,17 +25,12 @@ export class BombController extends SkillController {
      * 生成一个随机相对位置
      * @returns 随机相对角色位置
      */
-    private static generateRandomPosition(maxX: number, maxY: number) {
-        const range = this.settings.range
-        const randomNum = (n: number)=>{
-            let result = range * randomRange(-1, 1)
-            if (result < -n)
-                result = -n
-            else if (result > n)
-                result = n
-            return result
+    private static generateRandomPosition(maxW: number, maxH: number) {
+        const randomNum = (max: number) => {
+            const range = Math.min(this.settings.range, max)
+            return range * randomRange(-1, 1)
         }
-        return new Vec3(randomNum(maxX), randomNum(maxY),0).add(this.playerBaseNode.position)
+        return new Vec3(randomNum(maxW / 2), randomNum(maxH / 2), 0).add(this.playerBaseNode.position)
     }
 
 
@@ -38,20 +38,28 @@ export class BombController extends SkillController {
      * 释放技能重写
      */
     static releaseSkill() {
-        let uiTranform = director.getScene().getChildByName('Canvas').getComponent(UITransform);
-        let widthCanvas = uiTranform.width;
-        let heightCanvas = uiTranform.height;
-        for(let i = 0; i < this.settings.skillCount ; i++)  {
+        /**
+         * 生成
+         * 设置随机坐标
+         */
+
+        for (let i = 0; i < this.settings.skillCount; i++) {
             let skillNode = this.spawnSingleSkill()
-            skillNode.setWorldPosition(this.generateRandomPosition(widthCanvas/2, heightCanvas/2))
+            skillNode.setWorldPosition(this.generateRandomPosition(this.windowWith, this.windowHeight))
             skillNode.getComponent(Skill).initSkill(this.skillName) // 更新
             this.skillNodeContainer.addChild(skillNode)
-            skillNode.getComponent(Animation).play(this.skillName)
-            this.autoReclaimSkill(skillNode,this.settings.duration);
+            skillNode.children[0].active = false
+            let duration = skillNode.children[1].getComponent(Animation).getState(this.skillName).duration
+            skillNode.getChildByName("BlackHole").getComponent(Animation).play(this.skillName)
+            setTimeout(() => {
+                skillNode.children[0].active = true
+            }, duration * 1000)
+
+            this.autoReclaimSkill(skillNode, this.settings.duration);
         }
     }
 
-    
+
 }
 
 
