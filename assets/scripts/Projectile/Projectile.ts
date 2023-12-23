@@ -7,8 +7,8 @@ const { ccclass, property } = _decorator;
 
 @ccclass('Projectile')
 export class Projectile extends Component {
-    protected Projectilespeed:number=5//投射物速度
-    protected Projectilelife:number=10//投射物生存时间
+    protected Projectilespeed:number=1//投射物速度
+    protected Projectilelife:number=7//投射物生存时间
     protected Projectiledamage:number=20//投射物伤害
     public dir:Vec3=new Vec3();
     start() {

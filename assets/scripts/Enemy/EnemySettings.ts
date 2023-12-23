@@ -4,13 +4,21 @@ const { ccclass, property } = _decorator;
 export class EnemySettings{
     [index:string]:{
         id:string,
+        /**怪物血量 */
         health:number,
+        /**怪物伤害 */
         damage:number,
+        /**怪物速度 */
         speed:number,
+        /**怪物经验 */
         xpReward:number,
+        /**怪物是否为远程攻击 */
         remote:boolean,
+        /**怪物射程 */
         projectilerange:number,
+        /**怪物攻击范围 */
         attackrange:number
+        /**怪物状态列表 */
         States:string[]
     }
 };

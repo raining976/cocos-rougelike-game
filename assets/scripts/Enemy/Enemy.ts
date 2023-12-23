@@ -274,6 +274,9 @@ export class Enemy extends Component {
     public getattackrange() {
         return this.attackrange;
     }
+    public getprojectilerange(){
+        return this.projectilerange;
+    }
     public getEnemyname() {
         return this.Enemyname;
     }
