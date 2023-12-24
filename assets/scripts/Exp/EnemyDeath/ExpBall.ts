@@ -12,7 +12,7 @@ export class ExpBall extends Component {
         //根据挂载的预制体的名字决定value
         let expBallName = this.node.name;
         this.init(expBallName)
-        this.autoDestroy()
+        // this.autoDestroy()
     }
 
     init(expBallName: string) {
