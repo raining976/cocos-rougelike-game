@@ -2,7 +2,7 @@
   "ver": "1.0.26",
   "importer": "image",
   "imported": true,
-  "uuid": "2b119ae0-0d06-4e42-9ba8-6dd27dd5535d",
+  "uuid": "d3378148-8e93-4854-8ab3-b74bca070214",
   "files": [
     ".json",
     ".png"
@@ -10,14 +10,14 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "2b119ae0-0d06-4e42-9ba8-6dd27dd5535d@6c48a",
+      "uuid": "d3378148-8e93-4854-8ab3-b74bca070214@6c48a",
       "displayName": "Hills",
       "id": "6c48a",
       "name": "texture",
       "userData": {
         "wrapModeS": "clamp-to-edge",
         "wrapModeT": "clamp-to-edge",
-        "imageUuidOrDatabaseUri": "2b119ae0-0d06-4e42-9ba8-6dd27dd5535d",
+        "imageUuidOrDatabaseUri": "d3378148-8e93-4854-8ab3-b74bca070214",
         "isUuid": true,
         "visible": false,
         "minfilter": "linear",
@@ -34,7 +34,7 @@
     },
     "f9941": {
       "importer": "sprite-frame",
-      "uuid": "2b119ae0-0d06-4e42-9ba8-6dd27dd5535d@f9941",
+      "uuid": "d3378148-8e93-4854-8ab3-b74bca070214@f9941",
       "displayName": "Hills",
       "id": "f9941",
       "name": "spriteFrame",
@@ -114,7 +114,7 @@
           ]
         },
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "2b119ae0-0d06-4e42-9ba8-6dd27dd5535d@6c48a",
+        "imageUuidOrDatabaseUri": "d3378148-8e93-4854-8ab3-b74bca070214@6c48a",
         "atlasUuid": ""
       },
       "ver": "1.0.12",
@@ -129,6 +129,6 @@
     "type": "sprite-frame",
     "fixAlphaTransparencyArtifacts": true,
     "hasAlpha": true,
-    "redirect": "2b119ae0-0d06-4e42-9ba8-6dd27dd5535d@f9941"
+    "redirect": "d3378148-8e93-4854-8ab3-b74bca070214@f9941"
   }
 }
