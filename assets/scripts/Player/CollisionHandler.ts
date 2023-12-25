@@ -68,7 +68,7 @@ export class CollisionHandler extends Component {
             // 2. 调用WeaponSpawnner.changeWeapon()
         }
         // 中立投射物，对敌我双方都会造成伤害
-        if (otherCollider.tag == 4) {
+        if (otherCollider.tag == 4&&selfCollier.node!= otherCollider.node.parent) {
             let ProjectileNode = otherCollider.node
             this.attrController.reduceHealth(ProjectileNode.getComponent(Projectile).getProjectiledamage());
         }

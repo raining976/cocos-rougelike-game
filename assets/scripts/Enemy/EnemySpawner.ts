@@ -1,9 +1,13 @@
 import { _decorator, Component, Node, Prefab, randomRange,Vec3, instantiate, macro,game, TiledUserNodeData, tween, Tween, randomRangeInt, NodePool, Event,BoxCollider2D} from 'cc';
-import { EnemySettings } from './EnemySettings';
+import { EnemyAttr, EnemySettings } from './EnemySettings';
 import { Enemy } from './Enemy';
 import { Randompos } from '../utils/Randompos';
+import { RandomwithWeight } from '../utils/RandomwithWeight';
 const { ccclass, property } = _decorator;
 
+/**
+ * 最新更新已弃用Boss相关代码，精英怪请以Enemy内注入的为准
+ */
 @ccclass('EnemySpawner')
 export class EnemySpawner extends Component {
     @property(Prefab) private enemies: Prefab[]=[];//引擎内预先注入敌人预制体数组
@@ -11,8 +15,8 @@ export class EnemySpawner extends Component {
     @property(Node) private TargetNode: Node;//引擎内预先注入目标（玩家）节点
     
     //敌人生成相关参数
-    private SpawnerDelay:number=0.2//杂鱼生成延迟
-    private BossSpawnerDelay:number=50;//BOSS生成延迟
+    private SpawnerDelay:number=0.1//杂鱼生成延迟
+    private BossSpawnerDelay:number=0.1;//BOSS生成延迟
     
     //对象池相关参数
     private enemyPool: NodePool;//敌人对象池，用于存储和复用敌人节点对象，节省性能开销
@@ -21,14 +25,37 @@ export class EnemySpawner extends Component {
     //随机坐标生成器
     private randomposGenerators:Randompos;
 
+    //带权随机
+    private randomwithweights_trashfish:RandomwithWeight;//带权随机类对象，该类定义了关于带权随机的一系列方法和权重表
+    private weighttop_trashfish:number;//权重区间上限
+
     start() {
         //监听器注册
         // this.initBossdied();
 
+        //权重表初始化
+        this.randomwithweights_trashfish=new RandomwithWeight();
+        this.randomwithweights_trashfish.init(this.enemies,EnemyAttr,this.enemies);
+        // for(let i=0;i<this.enemies.length;i++){
+        //     console.log(Array.isArray(EnemyAttr))
+        //     console.log(new WeightTable(i,EnemyAttr[this.enemies[i].name].weight))
+        //     this.weighttables.push(new WeightTable(i,EnemyAttr[this.enemies[i].name].weight))
+        // }
+        //权重表更新，更新后的权重值代表对应敌人的带权区间
+        this.weighttop_trashfish=this.randomwithweights_trashfish.RangeGenerate();
+        // for(let i=1;i<this.weighttables.length;i++){
+        //     this.weighttables[i].weight+=this.weighttables[i-1].weight;
+        // }
         //对象池初始化
         this.enemyPool=new NodePool();
         for(let i=0;i<this.InitCount;i++){
-            let enemynode=instantiate(this.enemies[randomRangeInt(0, this.enemies.length)]);
+            let enemytype=0;
+            let randomnum=randomRange(0,this.weighttop_trashfish);
+            while(randomnum==0){
+                randomnum=randomRange(0,this.weighttop_trashfish);//cocos没有左开右闭的随机，6
+            }
+            enemytype=this.randomwithweights_trashfish.location(randomnum);
+            let enemynode=instantiate(this.enemies[enemytype]);
             this.enemyPool.put(enemynode);
         }
 
@@ -39,7 +66,7 @@ export class EnemySpawner extends Component {
 
         //生成函数运行
         this.schedule(this.TrashfishSpawner,this.SpawnerDelay,macro.REPEAT_FOREVER);
-        this.schedule(this.BossSpawner,this.BossSpawnerDelay,macro.REPEAT_FOREVER);
+        // this.schedule(this.BossSpawner,this.BossSpawnerDelay,macro.REPEAT_FOREVER);//原来的代码不打算删除重构了，但又要弃用以适应新的逻辑
     }
 
     /**
@@ -55,7 +82,13 @@ export class EnemySpawner extends Component {
             }
         }
         else{//否则实例化一个
-            enemynode=instantiate(this.enemies[randomRangeInt(0, this.enemies.length)]);
+            let enemytype=0;
+            let randomnum=randomRange(0,this.weighttop_trashfish);
+            while(randomnum==0){
+                randomnum=randomRange(0,this.weighttop_trashfish);//cocos没有左开右闭的随机，6
+            }
+            enemytype=this.randomwithweights_trashfish.location(randomnum)
+            enemynode=instantiate(this.enemies[enemytype]);
         }
         this.node.addChild(enemynode);//杂鱼节点挂载至当前节点之下
         enemynode.setWorldPosition(this.randomposGenerators.CircularSpawner(this.TargetNode.worldPosition));
@@ -90,6 +123,22 @@ export class EnemySpawner extends Component {
     }
     gettargetnode(){
         return this.TargetNode;
+    }
+
+    public Startgenerate(){
+        this.schedule(this.TrashfishSpawner,this.SpawnerDelay,macro.REPEAT_FOREVER);
+        this.schedule(this.BossSpawner,this.BossSpawnerDelay,macro.REPEAT_FOREVER);
+    }
+    public Stopgenerate(){
+        this.unschedule(this.TrashfishSpawner);
+        this.unschedule(this.BossSpawner);
+    }
+    /**
+     * 
+     * @returns 带权随机类
+     */
+    public getrandomwithweights(){
+        return this.randomwithweights_trashfish;
     }
 }
 
