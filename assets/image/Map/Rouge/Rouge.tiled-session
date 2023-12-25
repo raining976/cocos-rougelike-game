@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "E:/Win/3D对象/repo/Cocos/cocos-test-projects-3.8/assets/cases/middleware/tiled-map/imported/iso-test.tmx",
+    "activeFile": "111.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -16,8 +16,8 @@
             "scale": 1,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 511.5,
-                "y": 511
+                "x": 510.5,
+                "y": 510.5
             }
         },
         ":/automap-tiles.tsx": {
@@ -162,9 +162,9 @@
     ],
     "project": "Rouge.tiled-project",
     "recentFiles": [
-        "111.tmx",
-        "E:/Win/3D对象/repo/Cocos/cocos-test-projects-3.8/assets/cases/middleware/tiled-map/imported/map.tmx",
         "E:/Win/3D对象/repo/Cocos/cocos-test-projects-3.8/assets/cases/middleware/tiled-map/imported/iso-test.tmx",
+        "E:/Win/3D对象/repo/Cocos/cocos-test-projects-3.8/assets/cases/middleware/tiled-map/imported/map.tmx",
+        "111.tmx",
         "tilesheet.tsx",
         "tilesheet2.tsx",
         "bg1.tmx",

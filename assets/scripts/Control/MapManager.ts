@@ -1,10 +1,23 @@
-import { _decorator, Component, Node, TiledMapAsset, TiledMap,Vec3 } from 'cc';
+import { _decorator, Component, Node, TiledMapAsset, TiledMap,Vec3, Vec2, TiledLayer } from 'cc';
 const { ccclass, property } = _decorator;
+
+enum MoveDirection {
+    NONE = 0,
+    UP = 1,
+    DOWN = 2,
+    LEFT = 3,
+    RIGHT = 4,
+}
 
 const TILE_SIZE_WIDTH = 32; // 假设瓦片宽度为32
 const TILE_SIZE_HEIGHT = 32; // 假设瓦片高度为32
+const minTilesCount = 9;
+
 @ccclass('MapManager')
 export class MapManager extends Component {
+
+    _isMapLoaded = false;
+
     @property({ type: Node })
     public targetNode: Node = null!
     
@@ -13,7 +26,13 @@ export class MapManager extends Component {
 
     private mapBlocks: Map<string, Node> = new Map();
 
-    
+    private _curTile = new Vec2();
+    private _startTile = new Vec2();
+    private _endTile = new Vec2();
+    private _tiledMap: TiledMap = null!;
+    // private _layer1: TiledLayer = null!;
+    // private _layer2: TiledLayer = null!;
+
     start() {
         console.log(this)
         let map = this.node.children
@@ -21,9 +40,29 @@ export class MapManager extends Component {
         this.onCreateTileMap(this.tmxAsset);
         this.node.setPosition(0, 0);
         console.log(this.node)
+
+
+        this._initMapPos();
     }
 
     update(deltaTime: number) {   
+    }
+
+    _initMapPos() {
+        this.node.setPosition(0, 0);
+    }
+
+    _getTilePos(posInPixel: { x: number, y: number }) {
+        const mapSize = this.node._uiProps.uiTransformComp!.contentSize;
+        const tileSize = this._tiledMap.getTileSize();
+        const x = Math.floor(posInPixel.x / tileSize.width);
+        const y = Math.floor((mapSize.height - posInPixel.y) / tileSize.height);
+
+        return new Vec2(x, y);
+    }
+
+    _tryMoveMap(moveDir: MoveDirection) {
+        
     }
 
     loadInitialMapBlocks() {
