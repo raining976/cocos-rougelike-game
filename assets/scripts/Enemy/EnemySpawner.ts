@@ -16,7 +16,7 @@ export class EnemySpawner extends Component {
     
     //敌人生成相关参数
     private SpawnerDelay:number=0.1//杂鱼生成延迟
-    private BossSpawnerDelay:number=0.1;//BOSS生成延迟
+    private BossSpawnerDelay:number=10;//BOSS生成延迟
     
     //对象池相关参数
     private enemyPool: NodePool;//敌人对象池，用于存储和复用敌人节点对象，节省性能开销
@@ -35,6 +35,7 @@ export class EnemySpawner extends Component {
 
         //权重表初始化
         this.randomwithweights_trashfish=new RandomwithWeight();
+        console.log(this.enemies);
         this.randomwithweights_trashfish.init(this.enemies,EnemyAttr,this.enemies);
         // for(let i=0;i<this.enemies.length;i++){
         //     console.log(Array.isArray(EnemyAttr))
@@ -54,7 +55,7 @@ export class EnemySpawner extends Component {
             while(randomnum==0){
                 randomnum=randomRange(0,this.weighttop_trashfish);//cocos没有左开右闭的随机，6
             }
-            enemytype=this.randomwithweights_trashfish.location(randomnum);
+            enemytype=this.randomwithweights_trashfish.location(randomnum)
             let enemynode=instantiate(this.enemies[enemytype]);
             this.enemyPool.put(enemynode);
         }

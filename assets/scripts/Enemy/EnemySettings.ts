@@ -64,7 +64,7 @@ EnemyAttr['Archer']={
     projectilerange:500,
     attackrange:300,
     States:["Run","Attack","Dead","Shot"],
-    weight:1
+    weight:0.3
 }
 EnemyAttr['Yurei']={
     id:'005',
@@ -76,7 +76,7 @@ EnemyAttr['Yurei']={
     projectilerange:-1,//没有远程攻击手段
     attackrange:1,
     States:["Run","Attack","Dead"],
-    weight:0
+    weight:1
 }
 EnemyAttr['Onre']={
     id:'006',
@@ -88,7 +88,7 @@ EnemyAttr['Onre']={
     projectilerange:-1,
     attackrange:1,
     States:["Run","Attack","Dead"],
-    weight:0
+    weight:1
 }
 EnemyAttr['Samurai']={
     id:'007',
@@ -100,7 +100,7 @@ EnemyAttr['Samurai']={
     projectilerange:-1,
     attackrange:1,
     States:["Run","Attack","Dead"],
-    weight:0
+    weight:0//不知道为什么这个预制体实例化会爆错...抽象
 }
 EnemyAttr['Wizard']={
     id:'008',
@@ -112,5 +112,5 @@ EnemyAttr['Wizard']={
     projectilerange:300,
     attackrange:-1,//没有近战手段
     States:["Run","Attack","Dead","Shot"],
-    weight:0
+    weight:0.3
 }
