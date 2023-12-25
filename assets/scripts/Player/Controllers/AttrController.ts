@@ -6,6 +6,7 @@ import { FloatLabelBase } from '../../FloatLabel/FloatLabelBase';
 import { ENHANCE_TYPE } from '../../EnhanceBoard/EnhanceSettings';
 import { EnhanceController } from '../../EnhanceBoard/EnhanceController';
 import { MoveController, PLAYER_STATE } from './MoveController';
+import { GameController } from '../../Control/GameController';
 const { ccclass, property } = _decorator;
 
 @ccclass('AttrController')
@@ -35,6 +36,7 @@ export class AttrController extends Component {
         let newHealth = this.playerEntity.getCurHealth() - delta;
         if (newHealth <= 0) {
             this.node.getComponent(MoveController).changeState(PLAYER_STATE.DEAD)
+            this.node.getComponent(GameController).isDied();
             // TODO: 游戏结束的逻辑
             // setTimeout(() => {
             //     alert("game over!!!")

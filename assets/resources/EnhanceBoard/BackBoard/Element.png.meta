@@ -2,11 +2,7 @@
   "ver": "1.0.26",
   "importer": "image",
   "imported": true,
-<<<<<<<< HEAD:assets/image/Game/bg_pause.png.meta
-  "uuid": "0d2809ca-2c9e-44d7-b278-11c0a2aecc41",
-========
-  "uuid": "85dc3db4-2872-452e-8986-d7d9a2cfd0a4",
->>>>>>>> 72a6561ee94ff8f56ee0d0754ae7b15ed314880b:assets/resources/EnhanceBoard/BackBoard/Element.png.meta
+  "uuid": "6bd08cd7-a7cf-47eb-8140-76a56fcd9228",
   "files": [
     ".json",
     ".png"
@@ -14,23 +10,14 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-<<<<<<<< HEAD:assets/image/Game/bg_pause.png.meta
-      "uuid": "0d2809ca-2c9e-44d7-b278-11c0a2aecc41@6c48a",
-      "displayName": "bg_pause",
-========
-      "uuid": "85dc3db4-2872-452e-8986-d7d9a2cfd0a4@6c48a",
+      "uuid": "6bd08cd7-a7cf-47eb-8140-76a56fcd9228@6c48a",
       "displayName": "Element",
->>>>>>>> 72a6561ee94ff8f56ee0d0754ae7b15ed314880b:assets/resources/EnhanceBoard/BackBoard/Element.png.meta
       "id": "6c48a",
       "name": "texture",
       "userData": {
         "wrapModeS": "clamp-to-edge",
         "wrapModeT": "clamp-to-edge",
-<<<<<<<< HEAD:assets/image/Game/bg_pause.png.meta
-        "imageUuidOrDatabaseUri": "0d2809ca-2c9e-44d7-b278-11c0a2aecc41",
-========
-        "imageUuidOrDatabaseUri": "85dc3db4-2872-452e-8986-d7d9a2cfd0a4",
->>>>>>>> 72a6561ee94ff8f56ee0d0754ae7b15ed314880b:assets/resources/EnhanceBoard/BackBoard/Element.png.meta
+        "imageUuidOrDatabaseUri": "6bd08cd7-a7cf-47eb-8140-76a56fcd9228",
         "isUuid": true,
         "visible": false,
         "minfilter": "linear",
@@ -47,13 +34,8 @@
     },
     "f9941": {
       "importer": "sprite-frame",
-<<<<<<<< HEAD:assets/image/Game/bg_pause.png.meta
-      "uuid": "0d2809ca-2c9e-44d7-b278-11c0a2aecc41@f9941",
-      "displayName": "bg_pause",
-========
-      "uuid": "85dc3db4-2872-452e-8986-d7d9a2cfd0a4@f9941",
+      "uuid": "6bd08cd7-a7cf-47eb-8140-76a56fcd9228@f9941",
       "displayName": "Element",
->>>>>>>> 72a6561ee94ff8f56ee0d0754ae7b15ed314880b:assets/resources/EnhanceBoard/BackBoard/Element.png.meta
       "id": "f9941",
       "name": "spriteFrame",
       "userData": {
@@ -64,17 +46,10 @@
         "offsetY": 0,
         "trimX": 0,
         "trimY": 0,
-<<<<<<<< HEAD:assets/image/Game/bg_pause.png.meta
-        "width": 2560,
-        "height": 400,
-        "rawWidth": 2560,
-        "rawHeight": 400,
-========
         "width": 400,
         "height": 100,
         "rawWidth": 400,
         "rawHeight": 100,
->>>>>>>> 72a6561ee94ff8f56ee0d0754ae7b15ed314880b:assets/resources/EnhanceBoard/BackBoard/Element.png.meta
         "borderTop": 0,
         "borderBottom": 0,
         "borderLeft": 0,
@@ -86,19 +61,6 @@
         "meshType": 0,
         "vertices": {
           "rawPosition": [
-<<<<<<<< HEAD:assets/image/Game/bg_pause.png.meta
-            -1280,
-            -200,
-            0,
-            1280,
-            -200,
-            0,
-            -1280,
-            200,
-            0,
-            1280,
-            200,
-========
             -200,
             -50,
             0,
@@ -110,7 +72,6 @@
             0,
             200,
             50,
->>>>>>>> 72a6561ee94ff8f56ee0d0754ae7b15ed314880b:assets/resources/EnhanceBoard/BackBoard/Element.png.meta
             0
           ],
           "indexes": [
@@ -123,21 +84,12 @@
           ],
           "uv": [
             0,
-<<<<<<<< HEAD:assets/image/Game/bg_pause.png.meta
-            400,
-            2560,
-            400,
-            0,
-            0,
-            2560,
-========
             100,
             400,
             100,
             0,
             0,
             400,
->>>>>>>> 72a6561ee94ff8f56ee0d0754ae7b15ed314880b:assets/resources/EnhanceBoard/BackBoard/Element.png.meta
             0
           ],
           "nuv": [
@@ -151,15 +103,6 @@
             1
           ],
           "minPos": [
-<<<<<<<< HEAD:assets/image/Game/bg_pause.png.meta
-            -1280,
-            -200,
-            0
-          ],
-          "maxPos": [
-            1280,
-            200,
-========
             -200,
             -50,
             0
@@ -167,16 +110,11 @@
           "maxPos": [
             200,
             50,
->>>>>>>> 72a6561ee94ff8f56ee0d0754ae7b15ed314880b:assets/resources/EnhanceBoard/BackBoard/Element.png.meta
             0
           ]
         },
         "isUuid": true,
-<<<<<<<< HEAD:assets/image/Game/bg_pause.png.meta
-        "imageUuidOrDatabaseUri": "0d2809ca-2c9e-44d7-b278-11c0a2aecc41@6c48a",
-========
-        "imageUuidOrDatabaseUri": "85dc3db4-2872-452e-8986-d7d9a2cfd0a4@6c48a",
->>>>>>>> 72a6561ee94ff8f56ee0d0754ae7b15ed314880b:assets/resources/EnhanceBoard/BackBoard/Element.png.meta
+        "imageUuidOrDatabaseUri": "6bd08cd7-a7cf-47eb-8140-76a56fcd9228@6c48a",
         "atlasUuid": ""
       },
       "ver": "1.0.12",
@@ -191,10 +129,6 @@
     "type": "sprite-frame",
     "fixAlphaTransparencyArtifacts": true,
     "hasAlpha": true,
-<<<<<<<< HEAD:assets/image/Game/bg_pause.png.meta
-    "redirect": "0d2809ca-2c9e-44d7-b278-11c0a2aecc41@f9941"
-========
-    "redirect": "85dc3db4-2872-452e-8986-d7d9a2cfd0a4@f9941"
->>>>>>>> 72a6561ee94ff8f56ee0d0754ae7b15ed314880b:assets/resources/EnhanceBoard/BackBoard/Element.png.meta
+    "redirect": "6bd08cd7-a7cf-47eb-8140-76a56fcd9228@f9941"
   }
 }
