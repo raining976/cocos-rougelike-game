@@ -75,18 +75,18 @@ attrSettings['speed'] = {
             description: "提升速度",
             attrValue: 3.2,
         },
-        {
-            description: "提升速度",
-            attrValue: 3.4,
-        },
-        {
-            description: "提升速度",
-            attrValue: 3.6,
-        },
-        {
-            description: "提升速度",
-            attrValue: 3.8,
-        },
+        // {
+        //     description: "提升速度",
+        //     attrValue: 3.4,
+        // },
+        // {
+        //     description: "提升速度",
+        //     attrValue: 3.6,
+        // },
+        // {
+        //     description: "提升速度",
+        //     attrValue: 3.8,
+        // },
     ]
 }
 

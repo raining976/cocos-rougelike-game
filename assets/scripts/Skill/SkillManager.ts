@@ -33,8 +33,10 @@ export class SkillManager extends Component {
         this.playerBaseNode = this.node.parent // 获取主角基类节点
         this.skillNodeContainer = director.getScene().getChildByName('Canvas').getChildByName('NodePool')
 
-        this.initSkill('Bomb')
         this.initSkill("SpinBall")
+        this.initSkill("Bomb")
+        this.initSkill("Dart")
+        this.initSkill("StraightBall")
     }
 
     /**
@@ -99,7 +101,7 @@ export class SkillManager extends Component {
             return 
         }
 
-        const nextLevel = Math.min(skillSettings[skillName].skillLevel + 1,skillSettings[skillName].upgradeArray.length)
+        let nextLevel = skillSettings[skillName].skillLevel + 1;
         const upgradeObj = skillSettings[skillName].upgradeArray[nextLevel - 2]
 
         Object.keys(upgradeObj).forEach(key => {

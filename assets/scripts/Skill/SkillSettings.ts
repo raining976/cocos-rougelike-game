@@ -61,14 +61,14 @@ skillSettings['SpinBall'] = {
             description: "增加一个飞行物",
             skillCount: 2,
         },
-        {
-            description:'',
-            skillCount:3,
-        },
-        {
-            description:'',
-            skillCount:3,
-        }
+        // {
+        //     description:'',
+        //     skillCount:3,
+        // },
+        // {
+        //     description:'',
+        //     skillCount:3,
+        // }
     ]
 }
 
@@ -92,14 +92,14 @@ skillSettings['StraightBall'] = {
             description: '飞行物增加一',
             skillCount: 2
         },
-        {
-            description:'',
-            skillCount:4,
-        },
-        {
-            description:'',
-            skillCount:5,
-        }
+        // {
+        //     description:'',
+        //     skillCount:4,
+        // },
+        // {
+        //     description:'',
+        //     skillCount:5,
+        // }
     ]
 }
 
@@ -109,17 +109,43 @@ skillSettings['StraightBall'] = {
 skillSettings['Dart'] = {
     id: '003',
     skillName: "Dart",
+    skillNameZh: '飞镖',
     skillLevel: 1,
     damage: 20,
     skillCount: 1,   //对飞镖来说是发射的飞镖数量
     duration: 200,   //对飞镖来说是技能速度, 每秒移动50
     range: 2000,     //对飞镖来说是销毁的范围，超出多少范围销毁
     releaseInterval: 2000,
+    imgPath:"EnhanceBoard/Skills/Dart/spriteFrame",
+    imgSource:null,
     upgradeArray: [
         {
+            description: '',
             skillCount: 2,
         },
     ]
-
 }
 
+skillSettings['Bomb'] = {
+    id: '003',
+    skillName: 'Bomb',
+    skillNameZh: '黑洞',
+    skillLevel: 1,
+    damage: 100,
+    skillCount: 1,
+    duration: 5000,
+    range: 600,
+    releaseInterval: 5000,
+    imgPath: 'EnhanceBoard/Skills/Bomb/spriteFrame',
+    imgSource: null,
+    upgradeArray: [
+        {
+            description: '技能数量+1',
+            skillCount: 2,
+        },
+        // {
+        //     description: '技能数量+1',
+        //     skillCount: 3,
+        // }
+    ]
+}
