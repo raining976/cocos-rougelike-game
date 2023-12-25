@@ -6,7 +6,7 @@ import { FloatLabelBase } from '../../FloatLabel/FloatLabelBase';
 import { ENHANCE_TYPE } from '../../EnhanceBoard/EnhanceSettings';
 import { EnhanceController } from '../../EnhanceBoard/EnhanceController';
 import { MoveController, PLAYER_STATE } from './MoveController';
-import { GameController } from '../../Control/GameController';
+import { GameController, GameState } from '../../Control/GameController';
 const { ccclass, property } = _decorator;
 
 @ccclass('AttrController')
@@ -14,9 +14,9 @@ export class AttrController extends Component {
     @property(Node) stateLabelNode = null // 人物状态根节点
     @property(Prefab) upgradePrefab = null
     @property(Prefab) floatLabelPrefab: Prefab;
-
     @property(Node) enhanceBoard: Node | null = null;
 
+    @property(Node) gameRoot: Node
     playerEntity: Player = null // 人物实体类
     upgradeAudio = null // 升级音效
 
@@ -27,7 +27,6 @@ export class AttrController extends Component {
     }
 
 
-
     /**
      * 在与小怪碰撞后，降低角色血量
      * @param delta 血量降低值
@@ -36,7 +35,7 @@ export class AttrController extends Component {
         let newHealth = this.playerEntity.getCurHealth() - delta;
         if (newHealth <= 0) {
             this.node.getComponent(MoveController).changeState(PLAYER_STATE.DEAD)
-            this.node.getComponent(GameController).isDied();
+            this.gameRoot.getComponent(GameController).setCurState(GameState.GS_END)
             // TODO: 游戏结束的逻辑
             // setTimeout(() => {
             //     alert("game over!!!")

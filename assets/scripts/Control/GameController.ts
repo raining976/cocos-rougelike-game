@@ -17,11 +17,9 @@ export class GameController extends Component {
     public startMenu: Node | null = null; // 开始的菜单
     @property({ type: Node })
     public endMenu: Node | null = null; // 结束的菜单
-    //@property({ type: Animation })
-    //public animation: Animation | null = null;
+
 
     start() {
-        // this.openDebugInfo();
         this.setCurState(GameState.GS_INIT);
         //this.Menu.setPosition(this.Menu.position.add(new Vec3(0, 0, 1000)))
     }
@@ -67,10 +65,7 @@ export class GameController extends Component {
         this.startMenu.active = false
         this.endMenu.active = false
     }
-    isDied() {
-        alert('aaa');
-        //this.setCurState(GameState.GS_END)
-    }
+
     setCurState(value: GameState) {
         switch (value) {
             case GameState.GS_INIT:
@@ -82,11 +77,11 @@ export class GameController extends Component {
                 break;
             case GameState.GS_PAUSE:
                 this.showMenu();
-                //director.pause();
+                director.pause();
                 break;
             case GameState.GS_END:
                 this.showEndMenu();
-                //director.pause();
+                director.pause();
                 break;
         }
     }
@@ -104,7 +99,7 @@ export class GameController extends Component {
 
     //退出游戏
     onExitButtonClicked() {
-        game.end();
+        //director.pause();
         //director.loadScene('scene')
         this.setCurState(GameState.GS_INIT);
         //director.resume();
