@@ -38,10 +38,13 @@
       },
       {
         "__id__": 30
+      },
+      {
+        "__id__": 32
       }
     ],
     "_prefab": {
-      "__id__": 32
+      "__id__": 34
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -221,7 +224,7 @@
         "__expectedType__": "cc.AnimationClip"
       },
       {
-        "__uuid__": "eb24e4e1-c9cf-49ec-8b60-04f47ecf35f0",
+        "__uuid__": "e3749758-7450-4029-a62b-4512397bdfdf",
         "__expectedType__": "cc.AnimationClip"
       }
     ],
@@ -623,7 +626,7 @@
     "__prefab": {
       "__id__": 29
     },
-    "tag": 1,
+    "tag": -1,
     "_group": 4,
     "_density": 1,
     "_sensor": true,
@@ -678,6 +681,28 @@
   {
     "__type__": "cc.CompPrefabInfo",
     "fileId": "9bzoOUmexOsYwN5vmdbQWD"
+  },
+  {
+    "__type__": "42454+NwdZIjbLung5tX4/c",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 33
+    },
+    "Projectile": {
+      "__uuid__": "4e0bc88d-34ae-414f-a256-9e7103151ebe",
+      "__expectedType__": "cc.Prefab"
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "97SDm7zOpBo4zMQl+M6Kqm"
   },
   {
     "__type__": "cc.PrefabInfo",
