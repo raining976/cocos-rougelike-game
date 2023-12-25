@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, TiledMapAsset, TiledMap,Vec3, Vec2, TiledLayer } from 'cc';
+import { _decorator, Component, Node, TiledMapAsset, TiledMap,Vec3, Vec2, TiledLayer, Prefab } from 'cc';
 const { ccclass, property } = _decorator;
 
 enum MoveDirection {
@@ -20,6 +20,9 @@ export class MapManager extends Component {
 
     @property({ type: Node })
     public targetNode: Node = null!
+
+    @property(Prefab) maps:Prefab[] = []
+
     
     @property({type: TiledMapAsset})
     public tmxAsset: TiledMapAsset = null!

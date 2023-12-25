@@ -1,4 +1,6 @@
 import { _decorator, Component, Node, PhysicsSystem2D, EPhysics2DDrawFlags, director, game, Vec3, Canvas } from 'cc';
+import { Map } from '../Map/Map';
+import { Player } from '../Player/Player';
 const { ccclass, property } = _decorator;
 
 //游戏的三种状态
@@ -10,15 +12,22 @@ enum GameState {
 
 @ccclass('GameController')
 export class GameController extends Component {
+    @property(Player) private player: Player;
     @property({ type: Node })
+    @property(Map) private map: Map;
     public Menu: Node | null = null; // 开始的 UI
 
     start() {
         // this.openDebugInfo();
         this.init()
+        // this.map.init(this.player.node);
         //this.Menu.setPosition(this.Menu.position.add(new Vec3(0, 0, 1000)))
     }
 
+    update(deltaTime: number) {
+        // this.map.gameTick();
+        //this.node.setSiblingIndex(1000);
+    }
     // 打开碰撞体调试信息
     openDebugInfo() {
         PhysicsSystem2D.instance.debugDrawFlags = EPhysics2DDrawFlags.Aabb |
@@ -32,14 +41,14 @@ export class GameController extends Component {
         this.hiddenMenu()
     }
 
-    showMenu(){
-        if( this.Menu && !this.Menu.activeInHierarchy){
+    showMenu() {
+        if (this.Menu && !this.Menu.activeInHierarchy) {
             this.Menu.active = true
         }
     }
 
-    hiddenMenu(){
-        if(this.Menu && this.Menu.activeInHierarchy ){
+    hiddenMenu() {
+        if (this.Menu && this.Menu.activeInHierarchy) {
             this.Menu.active = false
         }
     }
@@ -112,9 +121,7 @@ export class GameController extends Component {
     onPlayButtonClicked() {
         director.loadScene("scene");
     }
-    update(deltaTime: number) {
-        //this.node.setSiblingIndex(1000);
-    }
+    
 
 }
 
