@@ -1,8 +1,8 @@
 import { _decorator, Component, Node, Prefab, instantiate, randomRangeInt, Vec3 } from 'cc';
 const { ccclass, property } = _decorator;
 
-const SCREEN_HEIGHT: number = 720;
-const SCREEN_WIDTH: number = 1600;
+const SCREEN_HEIGHT: number = 1280;
+const SCREEN_WIDTH: number = 720;
 
 const SCREEN_HALF_HEIGHT: number = SCREEN_HEIGHT / 2;
 const SCREEN_HALF_WIDTH: number = SCREEN_WIDTH / 2;
@@ -10,6 +10,7 @@ const SCREEN_HALF_WIDTH: number = SCREEN_WIDTH / 2;
 @ccclass('Map')
 export class Map extends Component {
     @property(Prefab) private backgroundPrefabs: Prefab[] = [];
+    @property(Node) private NodePool: Node;
 
 
     private targetNode: Node;
@@ -30,7 +31,7 @@ export class Map extends Component {
             for (let j = 0; j < this.columns; j++){
                 const randomIndex = randomRangeInt(0, this.backgroundPrefabs.length);
                 const backgroundNode = instantiate(this.backgroundPrefabs[randomIndex]);
-                backgroundNode.setParent(this.node);
+                backgroundNode.setParent(this.NodePool);
 
                 const x = j * this.nodeSize - this.nodeSize + SCREEN_HALF_WIDTH;
                 const y = i * this.nodeSize - this.nodeSize + SCREEN_HALF_HEIGHT;
