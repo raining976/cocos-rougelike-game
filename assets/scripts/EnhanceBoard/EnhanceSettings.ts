@@ -1,64 +1,65 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Component, Node, SpriteFrame } from 'cc';
 const { ccclass, property } = _decorator;
 
 export enum ENHANCE_TYPE {
     ENHANCE_DAMAGE,
     ENHANCE_HEALTH,
     ENHANCE_SPEED,
-    LENGTH
+    //LENGTH,
+    ENHANCE_SPINBALL = 'SpinBall',
+    ENHANCE_STRTBALL = 'StraigtBall',
+    ENHANCE_BOMB = 'Bomb',
+    
 }
 
 @ccclass('EnhanceSettings')
 export class EnhanceSettings{
     [index: number]: {
-        type: ENHANCE_TYPE,
         name: string,
         description: string,
         maxLevel: number,
+        imagePath: string,
+        sprite: SpriteFrame
     }
 };
 
-export const EnhanceAttr = new EnhanceSettings();
-EnhanceAttr[ENHANCE_TYPE.ENHANCE_DAMAGE] = {
-    type: ENHANCE_TYPE.ENHANCE_DAMAGE,
-    name: '神力',
+export const enhanceSettings = new EnhanceSettings();
+enhanceSettings[ENHANCE_TYPE.ENHANCE_DAMAGE] = {
+    name: 'Power',
     description: '提高角色攻击力',
-    maxLevel: 5
+    maxLevel: 10,
+    imagePath: "EnhanceBoard/Skills/Power/spriteFrame",
+    sprite: null
 }
 
-EnhanceAttr[ENHANCE_TYPE.ENHANCE_HEALTH] = {
-    type: ENHANCE_TYPE.ENHANCE_HEALTH,
-    name: '生命',
+enhanceSettings[ENHANCE_TYPE.ENHANCE_HEALTH] = {
+    name: 'Health',
     description: '提高角色生命力',
-    maxLevel: 5
+    maxLevel: 10,
+    imagePath: "EnhanceBoard/Skills/Health/spriteFrame",
+    sprite: null,
 }
 
-EnhanceAttr[ENHANCE_TYPE.ENHANCE_SPEED] = {
-    type: ENHANCE_TYPE.ENHANCE_SPEED,
-    name: '迅影',
+enhanceSettings[ENHANCE_TYPE.ENHANCE_SPEED] = {
+    name: 'Speed',
     description: '提高角色移动速度',
-    maxLevel: 5
+    maxLevel: 10,
+    imagePath: "EnhanceBoard/Skills/Speed/spriteFrame",
+    sprite: null,
 }
-// class EnhanceType <T extends string>{
-//     private descriptions: Record<T,string>;
-//     constructor(public value:T) { }
 
-//     description(description:string) :this{
-//         this.descriptions[this.value] = description;
-//         return this;
-//     }
-//     getDescription():string{
-//         return this.descriptions[this.value];
-//     }
-// }
+enhanceSettings[ENHANCE_TYPE.ENHANCE_SPINBALL] = {
+    name: 'SpinBall',
+    description: '坤球旋转',
+    maxLevel: 10,
+    imagePath: "EnhanceBoard/Skills/SpinBall/spriteFrame",
+    sprite: null,
+}
 
-
-// export const ENHANCE_TYPE = {
-//     ENHANCE_DAMAGE : new EnhanceType("ENHANCE_DAMAGE").description('提升攻击力'),
-//     ENHANCE_HEALTH : new EnhanceType("ENHANCE_HEALTH").description('提高声明值'),
-//     ENHANCE_SPEED  : new EnhanceType("ENHANCE_SPEED").description('提高移动速度'),
-// }
-
-// ENHANCE_TYPE.ENHANCE_DAMAGE.getDescription()
-
-
+enhanceSettings[ENHANCE_TYPE.ENHANCE_STRTBALL] = {
+    name: 'StraightBall',
+    description: '直球, 就是直着发射的球',
+    maxLevel: 10,
+    imagePath: "EnhanceBoard/Skills/StraightBall/spriteFrame",
+    sprite: null,
+}
