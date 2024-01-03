@@ -436,6 +436,10 @@
       {
         "__uuid__": "4ad30633-18ec-4e26-94b5-57811bffe1d5",
         "__expectedType__": "cc.Prefab"
+      },
+      {
+        "__uuid__": "f586700e-efd3-4c6c-ac6c-7d9ef482413d",
+        "__expectedType__": "cc.Prefab"
       }
     ],
     "Boss": [
@@ -3259,7 +3263,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 9.658203125,
+      "width": 8.681640625,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -3368,7 +3372,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 105.46875,
+      "width": 90.41015625,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -3477,7 +3481,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 85.654296875,
+      "width": 87.216796875,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -3586,7 +3590,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 41.240234375,
+      "width": 44.072265625,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -3695,7 +3699,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 382.67578125,
+      "width": 375.8203125,
       "height": 151.2
     },
     "_anchorPoint": {
@@ -4362,6 +4366,7 @@
     "Menu": {
       "__id__": 46
     },
+    "EnemyBaseNode": null,
     "_id": "21pmG1nWhKxJzPNwOdGA16"
   },
   {

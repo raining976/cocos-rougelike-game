@@ -1,4 +1,6 @@
 import { _decorator, Component, Node, PhysicsSystem2D, EPhysics2DDrawFlags, director, game, Vec3, Canvas } from 'cc';
+import { EnemySpawner } from '../Enemy/EnemySpawner';
+import { EnemyController } from './EnemyController';
 const { ccclass, property } = _decorator;
 
 //游戏的三种状态
@@ -12,9 +14,12 @@ enum GameState {
 export class GameController extends Component {
     @property({ type: Node })
     public Menu: Node | null = null; // 开始的 UI
+    @property({ type: Node })
+    public EnemyBaseNode: Node|null=null; // 怪物生成与挂载的节点
 
     start() {
         // this.openDebugInfo();
+        // this.EnemyBaseNode.active=true;
         this.init()
         //this.Menu.setPosition(this.Menu.position.add(new Vec3(0, 0, 1000)))
     }
@@ -29,7 +34,16 @@ export class GameController extends Component {
     }
 
     init() {
-        this.hiddenMenu()
+        console.log(this.EnemyBaseNode)
+        this.hiddenMenu();
+        EnemyController.instance(this.EnemyBaseNode).initEnemy();//写成类成员变量会编译失败...
+        // setTimeout(()=>{
+        //     this.StopEnemy();
+        //     setTimeout(() => {
+        //        this.StartEnemy() 
+        //     }, 10000);
+        // },10000)
+        
     }
 
     showMenu(){
@@ -116,5 +130,6 @@ export class GameController extends Component {
         //this.node.setSiblingIndex(1000);
     }
 
+    
 }
 

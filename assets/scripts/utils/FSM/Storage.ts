@@ -22,7 +22,7 @@ export class Enemy_Run extends StateBase{
             this._role.node.getChildByName("Graph").setScale(new Vec3(-this._role.node.getChildByName("Graph").scale.x, this._role.node.getChildByName("Graph").scale.y, this._role.node.getChildByName("Graph").scale.z));
         };
         let time = distance / this._role.getspeed();//到达时间=距离/速度
-        if(this._role.getEnemyname()=="Onre"&&distance<300){
+        if(this._role.getEnemyname()=="Onre"&&distance<300){//敌人特性，近距离开始追击，速度*2
             time=time/2;
         }
         tween(this._role.node).to(time, { worldPosition: targetnode.worldPosition }, { easing: "linear" }).start();
