@@ -6,6 +6,7 @@ import { FloatLabelBase } from '../../FloatLabel/FloatLabelBase';
 import { ENHANCE_TYPE } from '../../EnhanceBoard/EnhanceSettings';
 import { EnhanceController } from '../../EnhanceBoard/EnhanceController';
 import { MoveController, PLAYER_STATE } from './MoveController';
+import { GameController, GameState } from '../../Control/GameController';
 const { ccclass, property } = _decorator;
 
 @ccclass('AttrController')
@@ -13,9 +14,9 @@ export class AttrController extends Component {
     @property(Node) stateLabelNode = null // 人物状态根节点
     @property(Prefab) upgradePrefab = null
     @property(Prefab) floatLabelPrefab: Prefab;
-
     @property(Node) enhanceBoard: Node | null = null;
 
+    @property(Node) gameRoot: Node
     playerEntity: Player = null // 人物实体类
     upgradeAudio = null // 升级音效
 
@@ -23,8 +24,10 @@ export class AttrController extends Component {
         this.upgradeAudio = this.node.getComponent(AudioSource)
         this.playerEntity = this.node.getComponent(Player)
 
+        // setTimeout(() => {
+        //     this.gameRoot.getComponent(GameController).setCurState(GameState.GS_END)
+        // }, 2000);
     }
-
 
 
     /**
@@ -35,6 +38,7 @@ export class AttrController extends Component {
         let newHealth = this.playerEntity.getCurHealth() - delta;
         if (newHealth <= 0) {
             this.node.getComponent(MoveController).changeState(PLAYER_STATE.DEAD)
+            this.gameRoot.getComponent(GameController).setCurState(GameState.GS_END)
             // TODO: 游戏结束的逻辑
             // setTimeout(() => {
             //     alert("game over!!!")
