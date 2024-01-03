@@ -24,6 +24,9 @@ export class AttrController extends Component {
         this.upgradeAudio = this.node.getComponent(AudioSource)
         this.playerEntity = this.node.getComponent(Player)
 
+        // setTimeout(() => {
+        //     this.gameRoot.getComponent(GameController).setCurState(GameState.GS_END)
+        // }, 2000);
     }
 
 
