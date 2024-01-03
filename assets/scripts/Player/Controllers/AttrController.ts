@@ -61,7 +61,19 @@ export class AttrController extends Component {
             this.playerEntity.setCurExp(newExp);
             // this.expStateEntity.setCurExp(newExp);
         }
+    }
 
+    /**
+     * 与鸡腿碰撞后，增加当前生命值
+     * @param delta 生命恢复量
+     */
+    increaseHealth(delta: number) {
+        let newHealth = this.playerEntity.getCurHealth() + delta;
+        if (newHealth >= this.playerEntity.getMaxHealth()) {
+            this.playerEntity.setCurHealth(this.playerEntity.getMaxHealth());
+        } else {
+            this.playerEntity.setCurHealth(newHealth);
+        }
     }
 
     /**
@@ -72,7 +84,7 @@ export class AttrController extends Component {
         //经验、等级
         const playerEntity = this.playerEntity
         this.playerEntity.setLevel(playerEntity.getLevel() + 1)
-        //TODO:this.playerEntity.setMaxExp(playerEntity.getMaxExp() * 2)
+        this.playerEntity.setMaxExp(playerEntity.getMaxExp() * 1.1)
         this.playerEntity.setCurExp(overflowExp)
         this.playUpgrade()
         //激活面板

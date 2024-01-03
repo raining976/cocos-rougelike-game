@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Prefab, randomRange, instantiate, macro, game, Sprite, Animation, ProgressBar, tween, AnimationState, Vec3, director, Collider2D, Contact2DType, IPhysics2DContact, BoxCollider2D, Tween } from 'cc';
+import { _decorator, Component, Node, Prefab, randomRange, instantiate, macro, game, Sprite, Animation, ProgressBar, tween, AnimationState, Vec3, director, Collider2D, Contact2DType, IPhysics2DContact, BoxCollider2D, Tween, randomRangeInt } from 'cc';
 import { EnemyAttr } from './EnemySettings';
 import { EnemySpawner } from './EnemySpawner';
 import { ExpSpawner } from '../Exp/EnemyDeath/ExpSpawner';
@@ -170,6 +170,10 @@ export class Enemy extends Component {
         const canvas = director.getScene().getChildByName('Canvas');
         const expSpawner = this.node.parent.getComponent(ExpSpawner);
         let prefabName = this.Enemyname.includes('Boss') ? 'Big' : 'Small';
+
+        let randnum = randomRangeInt(1, 10000);
+        prefabName = randnum < 500 ? 'HealthBall' : prefabName;
+
         expSpawner.GenerateOneExpBall(this.EnemyDeathWorldPosition, prefabName)
     }
 

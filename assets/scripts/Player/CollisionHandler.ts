@@ -58,8 +58,13 @@ export class CollisionHandler extends Component {
         // 经验球
         if (otherCollider.tag == 2) {
             //TODO: 先默认传 1 后面传经验球表示的经验大小
-            let delta = otherCollider.node.getComponent(ExpBall).getValue()
-            this.attrController.increaseExp(delta)
+            let expBallComponent = otherCollider.node.getComponent(ExpBall);
+            let value = expBallComponent.getValue();
+            let attr = expBallComponent.getAttr();
+            if (attr == 'exp')
+                this.attrController.increaseExp(value);
+            if (attr == 'health')
+                this.attrController.increaseHealth(value);
         }
         // tag == 3 更改武器
         if (otherCollider.tag == 3) {
