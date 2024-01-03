@@ -1,33 +1,36 @@
 import { _decorator, Component, Node, PhysicsSystem2D, EPhysics2DDrawFlags, director, game, Vec3, Canvas } from 'cc';
-import { Map } from '../Map/Map';
-import { Player } from '../Player/Player';
+import { EnemySpawner } from '../Enemy/EnemySpawner';
+import { EnemyController } from './EnemyController';
 const { ccclass, property } = _decorator;
 
-//游戏的三种状态
-enum GameState {
-    GS_PLAYING,
-    GS_PAUSE,
-    GS_END,
+//游戏的四种状态
+export enum GameState {
+    GS_INIT,        //打开界面的时候
+    GS_PLAYING,     //点完开始按钮的时候
+    GS_PAUSE,       //暂停游戏，打开菜单
+    GS_END,         //游戏结束，打开结束菜单
 };
 
 @ccclass('GameController')
 export class GameController extends Component {
-    @property(Player) private player: Player;
     @property({ type: Node })
-    @property(Map) private map: Map;
-    public Menu: Node | null = null; // 开始的 UI
-
+    public Menu: Node | null = null; // 暂停的菜单
+    @property({ type: Node })
+    public startMenu: Node | null = null; // 开始的菜单
+    @property({ type: Node })
+    public endMenu: Node | null = null; // 结束的菜单
+    @property({ type: Node })
+    public EnemyBaseNode: Node | null = null; // 怪物生成与挂载的节点
+    @property(Node) pauseBtn;
     start() {
-        this.openDebugInfo();
-        this.init()
-        // this.map.init(this.player.node);
+        this.setCurState(GameState.GS_INIT);
+        EnemyController.instance(this.EnemyBaseNode)
+        EnemyController.initEnemy()
+        EnemyController.StopEnemy()
+
         //this.Menu.setPosition(this.Menu.position.add(new Vec3(0, 0, 1000)))
     }
 
-    update(deltaTime: number) {
-        // this.map.gameTick();
-        //this.node.setSiblingIndex(1000);
-    }
     // 打开碰撞体调试信息
     openDebugInfo() {
         PhysicsSystem2D.instance.debugDrawFlags = EPhysics2DDrawFlags.Aabb |
@@ -38,7 +41,12 @@ export class GameController extends Component {
     }
 
     init() {
-        this.hiddenMenu()
+        this.hiddenMenu();
+        this.showStartMenu();
+    }
+
+    gameInit() {
+        // TODO: 将人物属性、技能、怪物生成的等级等属性重置
     }
 
     showMenu() {
@@ -46,82 +54,90 @@ export class GameController extends Component {
             this.Menu.active = true
         }
     }
+    showStartMenu() {
+        if (this.startMenu && !this.startMenu.activeInHierarchy) {
+            this.startMenu.active = true
+            this.pauseBtn.active = false
 
-    hiddenMenu() {
-        if (this.Menu && this.Menu.activeInHierarchy) {
-            this.Menu.active = false
         }
     }
+
+    showEndMenu() {
+        if (this.endMenu && !this.endMenu.activeInHierarchy) {
+            this.endMenu.active = true
+        }
+    }
+    hiddenMenu() {
+        this.Menu.active = false
+        this.hiddenStartMenu()
+        this.endMenu.active = false
+    }
+    hiddenStartMenu() {
+        this.pauseBtn.active = true
+        this.startMenu.active = false
+    }
+
 
     setCurState(value: GameState) {
         switch (value) {
+            //初始化游戏
+            case GameState.GS_INIT:
+                this.init();
+                break;
             case GameState.GS_PLAYING:
-                this.gameBack()
+                EnemyController.StartEnemy()
+                this.hiddenMenu();
+                director.resume();
                 break;
             case GameState.GS_PAUSE:
-                this.gamePause()
+                EnemyController.StopEnemy()
+                // TODO: 技能停止释放 
+                this.showMenu();
+                director.pause();
                 break;
             case GameState.GS_END:
-                this.gameEnd()
-
+                EnemyController.StartEnemy()
+                this.showEndMenu();
+                director.pause();
                 break;
         }
     }
 
-
-    gamePause() {
-        director.pause();
-        this.Menu.active = true;
+    //开始游戏，怪物不生成，打开初始菜单
+    onPlayButtonClicked() {
+        this.setCurState(GameState.GS_PLAYING);
     }
 
-    gameBack() {
-        this.Menu.active = false;
-        director.resume();
-    }
-
-    gameEnd() {
-        this.Menu.active = false;
-        // director.end();
-        // 
-        //game.restart();
-        director.loadScene("start");
-        director.resume();
-    }
-
-    gameReStart() {
-        this.Menu.active = false;
-        director.end();
-        // game.restart();
-        director.loadScene("scene");
-        director.resume();
-    }
-
-    //暂停游戏，打开菜单
+    //暂停游戏，打开游戏菜单，暂停所有场景
     onPauseButtonClicked() {
         this.setCurState(GameState.GS_PAUSE);
     }
 
     //退出游戏
     onExitButtonClicked() {
-        this.setCurState(GameState.GS_END);
+        this.gameInit()
+        this.setCurState(GameState.GS_INIT);
     }
 
     //返回游戏
     onBackButtonClicked() {
         this.setCurState(GameState.GS_PLAYING);
-
     }
 
     //重新开始游戏
     onRestartButtonClicked() {
-        this.gameReStart()
+        this.hiddenMenu()
+        director.resume()
+        this.gameInit()
+        // 将所有的内重置
+        // 人物属性、技能属性、怪物的生成等
     }
 
-    //开始游戏
-    onPlayButtonClicked() {
-        director.loadScene("scene");
+
+    update(deltaTime: number) {
+        //this.node.setSiblingIndex(1000);
     }
-    
+
 
 }
 
