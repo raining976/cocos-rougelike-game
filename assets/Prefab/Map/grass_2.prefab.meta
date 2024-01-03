@@ -2,12 +2,12 @@
   "ver": "1.1.45",
   "importer": "prefab",
   "imported": true,
-  "uuid": "1ff49adf-4e23-450d-b935-9956c6a901f1",
+  "uuid": "ea6db707-d4d4-4fdf-bfd4-8f3bf8d14e0e",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "111"
+    "syncNodeName": "grass_2"
   }
 }

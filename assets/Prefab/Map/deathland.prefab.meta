@@ -2,12 +2,12 @@
   "ver": "1.1.45",
   "importer": "prefab",
   "imported": true,
-  "uuid": "625dece7-43a3-412a-980f-f2aef26620de",
+  "uuid": "001952e7-9175-4231-a83e-93d8cb1cb21f",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "grass"
+    "syncNodeName": "deathland"
   }
 }

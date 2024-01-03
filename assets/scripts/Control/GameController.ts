@@ -18,7 +18,7 @@ export class GameController extends Component {
     public Menu: Node | null = null; // 开始的 UI
 
     start() {
-        // this.openDebugInfo();
+        this.openDebugInfo();
         this.init()
         // this.map.init(this.player.node);
         //this.Menu.setPosition(this.Menu.position.add(new Vec3(0, 0, 1000)))
