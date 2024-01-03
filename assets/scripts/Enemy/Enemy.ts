@@ -227,7 +227,7 @@ export class Enemy extends Component {
         }
 
         // 中立投射物，对敌我双方都会造成伤害
-        if (otherCollider.tag == 4&&selfCollider.tag == 1) {
+        if (otherCollider.tag == 4&&selfCollider.node!=otherCollider.node.parent) {
             let ProjectileNode = otherCollider.node;
             let reduceBloodValue = ProjectileNode.getComponent(Projectile).getProjectiledamage();
             let maxHealth = this.gethealth();
@@ -273,6 +273,9 @@ export class Enemy extends Component {
     }
     public getattackrange() {
         return this.attackrange;
+    }
+    public getprojectilerange(){
+        return this.projectilerange;
     }
     public getEnemyname() {
         return this.Enemyname;

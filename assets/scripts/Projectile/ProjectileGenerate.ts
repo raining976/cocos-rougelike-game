@@ -7,7 +7,7 @@ export class ProjectileGenerate extends Component {
 
     //对象池相关参数
     private ProjectilePool: NodePool;//敌人对象池，用于存储和复用敌人节点对象，节省性能开销
-    private InitCount:number=100;//对象池容量
+    private InitCount:number=10;//对象池容量
 
     public dir:Vec3=new Vec3();
     start() {
@@ -36,6 +36,9 @@ export class ProjectileGenerate extends Component {
         Projectilenode.angle=Math.acos(this.dir.x)*180/Math.PI;
         if(this.dir.y<0){
             Projectilenode.angle=-Projectilenode.angle;
+        }
+        if(Projectilenode.used==true){
+            Projectilenode.reset();
         }
         setTimeout(() => {
             Projectilenode.getComponent(BoxCollider2D).tag=4;
