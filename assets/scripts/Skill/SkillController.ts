@@ -11,9 +11,11 @@ export class SkillController {
     /** 人物节点的父节点 playerBase */
     protected static playerBaseNode: Node
     /** 技能节点容器 */
-    protected static skillNodeContainer:Node
+    protected static skillNodeContainer: Node
     /** 技能释放的定时器 */
     protected static timer = null;
+    /** 未被主动回收的节点 */
+    protected static curNodes: Node[] = []
 
     /**
      * 初始化技能相关的预制体、节点池等
@@ -41,7 +43,14 @@ export class SkillController {
      */
     static startSkill() { }
 
-    static unloadSkill(){  }
+    static unloadSkill() {
+        this.stopReleaseSkill();
+        this.clearAllNodes()
+    }
+
+    static pauseSkill() {
+        this.stopReleaseSkill()
+    }
 
     /**
      * 释放一次技能 子类应该重写此方法
@@ -99,7 +108,17 @@ export class SkillController {
         if (node) {
             setTimeout(() => {
                 this.reclaimSkill(node)
-            }, timeouts);
+            }, timeouts)
+        }
+    }
+
+    /** 清空所有已经释放的技能 用于重新开始的时候*/
+    protected static clearAllNodes() {
+        if (this.curNodes.length > 0) {
+            this.curNodes.forEach(n => {
+                this.reclaimSkill(n)
+            })
+            this.curNodes = []
         }
     }
 }

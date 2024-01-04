@@ -547,7 +547,7 @@
         "__id__": 166
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [],
     "_prefab": null,
     "_lpos": {
@@ -7129,6 +7129,9 @@
     },
     "enhanceBoard": {
       "__id__": 67
+    },
+    "gameRoot": {
+      "__id__": 14
     },
     "_id": "08h87xfxdAx7ex+fowdMBG"
   },
