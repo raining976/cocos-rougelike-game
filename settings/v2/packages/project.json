@@ -20,13 +20,20 @@
       {
         "index": 3,
         "name": "Projectile"
+      },
+      {
+        "index": 4,
+        "name": "ENTITY"
       }
     ],
     "collisionMatrix": {
-      "0": 4,
-      "1": 12,
-      "2": 11,
-      "3": 6
+      "0": 9,
+      "1": 28,
+      "2": 26,
+      "3": 23,
+      "4": 14,
+      "5": 0
     }
-  }
+  },
+  "custom_joint_texture_layouts": []
 }

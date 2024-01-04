@@ -1,0 +1,201 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "111.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "全部文件 (*)",
+    "fileStates": {
+        "": {
+            "scaleInDock": 1
+        },
+        "111.tmx": {
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 524,
+                "y": 508.5
+            }
+        },
+        "222.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 513,
+                "y": 512.5
+            }
+        },
+        ":/automap-tiles.tsx": {
+            "scaleInDock": 1
+        },
+        "E:/Win/3D对象/repo/Cocos/cocos-test-projects-3.8/assets/cases/middleware/tiled-map/imported/iso-test.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2043.9393939393938,
+                "y": 1022.7272727272726
+            }
+        },
+        "E:/Win/3D对象/repo/Cocos/cocos-test-projects-3.8/assets/cases/middleware/tiled-map/imported/iso-test.tmx#Untitled": {
+            "scaleInDock": 1
+        },
+        "E:/Win/3D对象/repo/Cocos/cocos-test-projects-3.8/assets/cases/middleware/tiled-map/imported/map.tmx": {
+            "scale": 1.1241666666666665,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 479.0214974054856,
+                "y": 479.0214974054856
+            }
+        },
+        "E:/Win/3D对象/repo/Cocos/cocos-test-projects-3.8/assets/cases/middleware/tiled-map/imported/map.tmx#barriers": {
+            "scaleInDock": 1
+        },
+        "E:/Win/3D对象/repo/Cocos/cocos-test-projects-3.8/assets/cases/middleware/tiled-map/imported/map.tmx#ground": {
+            "scaleInDock": 1
+        },
+        "E:/Win/3D对象/repo/Cocos/cocos-test-projects-3.8/assets/resources/tilemap/tile_iso_offset.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 567,
+                "y": 249.5
+            }
+        },
+        "E:/Win/3D对象/repo/Cocos/cocos-test-projects-3.8/assets/resources/tilemap/tile_iso_offset.tmx#wetlands-ipad": {
+            "scaleInDock": 1
+        },
+        "E:/Win/3D对象/repo/Cocos/cocos-test-projects-3.8/assets/resources/tilemap/tile_iso_offset_with_tsx.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 962.5,
+                "y": 401.5
+            }
+        },
+        "E:/Win/3D对象/repo/Cocos/cocos-test-projects-3.8/assets/resources/tilemap/tile_iso_offset_with_tsx1.tsx": {
+            "scaleInDock": 1
+        },
+        "E:/Win/3D对象/repo/Cocos/cocos-test-projects-3.8/assets/resources/tilemap/tile_iso_offset_with_tsx2.tsx": {
+            "scaleInDock": 1
+        },
+        "E:/Win/3D对象/repo/Cocos/learn_2d_cocos/assets/Rouge/dirt1.tmx": {
+            "scale": 2.4900390624999997,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 256.020080006275,
+                "y": 256.02008000627507
+            }
+        },
+        "E:/Win/3D对象/repo/Cocos/learn_2d_cocos/assets/Rouge/tilesheet.tsx": {
+            "scaleInDock": 1
+        },
+        "bg1.tmx": {
+            "scale": 2,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 206.5,
+                "y": 260.75
+            }
+        },
+        "bg1.tmx#Grass": {
+            "dynamicWrapping": false,
+            "scaleInDock": 2.2,
+            "scaleInEditor": 5.5
+        },
+        "bg1.tmx#Hills": {
+            "scaleInDock": 2.2,
+            "scaleInEditor": 11
+        },
+        "bg1.tmx#Tilled Dirt": {
+            "dynamicWrapping": false,
+            "scaleInDock": 2.2,
+            "scaleInEditor": 8
+        },
+        "bg1.tmx#tilesheet": {
+            "scaleInDock": 3,
+            "scaleInEditor": 4
+        },
+        "deathland.tmx": {
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 480,
+                "y": 498.5
+            }
+        },
+        "dirt1.tmx": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 460,
+                "y": 329.75
+            }
+        },
+        "flower.tmx": {
+            "scale": 2,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 245.25,
+                "y": 175.5
+            }
+        },
+        "tilesheet.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 3
+        },
+        "tilesheet1.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tilesheet2.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tmp.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 516,
+                "y": 279
+            }
+        }
+    },
+    "frame.defaultDuration": 100,
+    "last.imagePath": "E:/Win/3D对象/repo/Cocos/cocos-rougelike-game/assets/image/Map/Rouge/assets",
+    "map.height": 32,
+    "map.lastUsedFormat": "tmx",
+    "map.layerDataFormat": null,
+    "map.renderOrder": null,
+    "map.tileHeight": 32,
+    "map.tileWidth": 32,
+    "map.width": 32,
+    "openFiles": [
+        "111.tmx",
+        "222.tmx",
+        "tilesheet1.tsx"
+    ],
+    "project": "Rouge.tiled-project",
+    "recentFiles": [
+        "222.tmx",
+        "tilesheet1.tsx",
+        "111.tmx",
+        "E:/Win/3D对象/repo/Cocos/cocos-test-projects-3.8/assets/cases/middleware/tiled-map/imported/iso-test.tmx",
+        "E:/Win/3D对象/repo/Cocos/cocos-test-projects-3.8/assets/cases/middleware/tiled-map/imported/map.tmx",
+        "tilesheet.tsx",
+        "tilesheet2.tsx",
+        "bg1.tmx",
+        "tmp.tmx",
+        "flower.tmx",
+        "dirt1.tmx",
+        "E:/Win/3D对象/repo/Cocos/cocos-test-projects-3.8/assets/resources/tilemap/tile_iso_offset.tmx"
+    ],
+    "tileset.embedInMap": false,
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 32,
+        "width": 32
+    }
+}
