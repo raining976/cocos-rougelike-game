@@ -2,7 +2,6 @@ import { _decorator, Component, Node, Prefab, randomRange, instantiate, macro, g
 import { EnemyAttr } from './EnemySettings';
 import { EnemySpawner } from './EnemySpawner';
 import { ExpSpawner } from '../Exp/EnemyDeath/ExpSpawner';
-import { Weapon } from '../Weapon/Weapon';
 import StateBase from '../utils/FSM/StateBase';
 import Animator from '../utils/FSM/Animator';
 import { Randompos } from '../utils/Randompos';
@@ -30,8 +29,8 @@ export class Enemy extends Component {
     protected damage: number = 1;
     protected speed: number = 100;
     protected xpReward: number = 1;
-    protected hasremote: boolean=false;//拥有远程攻击形式
-    protected projectilerange:number =-1;//远程攻击范围
+    protected hasremote: boolean = false;//拥有远程攻击形式
+    protected projectilerange: number = -1;//远程攻击范围
     protected attackrange: number = -1;//近战攻击范围
     protected Enemyname: string;//敌人名称，用以从配置中提取属性
 
@@ -44,14 +43,14 @@ export class Enemy extends Component {
     protected _state: StateBase | null = null;//状态委托，储存敌人当前状态
     protected _animator: Animator | null = null;//动画机，管理某种敌人的状态
 
-    protected purgerange:number=1500;//清除距离，超过这个距离的敌人将为了节省性能被直接回收
+    protected purgerange: number = 1500;//清除距离，超过这个距离的敌人将为了节省性能被直接回收
 
     //随机坐标生成器
     private randomposGenerators: Randompos;
 
-    public targetnode:Node=new Node();//目标节点
-    public distance:number=-1;//与目标节点的距离
-    public dir:Vec3=new Vec3();//指向目标节点的单位向量
+    public targetnode: Node = new Node();//目标节点
+    public distance: number = -1;//与目标节点的距离
+    public dir: Vec3 = new Vec3();//指向目标节点的单位向量
 
     start() {
         this.initCollision()//碰撞监听
@@ -103,8 +102,8 @@ export class Enemy extends Component {
         this.damage = this.settings[Enemyname].damage;
         this.speed = this.settings[Enemyname].speed;
         this.xpReward = this.settings[Enemyname].xpReward;
-        this.hasremote=this.settings[Enemyname].remote;
-        this.projectilerange=this.settings[Enemyname].projectilerange;
+        this.hasremote = this.settings[Enemyname].remote;
+        this.projectilerange = this.settings[Enemyname].projectilerange;
         this.attackrange = this.settings[Enemyname].attackrange;
         this.targetnode = this.node.parent.getComponent(EnemySpawner).gettargetnode();
     }
@@ -117,8 +116,8 @@ export class Enemy extends Component {
         this.damage = this.settings[this.Enemyname].damage;
         this.speed = this.settings[this.Enemyname].speed;
         this.xpReward = this.settings[this.Enemyname].xpReward;
-        this.hasremote=this.settings[this.Enemyname].remote;
-        this.projectilerange=this.settings[this.Enemyname].projectilerange;
+        this.hasremote = this.settings[this.Enemyname].remote;
+        this.projectilerange = this.settings[this.Enemyname].projectilerange;
         this.attackrange = this.settings[this.Enemyname].attackrange;
         this.bloodProgressBar.progress = 1;
         this._animator.switchState("Run");
@@ -128,23 +127,23 @@ export class Enemy extends Component {
     /**
      * FSMAI，以一定间隔进行思考执行动作，只负责状态的切换
      */
-     StateAI() {
+    StateAI() {
         this.distance = Vec3.distance(this.node.worldPosition, this.targetnode.worldPosition);//获取距离
         Vec3.subtract(this.dir, this.targetnode.worldPosition, this.node.worldPosition);//获取方向向量
         this.dir.normalize();//归一化方向向量
         this._animator.onUpdate();
 
-        if (this.getblood() <= 0||this.distance>this.purgerange) {//假如敌人死亡或超出清除距离
+        if (this.getblood() <= 0 || this.distance > this.purgerange) {//假如敌人死亡或超出清除距离
             this._animator.switchState("Dead");
             return;
         }
 
-        if(this.distance<this.attackrange){//目标进入攻击范围则切换至攻击状态，反之切换至运动状态
+        if (this.distance < this.attackrange) {//目标进入攻击范围则切换至攻击状态，反之切换至运动状态
             this._animator.switchState("Attack");
-        }else{
-            if(this.distance<this.projectilerange){//如果进入抛射范围，则进行远程攻击
+        } else {
+            if (this.distance < this.projectilerange) {//如果进入抛射范围，则进行远程攻击
                 this._animator.switchState("Shot");
-            }else{
+            } else {
                 this._animator.switchState("Run");
             }
         }
@@ -155,11 +154,11 @@ export class Enemy extends Component {
      * 
      */
     reclaim() {
-        this.getComponent(BoxCollider2D).tag=-1;//回收时将tag修改为-1，标志不可用
-        this.CollisionDisable();
-            if (this.node.parent) {
-                this.node.parent.getComponent(EnemySpawner).getenemypool().put(this.node);
-            };
+        this.getComponent(BoxCollider2D).tag = -1;//回收时将tag修改为-1，标志不可用
+        // this.CollisionDisable();
+        if (this.node.parent) {
+            this.node.parent.getComponent(EnemySpawner).getenemypool().put(this.node);
+        };
         return;
     }
 
@@ -216,7 +215,7 @@ export class Enemy extends Component {
         // 2: 两者不能是同一个分组，也不能是同一个Default
 
         //这里将武器的Tag设置成5就会撞击了
-        if (otherCollider.tag == 5&&selfCollider.tag == 1) {
+        if (otherCollider.tag == 5 && selfCollider.tag == 1) {
 
             let reduceBloodValue = otherCollider.node.getComponent(Skill).getDamage()
             let maxHealth = this.gethealth()
@@ -224,14 +223,14 @@ export class Enemy extends Component {
             let curProgress = this.bloodProgressBar.progress
             if (curProgress > 0) {
                 let label = instantiate(this.floatLabelPrefab)
-                label.getComponent(FloatLabelBase).initLabel('Enemy',reduceBloodValue)
+                label.getComponent(FloatLabelBase).initLabel('Enemy', reduceBloodValue)
                 this.node.addChild(label)
                 this.bloodProgressBar.progress -= percent
             }
         }
 
         // 中立投射物，对敌我双方都会造成伤害
-        if (otherCollider.tag == 4&&selfCollider.node!=otherCollider.node.parent) {
+        if (otherCollider.tag == 4 && selfCollider.node != otherCollider.node.parent) {
             let ProjectileNode = otherCollider.node;
             let reduceBloodValue = ProjectileNode.getComponent(Projectile).getProjectiledamage();
             let maxHealth = this.gethealth();
@@ -239,7 +238,7 @@ export class Enemy extends Component {
             let curProgress = this.bloodProgressBar.progress
             if (curProgress > 0) {
                 let label = instantiate(this.floatLabelPrefab)
-                label.getComponent(FloatLabelBase).initLabel('Enemy',reduceBloodValue)
+                label.getComponent(FloatLabelBase).initLabel('Enemy', reduceBloodValue)
                 this.node.addChild(label)
                 this.bloodProgressBar.progress -= percent
             }
@@ -278,7 +277,7 @@ export class Enemy extends Component {
     public getattackrange() {
         return this.attackrange;
     }
-    public getprojectilerange(){
+    public getprojectilerange() {
         return this.projectilerange;
     }
     public getEnemyname() {
@@ -300,7 +299,7 @@ export class Enemy extends Component {
 
     /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
     //补丁
-    ProjectileGenerate(pos:Vec3){
+    ProjectileGenerate(pos: Vec3) {
         this.node.getComponent(ProjectileGenerate).Generate(pos);//生成投射物
     }
     /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------*/

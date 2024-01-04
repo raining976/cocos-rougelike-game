@@ -1,6 +1,8 @@
 import { _decorator, Component, Node, PhysicsSystem2D, EPhysics2DDrawFlags, director, game, Vec3, Canvas } from 'cc';
 import { EnemySpawner } from '../Enemy/EnemySpawner';
 import { EnemyController } from './EnemyController';
+import { SkillManager } from '../Skill/SkillManager';
+import { AttrManager } from '../Attribution/AttrManager';
 import { ExpSpawner } from '../Exp/EnemyDeath/ExpSpawner';
 const { ccclass, property } = _decorator;
 
@@ -23,7 +25,10 @@ export class GameController extends Component {
     @property({ type: Node })
     public EnemyBaseNode: Node | null = null; // 怪物生成与挂载的节点
     @property(Node) pauseBtn;
+    @property(Node) playerNode: Node;
+
     private expSpawner:ExpSpawner;
+
     start() {
         this.setCurState(GameState.GS_INIT);
         EnemyController.instance(this.EnemyBaseNode)
@@ -49,6 +54,13 @@ export class GameController extends Component {
 
     gameInit() {
         // TODO: 将人物属性、技能、怪物生成的等级等属性重置
+
+        // 技能重置
+        this.playerNode.getComponent(SkillManager).resetAllSkills();
+        this.playerNode.getComponent(AttrManager).resetAttr()
+
+        EnemyController.clearEnemies()
+        EnemyController.StartEnemy()
         this.expSpawner.recalaimAllExpBall()
     }
 
@@ -141,6 +153,6 @@ export class GameController extends Component {
         //this.node.setSiblingIndex(1000);
     }
 
-
+    
 }
 
