@@ -4,6 +4,7 @@ import { EnemyController } from './EnemyController';
 import { SkillManager } from '../Skill/SkillManager';
 import { AttrManager } from '../Attribution/AttrManager';
 import { ExpSpawner } from '../Exp/EnemyDeath/ExpSpawner';
+import { FloatLabel } from '../FloatLabel/FloatLabel';
 const { ccclass, property } = _decorator;
 
 //游戏的四种状态
@@ -30,6 +31,7 @@ export class GameController extends Component {
     private expSpawner: ExpSpawner;
 
     start() {
+        this.playerNode.parent.active = false
         this.setCurState(GameState.GS_INIT);
         EnemyController.instance(this.EnemyBaseNode)
         EnemyController.initEnemy()
@@ -52,16 +54,17 @@ export class GameController extends Component {
         this.showStartMenu();
     }
 
-    gameInit() {
-        // TODO: 将人物属性、技能、怪物生成的等级等属性重置
-
-        // 技能重置
+    resetAll(){
         this.playerNode.getComponent(SkillManager).resetAllSkills();
         this.playerNode.getComponent(AttrManager).resetAttr()
-
         EnemyController.clearEnemies()
-        EnemyController.StartEnemy()
         this.expSpawner.recalaimAllExpBall()
+        EnemyController.StopEnemy()
+    }
+
+    gameInit() {
+        this.resetAll()
+        EnemyController.StartEnemy()
     }
 
     showMenu() {
@@ -140,14 +143,20 @@ export class GameController extends Component {
         this.hiddenMenu()
         this.resumScene()
         this.gameInit()
-        // 将所有的内重置
-        // 人物属性、技能属性、怪物的生成等
     }
 
     gameOver() {
         EnemyController.StartEnemy()
         this.showEndMenu();
         this.pauseScene()
+    }
+
+    backStart(){
+        this.resumScene()
+        this.playerNode.parent.active = false    
+        this.resetAll()
+        this.hiddenMenu();
+        this.showStartMenu();
     }
 
 
@@ -170,10 +179,7 @@ export class GameController extends Component {
 
     //退出游戏
     onExitButtonClicked() {
-        this.resumScene()
-        this.gameInit()
-        this.playerNode.parent.active = false    
-        this.setCurState(GameState.GS_INIT);
+       this.backStart()
     }
 
     //返回游戏
