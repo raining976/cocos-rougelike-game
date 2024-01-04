@@ -28,12 +28,7 @@ export class ExpBall extends Component {
         return this.attr;
     }
 
-    autoDestroy() {
-        //10s后自动删除经验球
-        setTimeout(() => {
-            this.node && this.node.destroy();
-        }, 10000);
-    }
+    
 }
 
 

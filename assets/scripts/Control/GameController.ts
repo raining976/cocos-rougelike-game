@@ -1,6 +1,7 @@
 import { _decorator, Component, Node, PhysicsSystem2D, EPhysics2DDrawFlags, director, game, Vec3, Canvas } from 'cc';
 import { EnemySpawner } from '../Enemy/EnemySpawner';
 import { EnemyController } from './EnemyController';
+import { ExpSpawner } from '../Exp/EnemyDeath/ExpSpawner';
 const { ccclass, property } = _decorator;
 
 //游戏的四种状态
@@ -22,12 +23,13 @@ export class GameController extends Component {
     @property({ type: Node })
     public EnemyBaseNode: Node | null = null; // 怪物生成与挂载的节点
     @property(Node) pauseBtn;
+    private expSpawner:ExpSpawner;
     start() {
         this.setCurState(GameState.GS_INIT);
         EnemyController.instance(this.EnemyBaseNode)
         EnemyController.initEnemy()
         EnemyController.StopEnemy()
-
+        this.expSpawner = this.EnemyBaseNode.getComponent(ExpSpawner)
         //this.Menu.setPosition(this.Menu.position.add(new Vec3(0, 0, 1000)))
     }
 
@@ -47,6 +49,7 @@ export class GameController extends Component {
 
     gameInit() {
         // TODO: 将人物属性、技能、怪物生成的等级等属性重置
+        this.expSpawner.recalaimAllExpBall()
     }
 
     showMenu() {
