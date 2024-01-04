@@ -1,4 +1,4 @@
-import { _decorator, Component, director, Node, Scheduler, tween, Vec3, randomRangeInt } from 'cc';
+import { _decorator, Component, director, Node, Scheduler, tween, Vec3, randomRangeInt, dragonBones } from 'cc';
 import { SkillController } from '../SkillController';
 import { skillSettings } from '../SkillSettings';
 import { Skill } from '../Skill';
@@ -19,6 +19,7 @@ export class DartController extends SkillController {
         this.startReleaseSkill(interval);
     }
 
+   
     /**
      * 生成skillCount数量的飞镖，随机朝着不同方向前进
      */
@@ -28,6 +29,7 @@ export class DartController extends SkillController {
         for (let i = 0; i < this.settings.skillCount; i++) {
             /** 从节点池取出并更新技能设置，在释放之前 */
             let dartNode = this.spawnSingleSkill();
+            this.curNodes.push(dartNode)
             dartNode.getComponent(Skill).initSkill(this.skillName); // 升级更新伤害
             dartNode.setWorldPosition(this.playerBaseNode.position); // 设置初始位置
             this.skillNodeContainer.addChild(dartNode);

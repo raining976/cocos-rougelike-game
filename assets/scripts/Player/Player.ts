@@ -51,6 +51,16 @@ export class Player extends Component {
     }
 
 
+    resetAttr(){
+        this.setMaxHealth(PlayerAttr['Yellow'].healthLimit)
+        this.setCurHealth(this.maxHealth)
+        this.setSpeed(PlayerAttr['Yellow'].speed)
+        this.setDamage(PlayerAttr['Yellow'].damage)
+        this.setCurExp(0)
+        this.setMaxExp(100)
+        this.setLevel(1)
+    }
+
     public getId(): string {
         return this.id;
     }

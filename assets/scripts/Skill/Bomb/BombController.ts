@@ -8,18 +8,17 @@ const { ccclass, property } = _decorator;
 export class BombController extends SkillController {
     private static skillName = 'Bomb';
     private static settings = skillSettings['Bomb'];
-    private static windowWith
+    private static windowWidth
     private static windowHeight
     /**
      * 启动技能重写
      */
     static startSkill() {
         let uiTranform = director.getScene().getChildByName('Canvas').getComponent(UITransform);
-        this.windowWith = uiTranform.width;
+        this.windowWidth = uiTranform.width;
         this.windowHeight = uiTranform.height;
         this.startReleaseSkill(this.settings.releaseInterval);
     }
-
 
     /**
      * 生成一个随机相对位置
@@ -45,7 +44,8 @@ export class BombController extends SkillController {
 
         for (let i = 0; i < this.settings.skillCount; i++) {
             let skillNode = this.spawnSingleSkill()
-            skillNode.setWorldPosition(this.generateRandomPosition(this.windowWith, this.windowHeight))
+            this.curNodes.push(skillNode)
+            skillNode.setWorldPosition(this.generateRandomPosition(this.windowWidth, this.windowHeight))
             skillNode.getComponent(Skill).initSkill(this.skillName) // 更新
             this.skillNodeContainer.addChild(skillNode)
             skillNode.children[0].active = false

@@ -8,7 +8,6 @@ const { ccclass } = _decorator;
 export class SpinBallController extends SkillController {
     private static skillName = 'SpinBall';
     private static settings = skillSettings['SpinBall']; // 技能设置 不知道这里是不是符号传递 有待测试
-    private static curBallNodes: Array<Node> = []; // 当前所有的节点
 
     /**
      * 启动技能技能
@@ -18,14 +17,19 @@ export class SpinBallController extends SkillController {
     static startSkill() {
         this.releaseSkill()
     }
+    
+
+    static unloadSkill(): void {
+        this.clearAllNodes()
+    }
 
     static releaseSkill(): void {
-        const len = this.curBallNodes.length
+        const len = this.curNodes.length
         const targetCount = this.settings.skillCount
         for (let i = 0; i < targetCount - len; i++) {
             let node = this.spawnSingleSkill()
             this.playerBaseNode.addChild(node)
-            this.curBallNodes.push(node)
+            this.curNodes.push(node)
         }
         this.updateNodesAttr()
     }
@@ -34,11 +38,11 @@ export class SpinBallController extends SkillController {
     * 更新节点的相关信息 包括锚点(范围) 旋转等等
     */
     private static updateNodesAttr() {
-        const len = this.curBallNodes.length
+        const len = this.curNodes.length
         const deltaAngle = 360 / len
         const range = this.settings.range / 100
         for (let i = 0; i < len; i++) {
-            const ballNode = this.curBallNodes[i]
+            const ballNode = this.curNodes[i]
             ballNode.getComponent(Skill).initSkill(this.skillName) // 避免升级后无法更新
             ballNode.getComponent(UITransform).setAnchorPoint(0.5, -3 * range) // 修改范围
             const contentSize = ballNode.getComponent(UITransform).width // 获取大小

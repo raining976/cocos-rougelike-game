@@ -46,6 +46,10 @@ export class EnemyController {
     public static setweight(Enemyname: string, NewWeight: number) {
         EnemyController._randomwithweights.RefreshWeight(Enemyname, NewWeight);
     }
+
+    public static clearEnemies(){
+        this._enemyspawner.reclaimAllEnemies()
+    }
 }
 
 

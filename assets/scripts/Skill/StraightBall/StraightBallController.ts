@@ -14,7 +14,7 @@ export class StraightBallController extends SkillController {
         const interval = this.settings.releaseInterval
         this.startReleaseSkill(interval)
     }
-
+    
     /**
      * 获取一个随机方向
      * @returns Vec3
@@ -38,6 +38,7 @@ export class StraightBallController extends SkillController {
          */
         for (let i = 0; i < this.settings.skillCount; i++) {
             const skillNode = this.spawnSingleSkill() // 生成节点
+            this.curNodes.push(skillNode)
             skillNode.setWorldPosition(this.playerBaseNode.position) // 设置初始位置
             this.skillNodeContainer.addChild(skillNode)
             this.setNodeMoving(skillNode, this.getRadomDir()) // 设置缓动动画

@@ -18,17 +18,17 @@ export class ExpLabelController extends Component {
     }
 
     setCurExp(value: number) {
-        this.curExpLabel.string = value.toString()
+        this.curExpLabel.string = Math.floor(value).toString()
         this.setExpBar(this.getCurExp() / this.getMaxExp())
     }
 
     setMaxExp(value: number) {
-        this.maxExpLabel.string = value.toString()
+        this.maxExpLabel.string = Math.floor(value).toString()
         this.setExpBar(this.getCurExp() / this.getMaxExp())
     }
 
     setLevel(value: number) {
-        this.levelLabel.string = value.toString()
+        this.levelLabel.string = Math.floor(value).toString()
     }
 
     setExpBar(percent: number) {

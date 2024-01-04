@@ -547,7 +547,7 @@
         "__id__": 166
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [],
     "_prefab": null,
     "_lpos": {
@@ -6222,6 +6222,9 @@
     "pauseBtn": {
       "__id__": 59
     },
+    "playerNode": {
+      "__id__": 12
+    },
     "_id": "21pmG1nWhKxJzPNwOdGA16"
   },
   {
@@ -7215,6 +7218,10 @@
       },
       {
         "__uuid__": "38d595f0-88b6-45d2-a111-4ddc69f05fc7",
+        "__expectedType__": "cc.Prefab"
+      },
+      {
+        "__uuid__": "c32d219a-ca2e-4a17-8442-e83e4ce33ed5",
         "__expectedType__": "cc.Prefab"
       }
     ],

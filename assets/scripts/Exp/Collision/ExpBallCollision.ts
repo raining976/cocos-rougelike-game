@@ -1,8 +1,10 @@
 import { _decorator, Collider2D, Component, Contact2DType, Director, director, IPhysics2DContact, log, Node, RigidBody, } from 'cc';
+import { ExpSpawner } from '../EnemyDeath/ExpSpawner';
 const { ccclass, property } = _decorator;
 
 @ccclass('ExpBallCollision')
 export class ExpBallCollision extends Component {
+
 
     start() {
         this.initCollision();
@@ -38,6 +40,11 @@ export class ExpBallCollision extends Component {
             //箭头函数
             director.once(Director.EVENT_AFTER_PHYSICS, () =>{
                 selfCollider.node.destroy();
+                // 拿到这个节点池
+                let selfNode = selfCollider.node
+                selfNode.parent.getComponent(ExpSpawner).reclaimNode(selfNode)
+                // 
+
             },this)
         }
     }
