@@ -44,6 +44,9 @@ attrSettings['health'] = {
     allowUpgrade: true,
     upgradeArray: [
         {
+            description: ""
+        },
+        {
             description: "提升生命值",
             attrValue: 700,
         },
@@ -71,6 +74,9 @@ attrSettings['speed'] = {
     imgSource:null,
     allowUpgrade: true,
     upgradeArray: [
+        {
+            description: ""
+        },
         {
             description: "提升速度",
             attrValue: 3.2,
@@ -103,6 +109,9 @@ attrSettings['chicken'] = {
     imgSource: null,
     allowUpgrade: false,
     upgradeArray: [
+        {
+            description: ""
+        },
         {
             description: " 增加30生命值",
             attrValue: 30,

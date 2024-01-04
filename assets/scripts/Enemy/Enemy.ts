@@ -173,7 +173,8 @@ export class Enemy extends Component {
         let randnum = randomRangeInt(1, 10000);
         prefabName = randnum < 500 ? 'HealthBall' : prefabName;
 
-        expSpawner.GenerateOneExpBall(this.EnemyDeathWorldPosition, prefabName)
+        //if (this.EnemyDeathWorldPosition)
+        expSpawner.GenerateOneExpBall(this.EnemyDeathWorldPosition.clone(), prefabName)
     }
 
 

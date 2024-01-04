@@ -62,7 +62,7 @@ export class EnhanceController extends Component {
         let len = keys.length;
         for (let i = len - 1; i >= 0; --i) {
             let curLevel = obj[keys[i]][curLevel_index]
-            let maxLevel = obj[keys[i]].upgradeArray.length + 1
+            let maxLevel = obj[keys[i]].upgradeArray.length
             if ( maxLevel == curLevel )
                 keys.splice(i,1);
         }

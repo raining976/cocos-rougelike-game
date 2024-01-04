@@ -39,12 +39,8 @@ export class ExpBallCollision extends Component {
         if (otherCollider.node.name === 'Player'|| otherCollider.tag == 0 ) {
             //箭头函数
             director.once(Director.EVENT_AFTER_PHYSICS, () =>{
-                selfCollider.node.destroy();
-                // 拿到这个节点池
                 let selfNode = selfCollider.node
                 selfNode.parent.getComponent(ExpSpawner).reclaimNode(selfNode)
-                // 
-
             },this)
         }
     }
