@@ -20,6 +20,9 @@ export class BombController extends SkillController {
         this.startReleaseSkill(this.settings.releaseInterval);
     }
 
+    static unloadSkill(){
+        this.stopReleaseSkill();
+    }
 
     /**
      * 生成一个随机相对位置

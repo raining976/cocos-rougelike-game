@@ -65,7 +65,6 @@ export class SkillManager extends Component {
         const skillData = this.skills[skillName]
         if (skillData) {
             const { skillPrefab, nodePool, playerBaseNode, skillNodeContainer } = skillData
-            console.log(`opening ${skillName} `)
             skillControllerSettings[skillName].controller.initSkill({ skillPrefab, nodePool, playerBaseNode, skillNodeContainer })
         } else {
             throw new Error(`SkillController ${skillName} not found!`);
@@ -89,20 +88,25 @@ export class SkillManager extends Component {
      * 卸载技能 如果需要的话
      * @param skillName 技能名称
      */
-    unloadSkill(skillName: string) { }
+    unloadSkill(skillName: string) {
+        skillControllerSettings[skillName].controller.unloadSkill() 
+    }
 
     /**
      * 升级技能
      * @param skillName 技能名字
      */
-    upgradeSkill(skillName: string) {
-        if(!this.skills[skillName]){
+    upgradeSkill(skillName: string, isReset = false) {
+        if(!this.skills[skillName] && !isReset) {
             this.initSkill(skillName)
             return 
         }
 
         let nextLevel = skillSettings[skillName].skillLevel + 1;
-        const upgradeObj = skillSettings[skillName].upgradeArray[nextLevel - 2]
+
+        if(isReset) nextLevel = 1;
+
+        const upgradeObj = skillSettings[skillName].upgradeArray[nextLevel - 1]
 
         Object.keys(upgradeObj).forEach(key => {
             if (key != 'description')
@@ -110,6 +114,24 @@ export class SkillManager extends Component {
         })
 
         skillSettings[skillName].skillLevel++
-        this.restartSkill(skillName)
+        if (!isReset) this.restartSkill(skillName)
     }
+
+    resetSkillSetting(skillName){
+        this.upgradeSkill(skillName,true)
+    }
+
+
+    resetAllSkills(){
+        Object.keys(this.skills).forEach(skillName=>{
+            this.unloadSkill(skillName)
+            this.resetSkillSetting(skillName)
+            this.skills[skillName] = null
+        })
+
+        this.initSkill('SpinBall')
+    }
+
+
+    
 }

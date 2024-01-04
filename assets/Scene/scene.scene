@@ -6222,6 +6222,9 @@
     "pauseBtn": {
       "__id__": 59
     },
+    "playerNode": {
+      "__id__": 12
+    },
     "_id": "21pmG1nWhKxJzPNwOdGA16"
   },
   {
@@ -7126,9 +7129,6 @@
     },
     "enhanceBoard": {
       "__id__": 67
-    },
-    "gameRoot": {
-      "__id__": 14
     },
     "_id": "08h87xfxdAx7ex+fowdMBG"
   },

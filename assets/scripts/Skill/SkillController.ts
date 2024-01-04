@@ -41,6 +41,8 @@ export class SkillController {
      */
     static startSkill() { }
 
+    static unloadSkill(){  }
+
     /**
      * 释放一次技能 子类应该重写此方法
      * 这里实现的是一次完整的释放技能 比如这次技能释放了3个火球 火球持续了多久

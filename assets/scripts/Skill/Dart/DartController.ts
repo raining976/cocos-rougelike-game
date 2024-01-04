@@ -19,6 +19,9 @@ export class DartController extends SkillController {
         this.startReleaseSkill(interval);
     }
 
+    static unloadSkill(){
+        this.stopReleaseSkill();
+    }
     /**
      * 生成skillCount数量的飞镖，随机朝着不同方向前进
      */

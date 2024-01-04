@@ -15,6 +15,11 @@ export class StraightBallController extends SkillController {
         this.startReleaseSkill(interval)
     }
 
+    
+    static unloadSkill(){
+        this.stopReleaseSkill();
+    }
+    
     /**
      * 获取一个随机方向
      * @returns Vec3

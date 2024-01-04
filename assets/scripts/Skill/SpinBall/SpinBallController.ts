@@ -19,6 +19,13 @@ export class SpinBallController extends SkillController {
         this.releaseSkill()
     }
 
+    static unloadSkill(): void {
+        this.curBallNodes.forEach(b=>{
+            this.reclaimSkill(b)
+        })
+        this.curBallNodes = []
+    }
+
     static releaseSkill(): void {
         const len = this.curBallNodes.length
         const targetCount = this.settings.skillCount
