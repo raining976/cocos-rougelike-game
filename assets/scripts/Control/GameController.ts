@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, PhysicsSystem2D, EPhysics2DDrawFlags, director, game, Vec3, Canvas } from 'cc';
+import { _decorator, Component, Node, PhysicsSystem2D, EPhysics2DDrawFlags, director, game, Vec3, Canvas, settings } from 'cc';
 import { EnemySpawner } from '../Enemy/EnemySpawner';
 import { EnemyController } from './EnemyController';
 import { SkillManager } from '../Skill/SkillManager';
@@ -27,7 +27,7 @@ export class GameController extends Component {
     @property(Node) pauseBtn;
     @property(Node) playerNode: Node;
 
-    private expSpawner:ExpSpawner;
+    private expSpawner: ExpSpawner;
 
     start() {
         this.setCurState(GameState.GS_INIT);
@@ -100,26 +100,66 @@ export class GameController extends Component {
                 this.init();
                 break;
             case GameState.GS_PLAYING:
-                EnemyController.StartEnemy()
-                this.hiddenMenu();
-                director.resume();
+                this.resumePause()
                 break;
             case GameState.GS_PAUSE:
-                EnemyController.StopEnemy()
-                // TODO: 技能停止释放 
-                this.showMenu();
-                director.pause();
+                this.pauseGame()
                 break;
             case GameState.GS_END:
-                EnemyController.StartEnemy()
-                this.showEndMenu();
-                director.pause();
+                this.gameOver()
+                break;
+            default:
                 break;
         }
     }
 
+    pauseScene(){
+        setTimeout(() => {
+            director.stopAnimation()
+        }, 100);
+    }
+
+    resumScene(){
+        director.startAnimation()
+    }
+
+    pauseGame() {
+        EnemyController.StopEnemy()
+        // TODO: 技能停止释放 
+        this.showMenu();
+        this.pauseScene()
+    }
+
+    resumePause(){
+        EnemyController.StartEnemy()
+        this.hiddenMenu();
+        this.resumScene()
+    }
+
+    gameRestart() {
+        this.hiddenMenu()
+        this.resumScene()
+        this.gameInit()
+        // 将所有的内重置
+        // 人物属性、技能属性、怪物的生成等
+    }
+
+    gameOver() {
+        EnemyController.StartEnemy()
+        this.showEndMenu();
+        this.pauseScene()
+    }
+
+
+
+
+
+
+    /**----------事件绑定-------------------------------------------------------------------------------------- */
+
     //开始游戏，怪物不生成，打开初始菜单
     onPlayButtonClicked() {
+        this.playerNode.parent.active = true    
         this.setCurState(GameState.GS_PLAYING);
     }
 
@@ -130,7 +170,9 @@ export class GameController extends Component {
 
     //退出游戏
     onExitButtonClicked() {
+        this.resumScene()
         this.gameInit()
+        this.playerNode.parent.active = false    
         this.setCurState(GameState.GS_INIT);
     }
 
@@ -141,18 +183,8 @@ export class GameController extends Component {
 
     //重新开始游戏
     onRestartButtonClicked() {
-        this.hiddenMenu()
-        director.resume()
-        this.gameInit()
-        // 将所有的内重置
-        // 人物属性、技能属性、怪物的生成等
+        this.gameRestart()
     }
 
-
-    update(deltaTime: number) {
-        //this.node.setSiblingIndex(1000);
-    }
-
-    
 }
 
