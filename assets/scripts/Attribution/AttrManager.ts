@@ -1,6 +1,7 @@
 import { _decorator, Component, Node } from 'cc';
 import { attrSettings } from './AttrSettings';
 import { Player } from '../Player/Player';
+import { PlayerAttr } from '../Player/PlayerSettings';
 const { ccclass, property } = _decorator;
 
 
@@ -35,10 +36,13 @@ export class AttrManager extends Component {
      * 属性升级
      * @param attrName 属性名称
      */
-    upgradeAttr(attrName: string) {
+    upgradeAttr(attrName: string, isReset = false) {
         const allowUpgrade = attrSettings[attrName].allowUpgrade;
-        const nextLevel = attrSettings[attrName].attrLevel + 1
-        const upgradeObj = attrSettings[attrName].upgradeArray[nextLevel - 2]
+        let nextLevel = attrSettings[attrName].attrLevel + 1
+
+        if (isReset) nextLevel = 1;
+
+        const upgradeObj = attrSettings[attrName].upgradeArray[nextLevel - 1]
         Object.keys(upgradeObj).forEach(key => {
             if (key != 'description')
                 if (allowUpgrade)
@@ -47,6 +51,14 @@ export class AttrManager extends Component {
         if (allowUpgrade)
             attrSettings[attrName].attrLevel = nextLevel;
         this.updateAttr(attrName);
+    }
+
+    resetAttr() {
+        this.getComponent(Player).resetAttr() // 重置属性
+
+        Object.keys(attrSettings).forEach(key => {
+            attrSettings[key].attrLevel = 1
+        })
     }
 }
 
