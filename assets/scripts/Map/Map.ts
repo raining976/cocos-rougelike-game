@@ -42,7 +42,6 @@ export class Map extends Component {
 
             this.instancedBackgrounds.push(rowNodes);
         }
-        console.log("instantiated successfully!");
     }
 
     public gameTick(): void{
