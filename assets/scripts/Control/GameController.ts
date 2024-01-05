@@ -1,10 +1,11 @@
-import { _decorator, Component, Node, PhysicsSystem2D, EPhysics2DDrawFlags, director, game, Vec3, Canvas, settings } from 'cc';
+import { _decorator, Component, Node, PhysicsSystem2D, EPhysics2DDrawFlags, director, Label, game, Vec3, Canvas, settings } from 'cc';
 import { EnemySpawner } from '../Enemy/EnemySpawner';
 import { EnemyController } from './EnemyController';
 import { SkillManager } from '../Skill/SkillManager';
 import { AttrManager } from '../Attribution/AttrManager';
 import { ExpSpawner } from '../Exp/EnemyDeath/ExpSpawner';
 import { FloatLabel } from '../FloatLabel/FloatLabel';
+import { GlobalVariable } from './GlobalVariable';
 const { ccclass, property } = _decorator;
 
 //游戏的四种状态
@@ -27,8 +28,10 @@ export class GameController extends Component {
     public EnemyBaseNode: Node | null = null; // 怪物生成与挂载的节点
     @property(Node) pauseBtn;
     @property(Node) playerNode: Node;
-
+    @property(Node) playerState: Node;
     private expSpawner: ExpSpawner;
+
+    private globalVariable: GlobalVariable;
 
     start() {
         this.playerNode.parent.active = false
@@ -38,6 +41,7 @@ export class GameController extends Component {
         EnemyController.StopEnemy()
         this.expSpawner = this.EnemyBaseNode.getComponent(ExpSpawner)
         //this.Menu.setPosition(this.Menu.position.add(new Vec3(0, 0, 1000)))
+        this.globalVariable = this.getComponent(GlobalVariable);
     }
 
     // 打开碰撞体调试信息
@@ -52,6 +56,8 @@ export class GameController extends Component {
     init() {
         this.hiddenMenu();
         this.showStartMenu();
+        //开始游戏计时
+        //this.globalVariable.startTimer();
     }
 
     resetAll(){
@@ -76,12 +82,22 @@ export class GameController extends Component {
         if (this.startMenu && !this.startMenu.activeInHierarchy) {
             this.startMenu.active = true
             this.pauseBtn.active = false
-
         }
+    }
+
+    createEndMenu() {
+        let survivalTimeLabel = this.playerState.getChildByName('runTime').getComponent(Label);
+        let killCountLabel = this.playerState.getChildByName('killCount').getComponent(Label);
+        let scoreLabel = this.playerState.getChildByName('score').getComponent(Label);
+
+        this.endMenu.getChildByName('survivalTime').getComponent(Label).string = survivalTimeLabel.string;
+        this.endMenu.getChildByName('killCount').getComponent(Label).string = killCountLabel.string;
+        this.endMenu.getChildByName('score').getComponent(Label).string = scoreLabel.string;
     }
 
     showEndMenu() {
         if (this.endMenu && !this.endMenu.activeInHierarchy) {
+            this.createEndMenu()
             this.endMenu.active = true
         }
     }
@@ -131,24 +147,30 @@ export class GameController extends Component {
         // TODO: 技能停止释放 
         this.showMenu();
         this.pauseScene()
+        //停止游戏计时
+        this.getComponent(GlobalVariable).stopTimer();
     }
 
     resumePause(){
         EnemyController.StartEnemy()
         this.hiddenMenu();
-        this.resumScene()
-    }
+        this.resumScene();
+        this.globalVariable.startTimer();
+    } 
 
     gameRestart() {
         this.hiddenMenu()
         this.resumScene()
         this.gameInit()
+
+        this.globalVariable.restart();
     }
 
     gameOver() {
         EnemyController.StartEnemy()
         this.showEndMenu();
         this.pauseScene()
+        //this.globalVariable.exit();
     }
 
     backStart(){
@@ -157,6 +179,7 @@ export class GameController extends Component {
         this.resetAll()
         this.hiddenMenu();
         this.showStartMenu();
+        this.globalVariable.exit();
     }
 
 
