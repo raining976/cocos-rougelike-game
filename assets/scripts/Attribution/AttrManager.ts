@@ -2,6 +2,8 @@ import { _decorator, Component, Node } from 'cc';
 import { attrSettings } from './AttrSettings';
 import { Player } from '../Player/Player';
 import { PlayerAttr } from '../Player/PlayerSettings';
+import { EnhanceController } from '../EnhanceBoard/EnhanceController';
+import { AttrController } from '../Player/Controllers/AttrController';
 const { ccclass, property } = _decorator;
 
 
@@ -23,8 +25,8 @@ export class AttrManager extends Component {
                 this.getComponent(Player).setSpeed(value);
                 break
             case 'chicken':
-                let player = this.getComponent(Player);
-                player.setCurHealth(player.getCurHealth() + value);
+                let attrController = this.getComponent(AttrController);
+                attrController.increaseHealth(value);
                 break
             default:
                 console.log("非法的被动技能名");
