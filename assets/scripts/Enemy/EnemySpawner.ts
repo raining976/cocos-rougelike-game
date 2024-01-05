@@ -113,6 +113,7 @@ export class EnemySpawner extends Component {
         let Bossnode: Node = null;
         Bossnode = instantiate(this.Boss[randomRangeInt(0, this.Boss.length)]);//实例化boss节点
         Bossnode.setWorldPosition(this.randomposGenerators.IndividualSpawner(this.TargetNode.worldPosition, this.node.worldPosition, 0, 400));
+        this.curEnemyNodes.push(Bossnode);
         this.node.addChild(Bossnode);
         Bossnode.getComponent(BoxCollider2D).tag = 1;
     }
