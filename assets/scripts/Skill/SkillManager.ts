@@ -37,6 +37,7 @@ export class SkillManager extends Component {
         this.initSkill("Bomb")
         this.initSkill("Dart")
         this.initSkill("StraightBall")
+        this.upgradeSkill("SpinBall")
     }
 
     /**
@@ -89,7 +90,7 @@ export class SkillManager extends Component {
      * @param skillName 技能名称
      */
     unloadSkill(skillName: string) {
-        skillControllerSettings[skillName].controller.unloadSkill() 
+        skillControllerSettings[skillName].controller.unloadSkill()
     }
 
     /**
@@ -113,17 +114,20 @@ export class SkillManager extends Component {
                 skillSettings[skillName][key] = upgradeObj[key];
         })
 
-        skillSettings[skillName].skillLevel++
-        if (!isReset) this.restartSkill(skillName)
+
+        if (!isReset) {
+            skillSettings[skillName].skillLevel++
+            this.restartSkill(skillName)
+        }
     }
 
-    resetSkillSetting(skillName){
-        this.upgradeSkill(skillName,true)
+    resetSkillSetting(skillName) {
+        this.upgradeSkill(skillName, true)
     }
 
 
-    resetAllSkills(){
-        Object.keys(this.skills).forEach(skillName=>{
+    resetAllSkills() {
+        Object.keys(this.skills).forEach(skillName => {
             this.unloadSkill(skillName)
             this.resetSkillSetting(skillName)
             this.skills[skillName] = null

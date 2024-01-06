@@ -12,6 +12,7 @@ import { FloatLabelBase } from '../FloatLabel/FloatLabelBase';
 import { ProjectileGenerate } from '../Projectile/ProjectileGenerate';
 import { Projectile } from '../Projectile/Projectile';
 import { Skill } from '../Skill/Skill';
+import { GlobalVariable } from '../Control/GlobalVariable';
 
 const { ccclass, property } = _decorator;
 
@@ -52,6 +53,7 @@ export class Enemy extends Component {
     public distance: number = -1;//与目标节点的距离
     public dir: Vec3 = new Vec3();//指向目标节点的单位向量
 
+    private globalVariable: GlobalVariable;
     start() {
         this.initCollision()//碰撞监听
         // this.initBoss()//注册Boss生成监听
@@ -90,6 +92,8 @@ export class Enemy extends Component {
 
         //FSMAI运行
         this.schedule(this.StateAI, this.interval, macro.REPEAT_FOREVER, this.AIdelay);
+
+        this.globalVariable = director.getScene().getChildByName('Canvas').getChildByName('GameRoot').getComponent(GlobalVariable);
     }
 
     /**
@@ -173,7 +177,14 @@ export class Enemy extends Component {
         let randnum = randomRangeInt(1, 10000);
         prefabName = randnum < 500 ? 'HealthBall' : prefabName;
 
-        expSpawner.GenerateOneExpBall(this.EnemyDeathWorldPosition, prefabName)
+        expSpawner.GenerateOneExpBall(this.EnemyDeathWorldPosition.clone(), prefabName)
+
+        if (this.Enemyname.includes('Boss')) {
+            this.globalVariable.addScore(20);
+        } else {
+            this.globalVariable.addScore(10);
+        }
+        this.globalVariable.addKillCount(1);
     }
 
 

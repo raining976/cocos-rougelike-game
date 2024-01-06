@@ -5,13 +5,15 @@ const { ccclass, property } = _decorator;
 export class GlobalVariable extends Component {
     @property(Label) timeLabel: Label;
     @property(Label) scoreLabel: Label;
+    @property(Label) killCountLabel: Label;
 
     private runTime: number = 0;
     private score: number = 0;
+    private killCount: number = 0;
     private timer = null;
 
     protected start(): void {
-        this.startTimer()
+        //this.startTimer()
     }
 
     public restart() {
@@ -26,6 +28,7 @@ export class GlobalVariable extends Component {
     public clearVariable() {
         this.setRunTime(0)
         this.setScore(0)
+        this.setKillCount(0)
         this.stopTimer()
     }
 
@@ -59,16 +62,29 @@ export class GlobalVariable extends Component {
 
     public setRunTime(value: number) {
         this.runTime = value;
-        this.timeLabel.string = this.getRunTimeText()
+        this.timeLabel.string = 'Survival Time: ' + this.getRunTimeText();
     }
 
     public setScore(value: number) {
         this.score = value;
-        this.scoreLabel.string = this.score + '分'
+        this.scoreLabel.string = 'Score: ' + this.score;
     }
 
     public addScore(value: number = 10) {
         this.setScore(this.score + value)
     }
+
+    public getKillCount(): number {
+        return this.killCount;
+    }
+    public setKillCount(value: number) {
+        this.killCount = value;
+        this.killCountLabel.string = 'Kill Count:' + this.killCount;
+    }
+
+    public addKillCount(value: number = 1) {
+        this.setKillCount(this.killCount + value);
+    }
+
 }
 

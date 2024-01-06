@@ -39,10 +39,6 @@ export class AttrController extends Component {
         if (newHealth <= 0) {
             this.node.getComponent(MoveController).changeState(PLAYER_STATE.DEAD)
             this.gameRoot.getComponent(GameController).setCurState(GameState.GS_END)
-            // TODO: 游戏结束的逻辑
-            // setTimeout(() => {
-            //     alert("game over!!!")
-            // }, 2000);
         } else {
             let label = instantiate(this.floatLabelPrefab)
             label.getComponent(FloatLabelBase).initLabel('Player', delta)

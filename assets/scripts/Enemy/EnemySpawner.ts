@@ -69,7 +69,7 @@ export class EnemySpawner extends Component {
         this.randomposGenerators.setCircleParameter(800);
 
         //生成函数运行
-        this.schedule(this.TrashfishSpawner, this.SpawnerDelay, macro.REPEAT_FOREVER);
+        //this.schedule(this.TrashfishSpawner, this.SpawnerDelay, macro.REPEAT_FOREVER);
         // this.schedule(this.BossSpawner,this.BossSpawnerDelay,macro.REPEAT_FOREVER);//原来的代码不打算删除重构了，但又要弃用以适应新的逻辑
     }
 
@@ -110,10 +110,12 @@ export class EnemySpawner extends Component {
     BossSpawner() {
         this.node.emit('Boss');
         // this.unschedule(this.TrashfishSpawner);
-        let Bossnode = null;
+        let Bossnode: Node = null;
         Bossnode = instantiate(this.Boss[randomRangeInt(0, this.Boss.length)]);//实例化boss节点
         Bossnode.setWorldPosition(this.randomposGenerators.IndividualSpawner(this.TargetNode.worldPosition, this.node.worldPosition, 0, 400));
+        this.curEnemyNodes.push(Bossnode);
         this.node.addChild(Bossnode);
+        Bossnode.getComponent(BoxCollider2D).tag = 1;
     }
     /**
      * Boss死亡的监听函数注册
