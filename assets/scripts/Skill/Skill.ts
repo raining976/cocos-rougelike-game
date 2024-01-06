@@ -59,7 +59,7 @@ export class Skill extends Component {
      * 初始化碰撞回调
      */
     initCollision(){
-        this.collider = this.getComponent(Collider2D);
+        this.collider = this.node.getComponent(Collider2D);
         if (this.collider) {
             this.collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
         }
