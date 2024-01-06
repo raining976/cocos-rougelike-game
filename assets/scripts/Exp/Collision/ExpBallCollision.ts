@@ -1,4 +1,4 @@
-import { _decorator, Collider2D, Component, Contact2DType, Director, director, IPhysics2DContact, log, Node, RigidBody, } from 'cc';
+import { _decorator, AudioSource, Collider2D, Component, Contact2DType, Director, director, IPhysics2DContact, log, Node, RigidBody, } from 'cc';
 import { ExpSpawner } from '../EnemyDeath/ExpSpawner';
 const { ccclass, property } = _decorator;
 
@@ -6,8 +6,10 @@ const { ccclass, property } = _decorator;
 export class ExpBallCollision extends Component {
 
 
+    private audio: AudioSource;
     start() {
         this.initCollision();
+        this.audio = this.node.getComponent(AudioSource);
     }
 
     update(deltaTime: number) {
@@ -40,7 +42,11 @@ export class ExpBallCollision extends Component {
             //箭头函数
             director.once(Director.EVENT_AFTER_PHYSICS, () =>{
                 let selfNode = selfCollider.node
-                selfNode.parent.getComponent(ExpSpawner).reclaimNode(selfNode)
+                this.audio.play();
+                setTimeout(() => {
+                    selfNode.parent.getComponent(ExpSpawner).reclaimNode(selfNode)
+                }, 1);
+                
             },this)
         }
     }

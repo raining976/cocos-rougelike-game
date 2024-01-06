@@ -1,4 +1,4 @@
-import { _decorator,  Vec3, Node,  randomRange, tween } from 'cc';
+import { _decorator,  Vec3, Node,  randomRange, tween, AudioSource } from 'cc';
 import { SkillController } from '../SkillController';
 import { skillSettings } from '../SkillSettings';
 const { ccclass } = _decorator;
@@ -6,7 +6,6 @@ const { ccclass } = _decorator;
 @ccclass('StraightBallController')
 export class StraightBallController extends SkillController {
     private static settings = skillSettings['StraightBall']; // 技能设置 不知道这里是不是符号传递 有待测试
-
     /**
      * 初始化
      */

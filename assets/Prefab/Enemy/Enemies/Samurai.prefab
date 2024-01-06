@@ -668,13 +668,13 @@
     "_restitution": 0,
     "_offset": {
       "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
+      "x": 5.9,
+      "y": -1.1
     },
     "_size": {
       "__type__": "cc.Size",
-      "width": 26,
-      "height": 22
+      "width": 37.9,
+      "height": 73.4
     },
     "_id": ""
   },

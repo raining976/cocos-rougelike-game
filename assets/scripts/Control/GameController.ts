@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, PhysicsSystem2D, EPhysics2DDrawFlags, director, Label, game, Vec3, Canvas, settings } from 'cc';
+import { _decorator, Component, Node, PhysicsSystem2D, EPhysics2DDrawFlags, director, Label, game, Vec3, Canvas, settings, AudioSource } from 'cc';
 import { EnemySpawner } from '../Enemy/EnemySpawner';
 import { EnemyController } from './EnemyController';
 import { SkillManager } from '../Skill/SkillManager';
@@ -156,6 +156,7 @@ export class GameController extends Component {
         this.hiddenMenu();
         this.resumScene();
         this.globalVariable.startTimer();
+        //this.getComponent(AudioSource).play();
     } 
 
     gameRestart() {
@@ -170,6 +171,7 @@ export class GameController extends Component {
         EnemyController.StartEnemy()
         this.showEndMenu();
         this.pauseScene()
+        this.node.getChildByName('PlayerBase').getComponent(AudioSource).stop();
         //this.globalVariable.exit();
     }
 

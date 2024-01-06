@@ -84,8 +84,10 @@ export class Enemy_Run extends StateBase{
         const deadtime=this._role.getanim().getState("Dead").duration;
         this._role.getanim().play("Dead");
         setTimeout(() => {
-            this._role.onMonsterDeath()
-            this._role.reclaim(); 
+            if(this._role){
+                this._role.onMonsterDeath()
+                this._role.reclaim(); 
+            }
         }, deadtime*1000);
     }
     onExit(){

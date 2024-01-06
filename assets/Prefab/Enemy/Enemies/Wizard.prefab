@@ -634,13 +634,13 @@
     "_restitution": 0,
     "_offset": {
       "__type__": "cc.Vec2",
-      "x": -1.4,
-      "y": -0.2
+      "x": -0.3,
+      "y": 0.4
     },
     "_size": {
       "__type__": "cc.Size",
-      "width": 30.9,
-      "height": 22.4
+      "width": 38.3,
+      "height": 71.5
     },
     "_id": ""
   },
