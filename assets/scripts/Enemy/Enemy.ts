@@ -160,7 +160,7 @@ export class Enemy extends Component {
     reclaim() {
         this.getComponent(BoxCollider2D).tag = -1;//回收时将tag修改为-1，标志不可用
         // this.CollisionDisable();
-        if (this.node.parent) {
+        if (this.node && this.node.parent) {
             this.node.parent.getComponent(EnemySpawner).getenemypool().put(this.node);
         };
         return;
@@ -240,20 +240,20 @@ export class Enemy extends Component {
             }
         }
 
-        // 中立投射物，对敌我双方都会造成伤害
-        if (otherCollider.tag == 4 && selfCollider.node != otherCollider.node.parent) {
-            let ProjectileNode = otherCollider.node;
-            let reduceBloodValue = ProjectileNode.getComponent(Projectile).getProjectiledamage();
-            let maxHealth = this.gethealth();
-            let percent = (reduceBloodValue / maxHealth)
-            let curProgress = this.bloodProgressBar.progress
-            if (curProgress > 0) {
-                let label = instantiate(this.floatLabelPrefab)
-                label.getComponent(FloatLabelBase).initLabel('Enemy', reduceBloodValue)
-                this.node.addChild(label)
-                this.bloodProgressBar.progress -= percent
-            }
-        }
+        // // 中立投射物，对敌我双方都会造成伤害
+        // if (otherCollider.tag == 4 && selfCollider.node != otherCollider.node.parent) {
+        //     let ProjectileNode = otherCollider.node;
+        //     let reduceBloodValue = ProjectileNode.getComponent(Projectile).getProjectiledamage();
+        //     let maxHealth = this.gethealth();
+        //     let percent = (reduceBloodValue / maxHealth)
+        //     let curProgress = this.bloodProgressBar.progress
+        //     if (curProgress > 0) {
+        //         let label = instantiate(this.floatLabelPrefab)
+        //         label.getComponent(FloatLabelBase).initLabel('Enemy', reduceBloodValue)
+        //         this.node.addChild(label)
+        //         this.bloodProgressBar.progress -= percent
+        //     }
+        // }
     }
 
 

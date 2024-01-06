@@ -15,7 +15,7 @@ export class EnemySpawner extends Component {
     @property(Node) private TargetNode: Node;//引擎内预先注入目标（玩家）节点
 
     //敌人生成相关参数
-    private SpawnerDelay: number = 0.1//杂鱼生成延迟
+    private SpawnerDelay: number = 0.5//杂鱼生成延迟
     private BossSpawnerDelay: number = 10;//BOSS生成延迟
 
     //对象池相关参数
@@ -81,7 +81,7 @@ export class EnemySpawner extends Component {
         let enemynode = null;
         if (this.enemyPool.size() > 0) {//若对象池有存对象，则取出
             enemynode = this.enemyPool.get();
-            if (enemynode.getComponent("Enemy").Enemyname != null) {
+            if (enemynode.getComponent("Enemy").Enemyname) {
                 isoldnode = true;
             }
         }
@@ -102,7 +102,8 @@ export class EnemySpawner extends Component {
         }
         setTimeout(() => {
             enemynode.getComponent(BoxCollider2D).tag = 1;
-        }, 1000);
+           
+        }, 500);
     }
     /**
      * Boss生成函数
@@ -149,7 +150,7 @@ export class EnemySpawner extends Component {
     }
 
     reclaimNode(node: Node) {
-        if (node)
+        if (node && node.parent)
             node.getComponent(Enemy).reclaim()
     }
 
