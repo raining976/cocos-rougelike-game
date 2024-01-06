@@ -45,7 +45,7 @@ export class ExpBallCollision extends Component {
                 this.audio.play();
                 setTimeout(() => {
                     selfNode.parent.getComponent(ExpSpawner).reclaimNode(selfNode)
-                }, 1);
+                }, 0.1);
                 
             },this)
         }

@@ -1,6 +1,12 @@
 import { _decorator, Component, Label, Node } from 'cc';
+import { EnemySpawner } from '../Enemy/EnemySpawner';
 const { ccclass, property } = _decorator;
 
+enum STAGE {
+    ONE = 0,
+    TWO = 90,
+    THREE = 180,
+}
 @ccclass('GlobalVariable')
 export class GlobalVariable extends Component {
     @property(Label) timeLabel: Label;
@@ -12,8 +18,12 @@ export class GlobalVariable extends Component {
     private killCount: number = 0;
     private timer = null;
 
+    private enemySpawner: EnemySpawner;
+    private trashFishSpawnDelayArray = [0.5, 0.3, 0.1]
+    private bossSpawnDelayArray = [30, 20, 10]
+
     protected start(): void {
-        //this.startTimer()
+        this.enemySpawner = this.node.getChildByName('NodePool').getComponent(EnemySpawner);
     }
 
     public restart() {
@@ -63,7 +73,25 @@ export class GlobalVariable extends Component {
     public setRunTime(value: number) {
         this.runTime = value;
         this.timeLabel.string = 'Survival Time: ' + this.getRunTimeText();
+        if (this.enemySpawner)
+            this.resetSpawnDelay(this.runTime);
     }
+
+    public resetSpawnDelay(runTime: number) {
+        if (runTime == STAGE.ONE) {
+            this.enemySpawner.setSpawnerDelay(this.trashFishSpawnDelayArray[0]);
+            this.enemySpawner.setBossSpawnerDeley(this.bossSpawnDelayArray[0]);
+        }
+        if (runTime == STAGE.TWO) {
+            this.enemySpawner.setSpawnerDelay(this.trashFishSpawnDelayArray[1]);
+            this.enemySpawner.setBossSpawnerDeley(this.bossSpawnDelayArray[1]);
+        }
+        if (runTime == STAGE.THREE) {
+            this.enemySpawner.setSpawnerDelay(this.trashFishSpawnDelayArray[2]);
+            this.enemySpawner.setBossSpawnerDeley(this.bossSpawnDelayArray[2]);
+        }
+    }
+            
 
     public setScore(value: number) {
         this.score = value;

@@ -26,6 +26,8 @@ export class AttrManager extends Component {
                 break
             case 'chicken':
                 let attrController = this.getComponent(AttrController);
+                let maxHealth = this.getComponent(Player).getMaxHealth();
+                value = value * 0.01 * maxHealth;
                 attrController.increaseHealth(value);
                 break
             default:

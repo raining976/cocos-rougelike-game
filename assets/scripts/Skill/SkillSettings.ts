@@ -48,9 +48,9 @@ skillSettings['SpinBall'] = {
     id: '001',
     skillName: "SpinBall",
     skillNameZh: '只因球',
-    skillLevel: 1,
+    skillLevel: 1,  
     damage: 100,
-    skillCount: 3,
+    skillCount: 1,
     duration: 2, // 对于这个来说就是旋转一周的时间
     range: 100,
     releaseInterval: 500,
@@ -59,7 +59,6 @@ skillSettings['SpinBall'] = {
     upgradeArray: [
         {
             description: "出现一个篮球围绕自身旋转",
-            skillLevel: 1,
             damage: 100,
             skillCount: 1,
             duration: 2, // 对于这个来说就是旋转一周的时间
@@ -68,16 +67,25 @@ skillSettings['SpinBall'] = {
         },
         {
             description: "增加篮球的数目",
-            skillCount: 3,
+            skillCount: 2,
         },
-        // {
-        //     description:'',
-        //     skillCount:3,
-        // },
-        // {
-        //     description:'',
-        //     skillCount:3,
-        // }
+        {
+            description: "加快篮球旋转速度",
+            //duration: 1.5,
+            skillCount: 4,
+        },
+        {
+            description: "增加篮球的数目",
+            skillCount: 5,
+        },
+        {
+            description: "提高旋转范围",
+            range: 150,
+        },
+        {
+            description: "增加篮球的数目",
+            skillCount: 6,
+        }
     ]
 }
 
@@ -88,27 +96,38 @@ skillSettings['StraightBall'] = {
     id: '002',
     skillName: "StraightBall",
     skillNameZh: '魔法球',
-    skillLevel: 1,
+    skillLevel: 0,
     damage: 100,
-    skillCount: 3,
+    skillCount: 1,
     duration: 1000,
     range: 130,
-    releaseInterval: 2000,
+    releaseInterval: 2111,
     imgPath: "EnhanceBoard/Skills/StraightBall/spriteFrame",
     imgSource: null,
     upgradeArray: [
         {
             description: '随机发射直线飞行的魔法球',
-            skillLevel: 1,
             damage: 100,
             skillCount: 1,
             duration: 1000,
             range: 130,
-            releaseInterval: 2000,
+            releaseInterval: 2111,
         },
         {
             description: '增加魔法球的发射数量',
             skillCount: 3,
+        },
+        {
+            description: "提高魔法球的范围",
+            range: 200,
+        }, 
+        {
+            description: "增加魔法球的发射数量",
+            skillCount: 5,
+        }, 
+        {
+            description: "加快魔法球释放速度",
+            releaseInterval: 1513,
         },
         // {
         //     description:'',
@@ -128,28 +147,43 @@ skillSettings['Dart'] = {
     id: '003',
     skillName: "Dart",
     skillNameZh: '飞镖',
-    skillLevel: 1,
+    skillLevel: 0,
     damage: 20,
-    skillCount: 3,   //对飞镖来说是发射的飞镖数量
+    skillCount: 1,   //对飞镖来说是发射的飞镖数量
     duration: 200,   //对飞镖来说是技能速度, 每秒移动50
     range: 2000,     //对飞镖来说是销毁的范围，超出多少范围销毁
-    releaseInterval: 3000,
+    releaseInterval: 3428,
     imgPath: "EnhanceBoard/Skills/Dart/spriteFrame",
     imgSource: null,
     upgradeArray: [
         {
             description: '向随机方向发射一个飞镖',
-            skillLevel: 1,
             damage: 20,
             skillCount: 1,   //对飞镖来说是发射的飞镖数量
             duration: 200,   //对飞镖来说是技能速度, 每秒移动50
             range: 2000,     //对飞镖来说是销毁的范围，超出多少范围销毁
-            releaseInterval: 2000,
+            releaseInterval: 3428,
         },
         {
             description: '增加飞镖的数目',
             skillCount: 3,
         },
+        {
+            description: "提高飞镖速度",
+            duration: 300,
+        },
+        {
+            description: "减少释放间隔",
+            releaseInterval: 2312,
+        },
+        {
+            description: "增加飞镖的数目",
+            skillCount: 5,
+        },
+        {
+            description: "增加飞镖的数目",
+            skillCount: 7,
+        }
     ]
 }
 
@@ -160,28 +194,39 @@ skillSettings['Bomb'] = {
     id: '003',
     skillName: 'Bomb',
     skillNameZh: '黑洞',
-    skillLevel: 1,
+    skillLevel: 0,
     damage: 100,
-    skillCount: 3,
+    skillCount: 1,
     duration: 5000,
-    range: 600,
-    releaseInterval: 5000,
+    range: 421,
+    releaseInterval: 5013,
     imgPath: 'EnhanceBoard/Skills/Bomb/spriteFrame',
     imgSource: null,
     upgradeArray: [
         {
             description: '黑洞坍缩',
-            skillLevel: 1,
             damage: 100,
             skillCount: 1,
-            duration: 5000,
-            range: 600,
-            releaseInterval: 5000,
+            duration: 3221,
+            range: 421,
+            releaseInterval: 5013,
         },
         {
             description: '增加黑洞的数目',
-            skillCount: 4,
+            skillCount: 3,
         },
+        {
+            description: "提高黑洞掉落范围",
+            range: 600,
+        },
+        {
+            description: "提高黑洞持续时间",
+            duration: 5000,
+        },
+        {
+            description: "降低黑洞释放间隔",
+            releaseInterval: 3230,
+        }
         // {
         //     description: '技能数量+1',
         //     skillCount: 3,
