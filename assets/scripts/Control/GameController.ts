@@ -144,7 +144,6 @@ export class GameController extends Component {
 
     pauseGame() {
         EnemyController.StopEnemy()
-        // TODO: 技能停止释放 
         this.showMenu();
         this.pauseScene()
         //停止游戏计时
@@ -177,13 +176,22 @@ export class GameController extends Component {
 
     backStart(){
         this.resumScene()
-        this.playerNode.parent.active = false    
-        this.resetAll()
+        this.hiddenPlayerUI();
+        this.resetAll();
         this.hiddenMenu();
         this.showStartMenu();
         this.globalVariable.exit();
     }
 
+    showPlayerUI() {
+        this.playerNode.parent.active = true;
+        this.playerState.active = true;
+    }
+
+    hiddenPlayerUI() {
+        this.playerNode.parent.active = false;
+        this.playerState.active = false;
+    }
 
 
 
@@ -193,7 +201,7 @@ export class GameController extends Component {
 
     //开始游戏，怪物不生成，打开初始菜单
     onPlayButtonClicked() {
-        this.playerNode.parent.active = true    
+        this.showPlayerUI();
         this.setCurState(GameState.GS_PLAYING);
     }
 
