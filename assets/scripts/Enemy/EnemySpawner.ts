@@ -16,7 +16,7 @@ export class EnemySpawner extends Component {
 
     //敌人生成相关参数
     private SpawnerDelay: number = 0.5//杂鱼生成延迟
-    private BossSpawnerDelay: number = 10;//BOSS生成延迟
+    private BossSpawnerDelay: number = 10000;//BOSS生成延迟
 
     //对象池相关参数
     private enemyPool: NodePool;//敌人对象池，用于存储和复用敌人节点对象，节省性能开销
@@ -159,6 +159,18 @@ export class EnemySpawner extends Component {
             this.reclaimNode(n)
         })
         this.curEnemyNodes = []
+    }
+
+    setSpawnerDelay(spawnerDelay = 0.5) {
+        this.SpawnerDelay = spawnerDelay;
+        this.Startgenerate();
+    }
+
+    getSpawnerDelay() {
+        return this.SpawnerDelay;
+    }
+    setBossSpawnerDeley(spawnerDelay = 30) {
+        this.BossSpawnerDelay = spawnerDelay;
     }
 }
 

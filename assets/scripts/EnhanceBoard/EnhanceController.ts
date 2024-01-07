@@ -1,4 +1,4 @@
-import { _decorator, Component, Label, LabelAtlas, Node, UITransform, director, Button, Animation, UIOpacity, Sprite, SpriteFrame, resources, AssetManager, Layout, VerticalTextAlignment, Prefab, instantiate, settings, NodePool, labelAssembler } from 'cc';
+import { _decorator, Component, Label, LabelAtlas, Node, UITransform, director, Button, Animation, UIOpacity, Sprite, SpriteFrame, resources, AssetManager, Layout, VerticalTextAlignment, Prefab, instantiate, settings, NodePool, labelAssembler, game } from 'cc';
 import { ENHANCE_TYPE } from './EnhanceSettings';
 import { enhanceSettings } from './EnhanceSettings';
 import { randomRangeInt } from 'cc';
@@ -46,7 +46,7 @@ export class EnhanceController extends Component {
 
         this.loadItemNodes()
         setTimeout(() => {
-            director.stopAnimation();
+            game.pause();
         },300);
     }
 
@@ -202,7 +202,7 @@ export class EnhanceController extends Component {
     disappearBoard() {
         this.node.getComponent(UIOpacity).opacity = 0;
         //场景恢复
-        director.startAnimation();
+        game.resume();
     }
 
 }

@@ -8,7 +8,7 @@ const { ccclass, property } = _decorator;
 export class DartController extends SkillController {
     private static skillName = 'Dart';
     private static settings = skillSettings['Dart']; // 技能设置 不知道这里是不是符号传递 有待测试
-
+    private static curNodes: Node[] = []
     static dirs: Vec3[] = []
 
     /**
@@ -19,6 +19,10 @@ export class DartController extends SkillController {
         this.startReleaseSkill(interval);
     }
 
+    static unloadSkill(): void {
+        this.stopReleaseSkill();
+        this.clearAllNodes()
+    }
    
     /**
      * 生成skillCount数量的飞镖，随机朝着不同方向前进
@@ -98,6 +102,15 @@ export class DartController extends SkillController {
         return newDir
     }
 
+
+    protected static clearAllNodes() {
+        if (this.curNodes.length > 0) {
+            this.curNodes.forEach(n => {
+                this.reclaimSkill(n)
+            })
+            this.curNodes = []
+        }
+    }
 }
 
 

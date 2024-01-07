@@ -47,17 +47,21 @@ attrSettings['health'] = {
             description: ""
         },
         {
-            description: "提升生命值",
+            description: "提升最大生命值",
+            attrValue: 600,
+        },
+        {
+            description: "提升最大生命值",
             attrValue: 700,
         },
-        // {
-        //     description: "提升生命值",
-        //     attrValue: 800,
-        // },
-        // {
-        //     description: "提升生命值",
-        //     attrValue: 1000, 
-        // },
+        {
+            description: "提升最大生命值",
+            attrValue: 800,
+        },
+        {
+            description: "提升最大生命值",
+            attrValue: 900,
+        }
     ]
 }
 
@@ -81,18 +85,18 @@ attrSettings['speed'] = {
             description: "提升速度",
             attrValue: 3.2,
         },
-        // {
-        //     description: "提升速度",
-        //     attrValue: 3.4,
-        // },
-        // {
-        //     description: "提升速度",
-        //     attrValue: 3.6,
-        // },
-        // {
-        //     description: "提升速度",
-        //     attrValue: 3.8,
-        // },
+        {
+            description: "提升速度",
+            attrValue: 3.5,
+        },
+        {
+            description: "提升速度",
+            attrValue: 3.8,
+        },
+        {
+            description: "提升速度",
+            attrValue: 4.2,
+        },
     ]
 }
 
@@ -113,7 +117,7 @@ attrSettings['chicken'] = {
             description: ""
         },
         {
-            description: " 增加30生命值",
+            description: " 增加30%生命值",
             attrValue: 30,
         },
     ]

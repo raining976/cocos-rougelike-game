@@ -7,12 +7,6 @@ export class Wall extends Component {
     oponCollider2DEvent() {
         const comp = this.node.getComponent(Collider2D);
         comp.on(Contact2DType.BEGIN_CONTACT, (selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) => {
-            console.log('111')
-            // let p = this.Player.getPosition()
-            // p.x=0
-            // p.y=0
-            // this.Player.setPosition(p)
-            // console.log(this.Player.getPosition())
         }, this)
     }
     start() {

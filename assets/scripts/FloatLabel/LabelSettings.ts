@@ -18,3 +18,6 @@ labelSettings['Player'] = {
 labelSettings['Exp'] = {
     color: '#B2C1CA'
 }
+labelSettings['Health'] = {
+    color: '#00FF00'
+}

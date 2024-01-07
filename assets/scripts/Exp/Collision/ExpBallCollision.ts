@@ -43,10 +43,7 @@ export class ExpBallCollision extends Component {
             director.once(Director.EVENT_AFTER_PHYSICS, () =>{
                 let selfNode = selfCollider.node
                 this.audio.play();
-                setTimeout(() => {
-                    selfNode.parent.getComponent(ExpSpawner).reclaimNode(selfNode)
-                }, 1);
-                
+                selfNode.parent.getComponent(ExpSpawner).reclaimNode(selfNode)
             },this)
         }
     }
