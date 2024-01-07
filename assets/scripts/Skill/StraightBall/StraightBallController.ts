@@ -6,6 +6,7 @@ const { ccclass } = _decorator;
 @ccclass('StraightBallController')
 export class StraightBallController extends SkillController {
     private static settings = skillSettings['StraightBall']; // 技能设置 不知道这里是不是符号传递 有待测试
+    private static curNodes: Node[] = [];
     /**
      * 初始化
      */
@@ -14,6 +15,10 @@ export class StraightBallController extends SkillController {
         this.startReleaseSkill(interval)
     }
     
+    static unloadSkill(): void {
+        this.stopReleaseSkill();
+        this.clearAllNodes()
+    }
     /**
      * 获取一个随机方向
      * @returns Vec3
@@ -61,7 +66,14 @@ export class StraightBallController extends SkillController {
     }
 
 
-
+    protected static clearAllNodes() {
+        if (this.curNodes.length > 0) {
+            this.curNodes.forEach(n => {
+                this.reclaimSkill(n)
+            })
+            this.curNodes = []
+        }
+    }
 
 }
 

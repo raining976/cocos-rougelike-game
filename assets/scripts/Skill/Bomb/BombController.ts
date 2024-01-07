@@ -8,6 +8,7 @@ const { ccclass, property } = _decorator;
 export class BombController extends SkillController {
     private static skillName = 'Bomb';
     private static settings = skillSettings['Bomb'];
+    private static curNodes: Node[] = []
     private static windowWidth
     private static windowHeight
     /**
@@ -20,6 +21,10 @@ export class BombController extends SkillController {
         this.startReleaseSkill(this.settings.releaseInterval);
     }
 
+    static unloadSkill(){
+        this.stopReleaseSkill();
+        this.clearAllNodes()
+    }
     /**
      * 生成一个随机相对位置
      * @returns 随机相对角色位置
@@ -59,7 +64,14 @@ export class BombController extends SkillController {
         }
     }
 
-
+    protected static clearAllNodes() {
+        if (this.curNodes.length > 0) {
+            this.curNodes.forEach(n => {
+                this.reclaimSkill(n)
+            })
+            this.curNodes = []
+        }
+    }
 }
 
 

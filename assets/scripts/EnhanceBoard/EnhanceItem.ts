@@ -22,15 +22,15 @@ export class EnhanceItem extends Component {
     init(enhanceName: string, isSkill: boolean,imgSource:SpriteFrame) {
         this.imgSprite.spriteFrame = imgSource
         if (isSkill == true) {
+            this.enhanceName = enhanceName
             this.curLevel = skillSettings[enhanceName].skillLevel
-            this.description = skillSettings[enhanceName].upgradeArray[this.curLevel-1].description || ""
+            this.description = skillSettings[enhanceName].upgradeArray[this.curLevel].description || ""
             this.enhanceNameZh = skillSettings[enhanceName].skillNameZh
-            this.enhanceName = enhanceName
         } else {
-            this.curLevel = attrSettings[enhanceName].attrLevel;
-            this.description = attrSettings[enhanceName].upgradeArray[this.curLevel-1].description || ""
-            this.enhanceNameZh = attrSettings[enhanceName].attrNameZh
             this.enhanceName = enhanceName
+            this.curLevel = attrSettings[enhanceName].attrLevel;
+            this.description = attrSettings[enhanceName].upgradeArray[this.curLevel].description || ""
+            this.enhanceNameZh = attrSettings[enhanceName].attrNameZh
         }
         this.updateLabel()
     }

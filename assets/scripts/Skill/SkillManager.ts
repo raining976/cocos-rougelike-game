@@ -34,10 +34,6 @@ export class SkillManager extends Component {
         this.skillNodeContainer = director.getScene().getChildByName('Canvas').getChildByName('NodePool')
 
         this.initSkill("SpinBall")
-        this.initSkill("Bomb")
-        this.initSkill("Dart")
-        this.initSkill("StraightBall")
-        this.upgradeSkill("SpinBall")
     }
 
     /**
@@ -67,6 +63,7 @@ export class SkillManager extends Component {
         if (skillData) {
             const { skillPrefab, nodePool, playerBaseNode, skillNodeContainer } = skillData
             skillControllerSettings[skillName].controller.initSkill({ skillPrefab, nodePool, playerBaseNode, skillNodeContainer })
+            skillSettings[skillName].skillLevel += 1;
         } else {
             throw new Error(`SkillController ${skillName} not found!`);
         }
@@ -107,17 +104,18 @@ export class SkillManager extends Component {
 
         if(isReset) nextLevel = 1;
 
-        const upgradeObj = skillSettings[skillName].upgradeArray[nextLevel - 1]
+        const upgradeObj = skillSettings[skillName].upgradeArray[nextLevel-1]
 
         Object.keys(upgradeObj).forEach(key => {
             if (key != 'description')
                 skillSettings[skillName][key] = upgradeObj[key];
         })
 
-
         if (!isReset) {
             skillSettings[skillName].skillLevel++
             this.restartSkill(skillName)
+        }else{
+            skillSettings[skillName].skillLevel = 0
         }
     }
 
@@ -136,6 +134,18 @@ export class SkillManager extends Component {
         this.initSkill('SpinBall')
     }
 
+    pauseAllSkills() {
+        Object.keys(this.skills).forEach(skillName => {
+            skillControllerSettings[skillName].controller.pauseSkill()
+        })
+    }
 
+
+
+    resumeAllSkills() {
+        Object.keys(this.skills).forEach(skillName => {
+            skillControllerSettings[skillName].controller.startSkill()
+        })
+    }
     
 }

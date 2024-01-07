@@ -8,7 +8,7 @@ const { ccclass } = _decorator;
 export class SpinBallController extends SkillController {
     private static skillName = 'SpinBall';
     private static settings = skillSettings['SpinBall']; // 技能设置 不知道这里是不是符号传递 有待测试
-
+    private static curNodes: Node[] = [];
     /**
      * 启动技能技能
      * 因为我这个技能不需要自动释放和回收 所以写法和你们的是不一样的
@@ -18,7 +18,10 @@ export class SpinBallController extends SkillController {
         this.releaseSkill()
     }
     
-
+    static unlockSkill() {
+        this.stopReleaseSkill();
+        this.clearAllNodes()
+    }
     static unloadSkill(): void {
         this.clearAllNodes()
     }
@@ -66,6 +69,15 @@ export class SpinBallController extends SkillController {
             .union()
             .repeatForever()
             .start();
+    }
+
+    protected static clearAllNodes() {
+        if (this.curNodes.length > 0) {
+            this.curNodes.forEach(n => {
+                this.reclaimSkill(n)
+            })
+            this.curNodes = []
+        }
     }
 }
 
