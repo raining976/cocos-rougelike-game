@@ -27,36 +27,9 @@ export class EnemySettings{
     }
 };
 export const EnemyAttr=new EnemySettings();
-// EnemyAttr['Bat']={
-//     id:'001',
-//     health:100,
-//     damage:100,
-//     speed:200,
-//     xpReward:100,
-//     attackrange:100,
-//     States:["Run"]
-// }
-// EnemyAttr['FlyWorm']={
-//     id:'002',
-//     health:100,
-//     damage:100,
-//     speed:300,
-//     xpReward:100,
-//     attackrange:100,
-//     States:["Run"]
-// }
-// EnemyAttr['BossStoneGolem']={
-//     id:'003',
-//     health:1000,
-//     damage:1000,
-//     speed:1000,
-//     xpReward:1000,
-//     attackrange:300,
-//     States:["Run"]
-// }
 EnemyAttr['Archer']={
     id:'004',
-    health:10,
+    health:25,
     damage:10,
     speed:40,
     xpReward:100,
@@ -68,7 +41,7 @@ EnemyAttr['Archer']={
 }
 EnemyAttr['Yurei']={
     id:'005',
-    health:10,
+    health:40,
     damage:10,
     speed:40,
     xpReward:100,
@@ -80,7 +53,7 @@ EnemyAttr['Yurei']={
 }
 EnemyAttr['Onre']={
     id:'006',
-    health:10,
+    health:20,
     damage:10,
     speed:40,
     xpReward:100,
@@ -95,7 +68,7 @@ EnemyAttr['Samurai']={
     health:300,
     damage:100,
     speed:40,
-    xpReward:100,
+    xpReward:1500,
     remote:false,
     projectilerange:-1,
     attackrange:1,
@@ -104,7 +77,7 @@ EnemyAttr['Samurai']={
 }
 EnemyAttr['Wizard']={
     id:'008',
-    health:10,
+    health:20,
     damage:10,
     speed:40,
     xpReward:100,

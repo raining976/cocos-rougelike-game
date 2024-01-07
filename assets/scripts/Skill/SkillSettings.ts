@@ -48,8 +48,8 @@ skillSettings['SpinBall'] = {
     id: '001',
     skillName: "SpinBall",
     skillNameZh: '只因球',
-    skillLevel: 1,  
-    damage: 100,
+    skillLevel: 0,  
+    damage: 20,
     skillCount: 1,
     duration: 2, // 对于这个来说就是旋转一周的时间
     range: 100,
@@ -59,7 +59,7 @@ skillSettings['SpinBall'] = {
     upgradeArray: [
         {
             description: "出现一个篮球围绕自身旋转",
-            damage: 100,
+            damage: 15,
             skillCount: 1,
             duration: 2, // 对于这个来说就是旋转一周的时间
             range: 100,
@@ -71,20 +71,27 @@ skillSettings['SpinBall'] = {
         },
         {
             description: "加快篮球旋转速度",
-            //duration: 1.5,
-            skillCount: 4,
+            duration: 1.3,
         },
         {
             description: "增加篮球的数目",
-            skillCount: 5,
+            skillCount: 4,
         },
         {
-            description: "提高旋转范围",
-            range: 150,
+            description: "提高伤害",
+            damage: 20,
+        },
+        {
+            description: "增大篮球旋转范围",
+            range: 170,
         },
         {
             description: "增加篮球的数目",
             skillCount: 6,
+        },
+        {
+            description: "提高伤害",
+            damage: 30,
         }
     ]
 }
@@ -97,7 +104,7 @@ skillSettings['StraightBall'] = {
     skillName: "StraightBall",
     skillNameZh: '魔法球',
     skillLevel: 0,
-    damage: 100,
+    damage: 25,
     skillCount: 1,
     duration: 1000,
     range: 130,
@@ -107,7 +114,7 @@ skillSettings['StraightBall'] = {
     upgradeArray: [
         {
             description: '随机发射直线飞行的魔法球',
-            damage: 100,
+            damage: 25,
             skillCount: 1,
             duration: 1000,
             range: 130,
@@ -197,7 +204,7 @@ skillSettings['Bomb'] = {
     skillLevel: 0,
     damage: 100,
     skillCount: 1,
-    duration: 5000,
+    duration: 3221,
     range: 421,
     releaseInterval: 5013,
     imgPath: 'EnhanceBoard/Skills/Bomb/spriteFrame',

@@ -163,8 +163,12 @@ export class EnemySpawner extends Component {
 
     setSpawnerDelay(spawnerDelay = 0.5) {
         this.SpawnerDelay = spawnerDelay;
+        this.Startgenerate();
     }
 
+    getSpawnerDelay() {
+        return this.SpawnerDelay;
+    }
     setBossSpawnerDeley(spawnerDelay = 30) {
         this.BossSpawnerDelay = spawnerDelay;
     }

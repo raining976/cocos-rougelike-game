@@ -20,10 +20,10 @@ export class GlobalVariable extends Component {
 
     private enemySpawner: EnemySpawner;
     private trashFishSpawnDelayArray = [0.5, 0.3, 0.1]
-    private bossSpawnDelayArray = [30, 20, 10]
+    private bossSpawnDelayArray = [1000, 1000, 1000]
 
     protected start(): void {
-        this.enemySpawner = this.node.getChildByName('NodePool').getComponent(EnemySpawner);
+        this.enemySpawner = this.node.parent.getChildByName('NodePool').getComponent(EnemySpawner);
     }
 
     public restart() {
@@ -73,20 +73,19 @@ export class GlobalVariable extends Component {
     public setRunTime(value: number) {
         this.runTime = value;
         this.timeLabel.string = 'Survival Time: ' + this.getRunTimeText();
-        if (this.enemySpawner)
-            this.resetSpawnDelay(this.runTime);
+        this.resetSpawnDelay(this.runTime);
     }
 
     public resetSpawnDelay(runTime: number) {
-        if (runTime == STAGE.ONE) {
+        if (runTime <= STAGE.ONE) {
             this.enemySpawner.setSpawnerDelay(this.trashFishSpawnDelayArray[0]);
             this.enemySpawner.setBossSpawnerDeley(this.bossSpawnDelayArray[0]);
         }
-        if (runTime == STAGE.TWO) {
+        else if (runTime <= STAGE.TWO) {
             this.enemySpawner.setSpawnerDelay(this.trashFishSpawnDelayArray[1]);
             this.enemySpawner.setBossSpawnerDeley(this.bossSpawnDelayArray[1]);
         }
-        if (runTime == STAGE.THREE) {
+        else if (runTime <= STAGE.THREE) {
             this.enemySpawner.setSpawnerDelay(this.trashFishSpawnDelayArray[2]);
             this.enemySpawner.setBossSpawnerDeley(this.bossSpawnDelayArray[2]);
         }
