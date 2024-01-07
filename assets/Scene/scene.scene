@@ -4687,7 +4687,7 @@
         "__id__": 176
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 179
@@ -5743,7 +5743,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "btn_none",
+    "_name": "btn_music",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -6153,7 +6153,7 @@
     },
     "component": "",
     "_componentId": "dca21E0NOxIUJ6hkx31rzYz",
-    "handler": "",
+    "handler": "onSwitchSound",
     "customEventData": ""
   },
   {
@@ -6216,7 +6216,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 55.625,
+      "width": 55.673828125,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -6325,7 +6325,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 90.41015625,
+      "width": 105.46875,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -6434,7 +6434,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 87.216796875,
+      "width": 85.654296875,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -6543,7 +6543,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 44.072265625,
+      "width": 41.240234375,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -6652,7 +6652,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 375.8203125,
+      "width": 382.67578125,
       "height": 151.2
     },
     "_anchorPoint": {

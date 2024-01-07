@@ -146,6 +146,8 @@ export class GameController extends Component {
         EnemyController.StopEnemy()
         this.showMenu();
         this.pauseScene()
+        //暂停所有技能
+        this.playerNode.getComponent(SkillManager).pauseAllSkills()
         //停止游戏计时
         this.getComponent(GlobalVariable).stopTimer();
     }
@@ -155,6 +157,7 @@ export class GameController extends Component {
         this.hiddenMenu();
         this.resumScene();
         this.globalVariable.startTimer();
+        this.playerNode.getComponent(SkillManager).resumeAllSkills()
         //this.getComponent(AudioSource).play();
     } 
 
@@ -162,7 +165,6 @@ export class GameController extends Component {
         this.hiddenMenu()
         this.resumScene()
         this.gameInit()
-
         this.globalVariable.restart();
     }
 
@@ -203,6 +205,7 @@ export class GameController extends Component {
     onPlayButtonClicked() {
         this.showPlayerUI();
         this.setCurState(GameState.GS_PLAYING);
+        //this.gameRestart();
     }
 
     //暂停游戏，打开游戏菜单，暂停所有场景
@@ -225,5 +228,13 @@ export class GameController extends Component {
         this.gameRestart()
     }
 
+    onSwitchSound() {
+        let backgroundAudio = this.node.getChildByName("PlayerBase").getComponent(AudioSource);
+        if (backgroundAudio.playing) {
+            backgroundAudio.pause();
+        } else {
+            backgroundAudio.play();
+        }
+    }
 }
 
